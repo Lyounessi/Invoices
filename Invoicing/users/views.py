@@ -3,12 +3,18 @@ from .models import *
 from django.views import View
 from django.contrib import messages
 from .forms import SignUpForm
+from django.contrib.auth.decorators import login_required
+
 
 def home(request):
     return render(request, 'users/home.html')
     
-
-
+#@login_required
+def dashboard(request):
+    """
+    this view present a dashboard of user after login
+    """
+    return render(request, 'dashboard/index.html')
 
 def create_user(request):
     """
@@ -27,7 +33,9 @@ def create_user(request):
             messages.error(request, 'The form is invalid.')
         
     else:
-        
+
         form = SignUpForm()
 
-    return render(request, 'users/signup.html', {"form": form})
+    return render(request, 'registration/signup.html', {"form": form})
+
+

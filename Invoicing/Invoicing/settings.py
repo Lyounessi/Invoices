@@ -121,3 +121,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+
+
+#logs redirect
+LOGIN_REDIRECT_URL = 'users:dashindex'
+LOGOUT_REDIRECT_URL = 'users:home'
