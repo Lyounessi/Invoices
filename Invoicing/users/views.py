@@ -27,6 +27,7 @@ def create_user(request):
             messages.error(request, 'The form is invalid.')
         
     else:
+        
         form = SignUpForm()
 
     return render(request, 'users/signup.html', {"form": form})

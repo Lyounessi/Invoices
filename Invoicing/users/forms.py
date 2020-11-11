@@ -6,4 +6,4 @@ class SignUpForm(UserCreationForm):
     
     class Meta:
         model = User
-        fields = ('username', 'password1', 'password2', 'email' )
+        fields = (  'email' , 'password1', 'password2')
