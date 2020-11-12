@@ -122,6 +122,11 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+#Login with diffrents options
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend',
+    'users.backends.EmailModelBackend'
+]
 
 #logs redirect
 LOGIN_REDIRECT_URL = 'users:dashindex'

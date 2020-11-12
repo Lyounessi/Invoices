@@ -7,14 +7,19 @@ from django.contrib.auth.decorators import login_required
 
 
 def home(request):
+    """
+    A test home users View before log in
+    """
     return render(request, 'users/home.html')
-    
-#@login_required
+
+
+@login_required(login_url='/user/logs/login/')
 def dashboard(request):
     """
     this view present a dashboard of user after login
     """
     return render(request, 'dashboard/index.html')
+
 
 def create_user(request):
     """
