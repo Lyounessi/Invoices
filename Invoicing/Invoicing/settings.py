@@ -37,7 +37,6 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'phonenumber_field',
     'users',
 
 ]
@@ -121,6 +120,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/media/'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
+
 
 #Login with diffrents options
 AUTHENTICATION_BACKENDS = [
@@ -131,3 +134,6 @@ AUTHENTICATION_BACKENDS = [
 #logs redirect
 LOGIN_REDIRECT_URL = 'users:dashindex'
 LOGOUT_REDIRECT_URL = 'users:home'
+#reset password mail 
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")

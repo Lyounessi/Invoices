@@ -18,6 +18,8 @@ def create_user_profile(sender, instance, created, **kwargs):
 @receiver(post_save, sender=User)
 def save_user_profile(sender, instance, **kwargs):
     instance.profile.save()
+
+
 """
 class Logo(models.Model):
     
@@ -36,7 +38,7 @@ class Logo(models.Model):
 
 class Company(models.Model):
     
-    owner = models.OneToOneField(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(User, on_delete=models.CASCADE)
     name = models.CharField(max_length=50)
     activityDom = models.CharField(max_length=50)#must be converted to a choices field
     adress = models.CharField(max_length=100)
@@ -44,9 +46,9 @@ class Company(models.Model):
     city = models.CharField(max_length=50)#must be converted to a choices field(algo of countries)
     postCode = models.CharField(max_length=50)
     email = models.EmailField(max_length=254)
-    taxNum = models.CharField(max_length=50)
-    phone = models.CharField(max_length=50)
-    logo = models.CharField( max_length=50)
+    taxNum = models.CharField(max_length=50, blank=True)
+    phone = models.CharField(max_length=50, blank=True)
+    logo = models.ImageField(blank=True)
 
 
     def __str__(self):

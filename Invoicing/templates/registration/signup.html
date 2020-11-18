@@ -1,6 +1,11 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% if user.is_authenticated %}
+Hi {{ user.username }}!
+<a href="{% url 'users:logout' %}">logout</a>
+
+{% else %}
 <h2>Sign Up</h2>
 
 <form method="post">
@@ -20,5 +25,5 @@
     <button type="submit"> Sign Up </button>
 </form>
 <a href="{% url 'users:home' %}"> HOME</a>
-
+{% endif %}
 {% endblock content %}
