@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'users',
+    'clients',
 
 ]
 
@@ -125,15 +126,15 @@ MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 
-#Login with diffrents options
+# Login with diffrents options
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',
     'users.backends.EmailModelBackend'
 ]
 
-#logs redirect
+# logs redirect
 LOGIN_REDIRECT_URL = 'users:dashindex'
 LOGOUT_REDIRECT_URL = 'users:home'
-#reset password mail 
+# reset password mail
 EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = os.path.join(BASE_DIR, "sent_emails")
