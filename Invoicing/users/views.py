@@ -29,7 +29,7 @@ def dashboard(request):
     """
     this view present a dashboard of user after login
     """
-    return render(request, 'dashboard/index.html')
+    return render(request, 'users/dashboard/index.html')
 
 
 def create_user(request):
