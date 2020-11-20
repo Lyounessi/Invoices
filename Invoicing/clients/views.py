@@ -7,7 +7,6 @@ from django.contrib import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
 ############################Clients CRUDs##############################################
-from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
@@ -23,25 +22,34 @@ def home(request):
 
 
 @method_decorator(login_required, name='dispatch')
-class CreateClient(CreateView):
+class CreateClient(View):
     """
-    Create New Caompany for a specific user
+    Create and show New Clients lists for a specific user
     """
-    model = Clients
-    template_name = 'clients/cruds/create.html'
-    fields = ('companyName', 'name', 'firstName', 'adress', 'countrie', 'city', 'postCode', 'email', 'taxNum', 'phone', 'website' )
-    success_url = reverse_lazy('clients:home')
-   
-   
-    def form_valid(self, form):
-        """
-        Add a valid form Calling the auth user and 
-        give it as value to the owner field
-        """
-        obj = form.save(commit=False)
-        obj.createdBy = self.request.user
-        obj.save()        
-        return super(CreateClient, self).form_valid(form)
+    form_class = ClientForm
+    clients = Clients.objects.all()
+    initial = {'key': 'value'}
+    template_name = 'clients/cruds/list.html'
 
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        context = {
+            'form':form,
+            'clients':self.clients
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        form = self.form_class(request.POST)
+        context = {
+            'form':form,
+            'clients':self.clients
+        }
+        if form.is_valid():
+            clt = form.save(commit=False)
+            clt.createdBy = request.user
+            clt.save()
+            return redirect('clients:home')
+        return render(request, self.template_name, context)
 
 

@@ -6,5 +6,11 @@ from .models import *
 
 
 
+class ClientForm(ModelForm):
+
+    class Meta:
+        model = Clients
+        exclude = ['createdBy']
+
 
 
