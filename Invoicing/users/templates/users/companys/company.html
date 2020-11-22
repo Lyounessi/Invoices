@@ -1,5 +1,4 @@
 {% extends "base.html" %}
-
 {% block Title %}
 <h1>My Company</h1>
 {% endblock Title %}
@@ -7,14 +6,158 @@
 {% block content %}
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title">Create Company</h5>
+        <div class="card-title">
+            Create Company
+        </div>
     </div>
     <div class="card-body">
-        <form method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-success">Create</button>
-        </form>
+        <div class="row">
+            <div class="col-md-12">
+
+                <form class="form form-horizontal">
+                    {% csrf_token %}
+                    <div class="form-body">
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput1">Raison Sociale</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.name}}
+                                    <div class="form-control-position">
+                                        <i class="ft-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Type Activité</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.activityDom}}
+                                    <div class="form-control-position">
+                                        <i class="ft-activity"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Pays</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.countrie}}
+                                    <div class="form-control-position">
+                                        <i class="ft-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Ville</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.city}}
+                                    <div class="form-control-position">
+                                        <i class="ft-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Code Postal</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.postCode}}
+                                    <div class="form-control-position">
+                                        <i class="ft-home"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Email Adresse</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.email}}
+                                    <div class="form-control-position">
+                                        <i class="ft-mail"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Tel</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.phone}}
+                                    <div class="form-control-position">
+                                        <i class="ft-phone"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput2">Numéro Fiscal</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.taxNum}}
+                                    <div class="form-control-position">
+                                        <i class="ft-info"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group row">
+                            <label class="col-md-3 label-control" for="timesheetinput7">Adresse</label>
+                            <div class="col-md-9 mx-auto">
+                                <div class="position-relative has-icon-left">
+                                    {{form.adress}}
+                                    <div class="form-control-position">
+                                        <i class="ft-home"></i>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+                    <div class="form-actions text-right">
+                        <button type="button" class="btn btn-warning mr-1">
+                            <i class="ft-x"></i> Annuler
+                        </button>
+                        <button type="submit" class="btn btn-primary">
+                            <i class="la la-check-square-o"></i> Enregistrer
+                        </button>
+                    </div>
+                </form>
+
+
+            </div>
+        </div>
+
     </div>
 </div>
+
+
+
+
+<script>
+    let outputFields = document.getElementsByTagName('input');
+    for (let field in outputFields) {
+        outputFields[field].className += 'form-control';
+    }
+    let formTextArea = document.getElementsByTagName('textarea');
+    formTextArea[0].className += 'form-control';
+</script>
+
+
+
 {% endblock content %}
