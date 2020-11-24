@@ -49,3 +49,39 @@ class CreateClient(View):
         else:
             print('noooooooooooooo')
         return render(request, self.template_name, context=context)
+
+
+class ClientDetailsView(DetailView):
+    """
+    showing details of a company
+    """
+    model = Clients
+    template_name = 'clients/cruds/details.html'
+    context_object_name = 'client'
+
+
+
+# @method_decorator(login_required, name='dispatch')
+class ClientDeleteView(DeleteView):
+    """
+    Delete a client
+    """
+    model = Clients
+    template_name = 'clients/cruds/delete.html'
+    success_url = reverse_lazy('clients:home')
+
+
+
+
+class ClientUpdateView(UpdateView):
+    """
+    Update the clients's Informations
+    """
+    model = Clients
+    template_name = 'clients/cruds/update.html'
+    context_object_name = 'client'
+    fields = ('name', 'firstName', 'companyName', 'adress', 'countrie',
+              'city', 'postCode', 'email', 'taxNum', 'phone', 'website')
+
+    def get_success_url(self):
+        return reverse_lazy('clients:detailsClient', kwargs={'pk': self.object.id})
