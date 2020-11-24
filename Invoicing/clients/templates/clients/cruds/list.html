@@ -8,12 +8,107 @@ WELCOME TO CLIENTS Space
         <h5 class="card-title">New Client</h5>
     </div>
     <div class="card-body">
-        <form method="post">
+        <!-- <form method="post">
             {% csrf_token %}
             {{form.as_p}}
             <button type="submit" class="btn btn-success">Create</button>
+        </form> -->
+
+
+        <form class="form" method="POST">
+            {% csrf_token %}
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> Personal Info</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">First Name</label>
+                            {{form.firstName}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput2">Last Name</label>
+                            {{form.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput3">E-mail</label>
+                            {{form.email}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput4">Phone Number</label>
+                            {{form.phone}}
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="form-section"><i class="la la-paperclip"></i> Requirements</h4>
+
+                <div class="form-group">
+                    <label for="companyName">Company</label>
+                    {{form.companyName}}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">Countrie</label>
+                            {{form.countrie}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput6">City</label>
+                            {{form.city}}
+                        </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">POst Code</label>
+                            {{form.postCode}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput6">Web Site</label>
+                            {{form.website}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Taxe Number</label>
+                    {{form.taxNum}}
+                </div>
+
+                <div class="form-group">
+                    <label for="projectinput8">Adress</label>
+                    {{form.adress}}
+                </div>
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="la la-check-square-o"></i> Save
+                </button>
+            </div>
         </form>
-        <div>
+        <!-- <div>
+            <h1>Clients List</h1>
             {% for client in clients %}
 
             <ul class="list-group">
@@ -25,12 +120,58 @@ WELCOME TO CLIENTS Space
             </ul>
             {% endfor %}
 
-        </div>
+        </div> -->
 
 
+        <!-- Material Data Tables -->
+        <section id="material-datatables">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-0">
+                        <div class="card-header">
+                            <h4 class="card-title">Datatables within Cards</h4>
+                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="card-content collapse show">
+                            <div class="card-body">
+                                <table class="table material-table">
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Client's company</th>
+                                            <th>Edite</th>
+                                            <th>Delete</th>
 
-
-
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for client in clients %}
+                                        <tr>
+                                            <td>{{ client.firstName }}</td>
+                                            <td>{{ client.name }}</td>
+                                            <td>{{ client.companyName }}</td>
+                                            <td><a href="">Edit</a></td>
+                                            <td><a href="">Delete</a></td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Material Data Tables -->
     </div>
 </div>
 </div>
