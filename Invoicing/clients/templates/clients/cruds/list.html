@@ -1,19 +1,21 @@
 {% extends "base.html" %}
 
 {% block content %}
-WELCOME TO CLIENTS Space
+
 
 <div class="card">
     <div class="card-header">
         <h5 class="card-title">New Client</h5>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+        <div class="heading-elements">
+            <ul class="list-inline mb-0">
+                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+        </div>
     </div>
     <div class="card-body">
-        <!-- <form method="post">
-            {% csrf_token %}
-            {{form.as_p}}
-            <button type="submit" class="btn btn-success">Create</button>
-        </form> -->
-
 
         <form class="form" method="POST">
             {% csrf_token %}
@@ -107,38 +109,26 @@ WELCOME TO CLIENTS Space
                 </button>
             </div>
         </form>
-        <!-- <div>
-            <h1>Clients List</h1>
-            {% for client in clients %}
 
-            <ul class="list-group">
-
-                <li class="list-group-item">Client Name : {{ client.name }}<br>
-                    Client first name : {{ client.firstName }} <br>
-                    Client's company : {{ client.companyName }}</li>
-
-            </ul>
-            {% endfor %}
-
-        </div> -->
-
-
+    </div>
+</div>
+<div class="card">
+    <div class="card-body">
         <!-- Material Data Tables -->
         <section id="material-datatables">
             <div class="row">
                 <div class="col-12">
                     <div class="card mb-0">
                         <div class="card-header">
-                            <h4 class="card-title">Datatables within Cards</h4>
-                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                            <h4 class="card-title">Clients List</h4>
+                            <!-- <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
                             <div class="heading-elements">
                                 <ul class="list-inline mb-0">
                                     <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
                                     <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
                                     <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-                                    <li><a data-action="close"><i class="ft-x"></i></a></li>
                                 </ul>
-                            </div>
+                            </div> -->
                         </div>
                         <div class="card-content collapse show">
                             <div class="card-body">
@@ -173,7 +163,6 @@ WELCOME TO CLIENTS Space
         </section>
         <!-- Material Data Tables -->
     </div>
-</div>
 </div>
 
 

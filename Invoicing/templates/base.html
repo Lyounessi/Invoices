@@ -18,7 +18,6 @@
     <link
         href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i%7CQuicksand:300,400,500,700"
         rel="stylesheet">
-
     <!-- BEGIN: Vendor CSS-->
     <link rel="stylesheet" type="text/css" href="{% static '/app-assets/vendors/css/vendors.min.css' %}">
     <link rel="stylesheet" type="text/css"
@@ -341,70 +340,40 @@
                 <li class="active"><a href="#"><i class="la la-home"></i><span class="menu-title"
                             data-i18n="Dashboard Hospital">Dashboard</span></a>
                 </li>
-                <li class=" navigation-header"><span data-i18n="Professional">Professional</span><i
-                        class="la la-ellipsis-h" data-toggle="tooltip" data-placement="right"
-                        data-original-title="Professional"></i>
-                </li>
-                <li class=" nav-item"><a href="#"><i class="la la-edit"></i><span class="menu-title"
-                            data-i18n="Appointment">Appointment</span></a>
+                <li class=" nav-item"><a href="#"><i class="la la-link"></i><span class="menu-title"
+                            data-i18n="Patients">Links</span></a>
                     <ul class="menu-content">
-                        <li><a class="menu-item" href="#"><i></i><span>Doctor
-                                    Schedule</span></a>
+                        <li class=" nav-item"><a href="#"><span class="menu-title" data-i18n="Report">Create
+                                    invoices</span></a>
                         </li>
-                        <li><a class="menu-item" href="#"><i></i><span>Book
-                                    Appointment</span></a>
+                        <li class=" nav-item"><a href="#"><span class="menu-title" data-i18n="Report">Create
+                                    quotes</span></a>
+                        </li>
+
+                        <li class=" nav-item"><a href="{% url 'clients:createClient' %}"><span class="menu-title"
+                                    data-i18n="Report">Add
+                                    clients</span></a>
+                        </li>
+                        <li class=" nav-item"><a href="#"><span class="menu-title" data-i18n="Report">Add
+                                    products</span></a>
                         </li>
                     </ul>
                 </li>
-                <li class=" nav-item"><a href="#"><i class="la la-stethoscope"></i><span class="menu-title"
-                            data-i18n="Doctors">Doctors</span></a>
+
+
+                <li class=" nav-item"><a href="#"><i class="la la-list"></i><span class="menu-title"
+                            data-i18n="Appointment">Lists</span></a>
                     <ul class="menu-content">
-                        <li><a class="menu-item" href="#"><i></i><span>All Doctors</span></a>
+                        <li><a class="menu-item" href="#"><i></i><span>List clients</span></a>
                         </li>
-                        <li><a class="menu-item" href="#"><i></i><span>Add Doctors</span></a>
+                        <li><a class="menu-item" href="#"><i></i><span>List documents</span></a>
                         </li>
-                        <li><a class="menu-item" href="{"><i></i><span>Doctor
-                                    Profile</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a href="#"><i class="la la-users"></i><span class="menu-title"
-                            data-i18n="Patients">Patients</span></a>
-                    <ul class="menu-content">
-                        <li><a class="menu-item" href="#"><i></i><span>All Patients</span></a>
-                        </li>
-                        <li><a class="menu-item" href="#"><i></i><span>Add Patients</span></a>
-                        </li>
-                        <li><a class="menu-item" href="#"><i></i><span>Patient
-                                    Profile</span></a>
+                        <li><a class="menu-item" href="#"><i></i><span>List products</span></a>
                         </li>
                     </ul>
                 </li>
                 <li class=" nav-item"><a href="#"><i class="la la-bar-chart"></i><span class="menu-title"
-                            data-i18n="Report">Report</span></a>
-                </li>
-                <li class=" nav-item"><a href="#"><i class="la la-dollar"></i><span class="menu-title"
-                            data-i18n="Payments">Payments</span></a>
-                    <ul class="menu-content">
-                        <li><a class="menu-item" href="#"><i></i><span>Payments</span></a>
-                        </li>
-                        <li><a class="menu-item" href="#"><i></i><span>Add Payments</span></a>
-                        </li>
-                    </ul>
-                </li>
-                <li class=" nav-item"><a href="#"><i class="la la-clipboard"></i><span class="menu-title"
-                            data-i18n="Invoice">Invoice</span></a>
-                    <ul class="menu-content">
-                        <li><a class="menu-item" href="#"><i></i><span data-i18n="Invoice Summary">Invoice
-                                    Summary</span></a>
-                        </li>
-                        <li><a class="menu-item" href="#"><i></i><span data-i18n="Invoice Template">Invoice
-                                    Template</span></a>
-                        </li>
-                        <li><a class="menu-item" href="#"><i></i><span data-i18n="Invoice List">Invoice
-                                    List</span></a>
-                        </li>
-                    </ul>
+                            data-i18n="Report">Statistics</span></a>
                 </li>
 
             </ul>
