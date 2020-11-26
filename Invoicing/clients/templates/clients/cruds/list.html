@@ -149,8 +149,8 @@
                                             <td>{{ client.firstName }}</td>
                                             <td>{{ client.name }}</td>
                                             <td>{{ client.companyName }}</td>
-                                            <td><a href="">Edit</a></td>
-                                            <td><a href="">Delete</a></td>
+                                            <td><a href="{% url 'clients:updateClient' client.pk %}">Edit</a></td>
+                                            <td><a href="{% url 'clients:deleteClient' client.pk %}">Delete</a></td>
                                         </tr>
                                         {% endfor %}
                                     </tbody>
