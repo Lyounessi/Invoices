@@ -20,17 +20,46 @@
             {% csrf_token %}
             <div class="form-body">
                 <h4 class="form-section"><i class="ft-user"></i>Invoice</h4>
-                {% for elt in form %}
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="projectinput1"></label>
-                            {{ elt }}
+                            <label for="projectinput1">Title : </label>
+                            {{ form.title }}
                         </div>
                     </div>
 
                 </div>
-                {% endfor %}
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Chose Client : </label>
+                            {{ form.client }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Logo : </label>
+                            {{ form.logo }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Invoice's state : </label>
+                            {{ form.stats }}
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+            <div class="form-actions">
+                <button class="btn btn-primary btn-min-width mr-1 mb-1" type="submit">SUBMIT</button>
+
 
             </div>
         </form>

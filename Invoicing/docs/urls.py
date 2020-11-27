@@ -12,7 +12,7 @@ app_name = "docs"
 urlpatterns = [
     ################################## Invoices URLs ##################################
     
-    path("create/",  CreateInvoice.as_view(), name="createInvoice"),
+    path("createIn/",  CreateInvoice.as_view(), name="createInvoice"),
 
 
 
