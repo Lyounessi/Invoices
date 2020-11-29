@@ -8,6 +8,7 @@ from docs.forms import *
 from django.contrib.auth.decorators import login_required
 ############################ In logics imports ##############################
 import datetime
+from docs.funcs import *
 ############################Clients CRUDs##############################################
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
@@ -20,11 +21,11 @@ from django.views.generic.edit import DeleteView
 
 class CreateInvoice(View):
     """
-    Create and show New Clients lists for a specific user
+    Create and show New Invoice lists for a specific user
     """
     form_class = InvoiceForm
     initial = {'key': 'value'}
-    template_name = 'docs/invoices/create.html'
+    template_name = 'docs/invoices/cruds/create.html'
     
 
     def get(self, request, *args, **kwargs):
@@ -44,7 +45,7 @@ class CreateInvoice(View):
             clt = form.save(commit=False)
             print(request.user)
             clt.creator = request.user
-            clt.number = str(request.user)
+            clt.number = autoNumInvoice()
             clt.save()
             return redirect('clients:home')
         else:
@@ -52,21 +53,35 @@ class CreateInvoice(View):
         return render(request, self.template_name, context=context)
 
 
-class ClientDetailsView(DetailView):
+class InvoiceDetailsView(DetailView):
     """
-    showing details of a company
+    showing details of an invoice
     """
-    model = Clients
-    template_name = 'clients/cruds/details.html'
-    context_object_name = 'client'
+    model = Invoices
+    template_name = 'docs/invoices/cruds/details.html'
+    context_object_name = 'invoice'
 
 
 
 # @method_decorator(login_required, name='dispatch')
-class ClientDeleteView(DeleteView):
+class InvoiceDeleteView(DeleteView):
     """
-    Delete a client
+    Delete a selected invoice
     """
-    model = Clients
-    template_name = 'clients/cruds/delete.html'
-    success_url = reverse_lazy('clients:home')
+    model = Invoices
+    template_name = 'docs/invoices/cruds/delete.html'
+    success_url = reverse_lazy('docs:home')
+
+
+
+class InvoiceUpdateView(UpdateView):
+    """
+    Update the Invoices's Informations
+    """
+    model = Invoices
+    template_name = 'docs/invoices/cruds/update.html'
+    context_object_name = 'invoice'
+    fields = ('title', 'logo', 'client', 'stats')
+
+    def get_success_url(self):
+        return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})

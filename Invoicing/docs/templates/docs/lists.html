@@ -1,0 +1,27 @@
+{% extends "base.html" %}
+
+
+{% block content %}
+<h1> List of Documents </h1>
+
+<a href="{% url 'docs:createInvoice' %}">new invoice</a><br>
+<a href="">new quote</a>
+
+<div>
+    <div>
+
+        <h1>invoices :</h1><br>
+        {% for inv in invoices %}
+        <a href="{% url 'docs:detailsInvoice' inv.pk %}"> --------------->{{ inv.number }}</a><br>
+        {% endfor %}
+    </div>
+
+    <div>
+        <h1>Quotes :</h1> <br>
+        {% for qut in quotes %}
+        <a href="{% url 'docs:detailsQuote' qut.pk %}"> --------------->{{ qut.number }}</a><br>
+        {% endfor %}
+    </div>
+</div>
+
+{% endblock content %}

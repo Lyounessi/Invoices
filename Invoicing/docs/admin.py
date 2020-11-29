@@ -4,3 +4,5 @@ from .models import *
 
 
 admin.site.register(Invoices)
+admin.site.register(Quotes)
+

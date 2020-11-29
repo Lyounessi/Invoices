@@ -1,0 +1,52 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Quote Update</h5>
+    </div>
+    <div class="card-body">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> Quote's Info</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Title</label>
+                            {{form.title}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput2">Logo</label>
+                            {{form.logo}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput3">Client</label>
+                            {{form.client}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput4">State</label>
+                            {{form.stats}}
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="la la-check-square-o"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

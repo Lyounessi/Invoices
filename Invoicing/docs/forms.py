@@ -5,7 +5,7 @@ from .models import *
 
 
 
-
+################################### Invoices's linkded forms ################################### 
 class InvoiceForm(ModelForm):
     """
     Form of Invoices CRUDS
@@ -19,4 +19,22 @@ class InvoiceForm(ModelForm):
     class Meta:
 
         model = Invoices
+        exclude = ['creator', 'dateCreation', 'number']
+
+
+################################### Invoices's linkded forms ################################### 
+
+class QuoteForm(ModelForm):
+    """
+    Form of Invoices CRUDS
+    """
+    def __init__(self, *args, **kwargs):
+        super(QuoteForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update(
+                {'class': 'form-control form-control-square'})
+
+    class Meta:
+
+        model = Quotes
         exclude = ['creator', 'dateCreation', 'number']

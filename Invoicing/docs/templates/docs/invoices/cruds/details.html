@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Client Details</h5>
+    </div>
+    <div class="card-body">
+        <dl class="row">
+            <dt class="col-sm-3">Number :</dt>
+            <dd class="col-sm-9">{{ invoice.number }}</dd>
+            <dt class="col-sm-3">Client Name :</dt>
+            <dd class="col-sm-9">{{ invoice.client.name }}</dd>
+
+        </dl>
+
+    </div>
+    <div>
+        <a href="{% url 'docs:updateInvoice' invoice.pk %}" class="btn btn-primary"> Update </a>
+        <a href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger"> Delete </a>
+    </div>
+</div>
+
+{% endblock content%}
