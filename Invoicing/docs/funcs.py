@@ -10,11 +10,14 @@ def autoNumInvoice():
     
     lastIn = Invoices.objects.all().last()
     numb= ''
-    if lastIn :
-        numb = int(lastIn.number) + 1
+    l1= ['0','1','2','3','4','5','6','7','8','9']
+    l = []
+    if lastIn:
+        l = [i for i in lastIn.number if i in l1]
+        cleanNumb = int(''.join(l)) +1 
+        numb = 'IN-'+str(cleanNumb)
     else:
-        numb = 1
-
+        numb = 'IN-1'
     return numb
 
 
@@ -26,9 +29,12 @@ def autoNumQuote():
     
     lastIn = Quotes.objects.all().last()
     numb= ''
-    if lastIn :
-        numb = int(lastIn.number) + 1
+    l1= ['0','1','2','3','4','5','6','7','8','9']
+    l = []
+    if lastIn:
+        l = [i for i in lastIn.number if i in l1]
+        cleanNumb = int(''.join(l)) +1 
+        numb = 'QU-'+str(cleanNumb)
     else:
-        numb = 1
-
+        'QU-1'
     return numb

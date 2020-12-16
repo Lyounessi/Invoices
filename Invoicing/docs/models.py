@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from clients.models import Clients
+from stocks.models import Article
 
 
 
@@ -18,7 +19,7 @@ class Invoices(models.Model):
     logo = models.ImageField(blank=True)
     dateCreation = models.DateField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    #artice = To add as an FK
+    artice = models.ManyToManyField(Article)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     stats = models.CharField(max_length=100,  choices=stats_to_select, default='npyd')
     number = models.CharField(max_length=150, unique=True)

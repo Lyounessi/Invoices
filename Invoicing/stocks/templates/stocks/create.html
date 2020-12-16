@@ -1,14 +1,10 @@
 {% extends "base.html" %}
 
 
-
 {% block content %}
-
-
-
 <div class="card">
     <div class="card-header">
-        <h5 class="card-title">New Client</h5>
+        <h5 class="card-title">New Product</h5>
         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
         <div class="heading-elements">
             <ul class="list-inline mb-0">
@@ -27,8 +23,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="projectinput1">Title : </label>
-                            {{ form.title }}
+                            <label for="projectinput1">Type : </label>
+                            {{ form.articleType }}
                         </div>
                     </div>
 
@@ -36,8 +32,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="projectinput1">Chose Client : </label>
-                            {{ form.client }}
+                            <label for="projectinput1">Name : </label>
+                            {{ form.name }}
                         </div>
                     </div>
 
@@ -45,8 +41,8 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="projectinput1">Logo : </label>
-                            {{ form.logo }}
+                            <label for="projectinput1">Mesure Unit : </label>
+                            {{ form.unit }}
                         </div>
                     </div>
 
@@ -54,17 +50,45 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label for="projectinput1">Articles : </label>
-                            {{ form.artice }}
+                            <label for="projectinput1">No Tax Value : </label>
+                            {{ form.priceNtax }}
                         </div>
                     </div>
 
                 </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Tax Value : </label>
+                            {{ form.tax }}
+                        </div>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Bought Price : </label>
+                            {{ form.buyPrice }}
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Sell Price : </label>
+                            {{ form.sellPrice }}
+                        </div>
+                    </div>
+
+                </div>
+
             </div>
-
             <div class="form-actions">
-
                 <button class="btn btn-primary btn-min-width mr-1 mb-1" type="submit">SUBMIT</button>
+
 
             </div>
         </form>
