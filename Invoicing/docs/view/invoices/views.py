@@ -31,8 +31,12 @@ class CreateInvoice(View):
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
+        invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+        
+        logo = invoices[0]# Get the logo if exist
         context = {
             'form': form,
+            'logo': logo,
         }
         return render(request, self.template_name, context)
 
@@ -42,15 +46,17 @@ class CreateInvoice(View):
             'form': form,
         }
         print('-------------------Recieved')
+        print(form.errors) 
         if form.is_valid():
             print('Valid---------------------')
             clt = form.save(commit=False)
             clt.creator = request.user
             clt.number = autoNumInvoice()
             clt.save()
-            return render('docs:home')
+            return redirect('docs:home')
         else:
             print('-------------Not Valid')
+            
             
         return render(request, self.template_name, context=context)
 
@@ -81,9 +87,10 @@ class InvoiceUpdateView(UpdateView):
     Update the Invoices's Informations
     """
     model = Invoices
+   
     template_name = 'docs/invoices/cruds/update.html'
     context_object_name = 'invoice'
-    fields = ('title', 'logo', 'client', 'stats')
+    fields = ('number', 'stats')
 
     def get_success_url(self):
         return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})

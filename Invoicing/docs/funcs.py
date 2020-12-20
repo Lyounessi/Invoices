@@ -33,6 +33,7 @@ def autoNumQuote():
     l = []
     if lastIn:
         l = [i for i in lastIn.number if i in l1]
+        print(l)
         cleanNumb = int(''.join(l)) +1 
         numb = 'QU-'+str(cleanNumb)
     else:

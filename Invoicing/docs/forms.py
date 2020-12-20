@@ -19,7 +19,7 @@ class InvoiceForm(ModelForm):
     class Meta:
 
         model = Invoices
-        exclude = ['creator', 'dateCreation', 'number']
+        exclude = ['stats','creator', 'dateCreation', 'number']
 
 
 ################################### Invoices's linkded forms ################################### 
@@ -37,4 +37,4 @@ class QuoteForm(ModelForm):
     class Meta:
 
         model = Quotes
-        exclude = ['creator', 'dateCreation', 'number']
+        exclude = ['creator', 'dateCreation', 'number', 'stats']

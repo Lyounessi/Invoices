@@ -42,12 +42,11 @@ class CreateQuote(View):
             'form': form,
         }
         if form.is_valid():
-            print('yeeeeeeees')
             clt = form.save(commit=False)
-            print(request.user)
-            clt.creator = request.user
             clt.number = autoNumQuote()
+            clt.creator = request.user
             clt.save()
+            print('yeeeeeeees')
             return redirect('docs:home')
         else:
             print('noooooooooooooo')

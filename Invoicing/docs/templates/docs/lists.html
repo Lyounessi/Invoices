@@ -1,27 +1,125 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block content %}
 <h1> List of Documents </h1>
 
-<a href="{% url 'docs:createInvoice' %}">new invoice</a><br>
-<a href="">new quote</a>
 
-<div>
-    <div>
+<div class="card">
 
-        <h1>invoices :</h1><br>
-        {% for inv in invoices %}
-        <a href="{% url 'docs:detailsInvoice' inv.pk %}"> --------------->{{ inv.number }}</a><br>
-        {% endfor %}
+    <div class="card-header">
+        <div class="form-group">
+            <a href="{% url 'docs:createInvoice' %}" class="btn mr-1 mb-1 btn-primary">+ NEW INVOICE</a>
+            <a href="" class="btn mr-1 mb-1 btn-secondary">+ NEW QUOTE</a>
+        </div>
+        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+        <div class="heading-elements">
+            <ul class="list-inline mb-0">
+                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+        </div>
     </div>
+    <div class="card-content collapse show" style="">
+        <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap">
+            <p class="card-text">Export Your Data an multiple format :</p>
+            <div id="DataTables_Table_10_wrapper" class="dataTables_wrapper dt-bootstrap4">
 
-    <div>
-        <h1>Quotes :</h1> <br>
-        {% for qut in quotes %}
-        <a href="{% url 'docs:detailsQuote' qut.pk %}"> --------------->{{ qut.number }}</a><br>
-        {% endfor %}
+                <table class="table table-striped table-bordered file-export dataTable" id="DataTables_Table_10"
+                    role="grid" aria-describedby="DataTables_Table_10_info">
+                    <thead>
+                        <tr role="row">
+                            <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_10" rowspan="1"
+                                colspan="1" aria-sort="ascending" aria-label="Name: activate to sort column descending"
+                                style="width: 139px;">Number</th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_10" rowspan="1" colspan="1"
+                                aria-label="Position: activate to sort column ascending" style="width: 228px;">Type
+                            </th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_10" rowspan="1" colspan="1"
+                                aria-label="Office: activate to sort column ascending" style="width: 99px;">Client</th>
+                            <th class="sorting" tabindex="0" aria-controls="DataTables_Table_10" rowspan="1" colspan="1"
+                                aria-label="Age: activate to sort column ascending" style="width: 40px;">Statut</th>
+
+
+                        </tr>
+                    </thead>
+                    <tbody>
+
+                        {% for inv in invoices %}
+                        <tr role="row" class="odd">
+                            <td class="sorting_1">{{ inv.number }}</td>
+                            <td>Invoice</td>
+                            <td>{{ inv.client.name }}</td>
+                            <td>{{ inv.stats }}</td>
+
+
+                        </tr>
+                        {% endfor %}
+                        {% for qut in quotes %}
+                        <tr role="row" class="odd">
+                            <td class="sorting_1">{{ qut.number }}</td>
+                            <td>Quote</td>
+                            <td>{{ qut.client.name }}</td>
+                            <td>{{ qut.stats }}</td>
+
+
+                        </tr>
+                        {% endfor %}
+
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th rowspan="1" colspan="1">Number</th>
+                            <th rowspan="1" colspan="1">Type</th>
+                            <th rowspan="1" colspan="1">Client</th>
+                            <th rowspan="1" colspan="1">Statut</th>
+
+
+                        </tr>
+                    </tfoot>
+                </table>
+
+
+            </div>
+        </div>
     </div>
 </div>
+
+
+
+<!-- BEGIN: Vendor JS-->
+<script src="{% static '/app-assets/vendors/js/vendors.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/material-vendors.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/datatable/datatables.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.flash.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/jszip.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/pdfmake.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/vfs_fonts.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.html5.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.print.min.js' %}"></script>
+<!-- BEGIN Vendor JS-->
+
+<!-- BEGIN: Page Vendor JS-->
+<script src="{% static '/app-assets/vendors/js/charts/chart.min.js' %}"></script>
+
+<!-- END: Page Vendor JS-->
+
+<!-- BEGIN: Theme JS-->
+<script src="{% static '/app-assets/js/core/app-menu.js' %}"></script>
+<script src="{% static '/app-assets/js/core/app.js' %}"></script>
+
+<!-- END: Theme JS-->
+
+<!-- BEGIN: Page JS-->
+<script src="{% static '/app-assets/js/scripts/tables/datatables/datatable-advanced.js' %}"></script>
+
+<script src="{% static '/app-assets/js/scripts/pages/appointment.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/pages/material-app.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/tables/material-datatable.js' %}"></script>
+<!-- END: Page JS-->
+
+
 
 {% endblock content %}

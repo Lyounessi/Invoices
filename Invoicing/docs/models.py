@@ -18,11 +18,11 @@ class Invoices(models.Model):
     title = models.CharField(max_length=150, blank=True, null=True)
     logo = models.ImageField(blank=True)
     dateCreation = models.DateField(auto_now_add=True)
-    creator = models.ForeignKey(User, on_delete=models.CASCADE)
+    creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     artice = models.ManyToManyField(Article)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     stats = models.CharField(max_length=100,  choices=stats_to_select, default='npyd')
-    number = models.CharField(max_length=150, unique=True)
+    number = models.CharField(max_length=150, unique=True, blank=True, null=True)
      
     
     
@@ -47,9 +47,9 @@ class Quotes(models.Model):
     logo = models.ImageField(blank=True)
     dateCreation = models.DateField(auto_now_add=True)
     creator = models.ForeignKey(User, on_delete=models.CASCADE)
-    #artice = To add as an FK
+    artice = models.ManyToManyField(Article)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
-    stats = models.CharField(max_length=100,  choices=stats_to_select, default='npyd')
+    stats = models.CharField(max_length=100,  choices=stats_to_select, default='inw')
     number = models.CharField(max_length=150, unique=True)
      
     
