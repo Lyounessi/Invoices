@@ -33,10 +33,10 @@ class CreateInvoice(View):
         form = self.form_class(initial=self.initial)
         invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
         
-        logo = invoices[0]# Get the logo if exist
+        #logo = invoices[0]# Get the logo if exist
         context = {
             'form': form,
-            'logo': logo,
+            #'logo': logo,
         }
         return render(request, self.template_name, context)
 
@@ -48,12 +48,23 @@ class CreateInvoice(View):
         print('-------------------Recieved')
         print(form.errors) 
         if form.is_valid():
-            print('Valid---------------------')
-            clt = form.save(commit=False)
-            clt.creator = request.user
-            clt.number = autoNumInvoice()
-            clt.save()
-            return redirect('docs:home')
+            if  'fin' in request.POST:
+                print('Valid---------------------')
+                clt = form.save(commit=False)
+                clt.creator = request.user
+                clt.number = autoNumInvoice()
+                clt.back_status = 'fnsh'
+                clt.save()
+                return redirect('docs:home')
+                
+            elif  'save'in request.POST:
+                print('Valid---------------------')
+                clt = form.save(commit=False)
+                clt.creator = request.user
+                clt.number = autoNumInvoice()
+                clt.back_status = 'insv'
+                clt.save()
+                return redirect('docs:home')
         else:
             print('-------------Not Valid')
             
