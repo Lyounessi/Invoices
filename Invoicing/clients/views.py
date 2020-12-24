@@ -62,14 +62,14 @@ class ClientDetailsView(DetailView):
 
 
 # @method_decorator(login_required, name='dispatch')
-class ClientDeleteView(DeleteView):
+def actif(request, pk):
     """
-    Delete a client
+    Make a View to change status client to inactif
     """
-    model = Clients
-    template_name = 'clients/cruds/delete.html'
-    success_url = reverse_lazy('clients:home')
-
+    # To add a direct link with ajax to change the status
+    client = Clients.objects.filter(pk=pk)
+    client.actif = False
+    return(request, 'clients:createClient')
 
 
 
@@ -81,7 +81,7 @@ class ClientUpdateView(UpdateView):
     template_name = 'clients/cruds/update.html'
     context_object_name = 'client'
     fields = ('name', 'firstName', 'companyName', 'adress', 'countrie',
-              'city', 'postCode', 'email', 'taxNum', 'phone', 'website')
+              'city', 'postCode', 'email', 'taxNum', 'phone', 'website','actif')
 
     def get_success_url(self):
         return reverse_lazy('clients:detailsClient', kwargs={'pk': self.object.id})

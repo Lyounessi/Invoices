@@ -16,8 +16,16 @@
 
     </div>
     <div>
-        <a href="{% url 'docs:updateInvoice' invoice.pk %}" class="btn btn-primary"> Update </a>
-        <a href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger"> Delete </a>
+        {% if invoice.back_status == 'insave' %}
+        <a href="{% url 'docs:updateInvoice' invoice.pk %}" class="btn btn-secondary square btn-min-width mr-1 mb-1">
+            Open </a>
+        <a href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger square btn-min-width mr-1 mb-1">
+            Delete </a>
+        {% endif %}
+
+        <input type="submit" style="color : white; width:300px;" class="btn btn-primary square btn-min-width mr-1 mb-1"
+            value="Duplicate"> </input>
+
     </div>
 </div>
 

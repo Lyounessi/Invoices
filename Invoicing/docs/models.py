@@ -10,22 +10,22 @@ class Invoices(models.Model):
     Model of Invoices
     """
     stats_to_select =[
-        ('pyd', 'payed'),
-        ('npyd', 'notPayed'),
-        ('cnl', 'canceled'),
+        ('payed','pyd' ),
+        ('notPayed', 'npyd'),
+        ('canceled', 'cnl'),
         
     ]
     back_stats =[
-        ('fnsh', 'finished'),
-        ('insv', 'insave'),
+        ('finished', 'fnsh'),
+        ('insave', 'insv'),
     ]
     title = models.CharField(max_length=150, blank=True, null=True)
     logo = models.ImageField(blank=True)
-    dateCreation = models.DateField(auto_now_add=True)
+    dateCreation = models.DateField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
     artice = models.ManyToManyField(Article)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
-    stats = models.CharField(max_length=100,  choices=stats_to_select, default='npyd')
+    stats = models.CharField(max_length=100,  choices=stats_to_select, default='notPayed')
     number = models.CharField(max_length=150, unique=True, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
      

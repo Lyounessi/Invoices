@@ -8,7 +8,7 @@ from django.contrib import messages
 from docs.forms import *
 from django.contrib.auth.decorators import login_required
 ############################ In logics imports ##############################
-import datetime
+from datetime import date
 from docs.funcs import *
 ############################Clients CRUDs##############################################
 from django.views.generic.detail import DetailView
@@ -48,23 +48,19 @@ class CreateInvoice(View):
         print('-------------------Recieved')
         print(form.errors) 
         if form.is_valid():
+            
+            print('Valid---------------------')
+            clt = form.save(commit=False)
+            clt.creator = request.user
+            clt.number = autoNumInvoice()
             if  'fin' in request.POST:
-                print('Valid---------------------')
-                clt = form.save(commit=False)
-                clt.creator = request.user
-                clt.number = autoNumInvoice()
-                clt.back_status = 'fnsh'
-                clt.save()
-                return redirect('docs:home')
-                
+                clt.back_status = 'finished'
             elif  'save'in request.POST:
-                print('Valid---------------------')
-                clt = form.save(commit=False)
-                clt.creator = request.user
-                clt.number = autoNumInvoice()
-                clt.back_status = 'insv'
-                clt.save()
-                return redirect('docs:home')
+                clt.back_status = 'insave'
+            clt.dateCreation = date.today()
+            clt.save()
+            return redirect('docs:home')
+                
         else:
             print('-------------Not Valid')
             
@@ -101,7 +97,7 @@ class InvoiceUpdateView(UpdateView):
    
     template_name = 'docs/invoices/cruds/update.html'
     context_object_name = 'invoice'
-    fields = ('number', 'stats')
-
+    fields = ('stats', 'dateCreation', 'client')
+    #print(form.errors)
     def get_success_url(self):
         return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})

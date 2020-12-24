@@ -5,8 +5,9 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Clients(models.Model):
-
-     
+    
+    actif = models.BooleanField(null=True, default=True)
+    number =  models.CharField(max_length=50, null=True)
     createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
     companyName = models.CharField(max_length=50)
     name = models.CharField(max_length=50)#must be converted to a choices field

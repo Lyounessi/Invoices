@@ -12,7 +12,4 @@ urlpatterns = [
    path('home/', home, name='home'),
    path('addProd/', CreateProd.as_view(), name='create'),
    path('detailProd/<int:pk>', ProdDetailsView.as_view(), name='details'),
-   
-
-    
 ]

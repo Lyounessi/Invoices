@@ -24,6 +24,12 @@
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
+                            <label for="projectinput1">Number : </label>
+                            {{form.number}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
                             <label for="projectinput1">First Name</label>
                             {{form.firstName}}
                         </div>
@@ -139,18 +145,29 @@
                                             <th>Last Name</th>
                                             <th>Client's company</th>
                                             <th>Edite</th>
-                                            <th>Delete</th>
+                                            <th>Statu</th>
+
 
                                         </tr>
                                     </thead>
                                     <tbody>
                                         {% for client in clients %}
                                         <tr>
-                                            <td>{{ client.firstName }}</td>
+                                            <td><a href="{% url 'clients:detailsClient' client.pk %}">
+                                                    {{client.firstName}}
                                             <td>{{ client.name }}</td>
                                             <td>{{ client.companyName }}</td>
                                             <td><a href="{% url 'clients:updateClient' client.pk %}">Edit</a></td>
-                                            <td><a href="{% url 'clients:deleteClient' client.pk %}">Delete</a></td>
+
+                                            <td>{% if client.actif == True %}
+                                                <p>ACTIF</p>
+                                                {% else %}
+                                                <p>INACTIF</p>
+                                                {% endif %}
+                                            </td>
+
+
+
                                         </tr>
                                         {% endfor %}
                                     </tbody>

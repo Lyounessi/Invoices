@@ -48,10 +48,14 @@
 
                         {% for inv in invoices %}
                         <tr role="row" class="odd">
-                            <td class="sorting_1">{{ inv.number }}</td>
+                            <td class="sorting_1">
+                                <a href="{% url 'docs:detailsInvoice' inv.pk %}">
+                                    {{ inv.number }}
+                                </a>
+                            </td>
                             <td>Invoice</td>
                             <td>{{ inv.client.name }}</td>
-                            <td>{{ inv.stats }}</td>
+                            <td>{{ inv.stats }} - {{ inv.back_status }}</td>
 
 
                         </tr>
@@ -61,7 +65,7 @@
                             <td class="sorting_1">{{ qut.number }}</td>
                             <td>Quote</td>
                             <td>{{ qut.client.name }}</td>
-                            <td>{{ qut.stats }}</td>
+                            <td>{{ qut.stats }} </td>
 
 
                         </tr>

@@ -37,4 +37,4 @@ class QuoteForm(ModelForm):
     class Meta:
 
         model = Quotes
-        exclude = ['creator', 'dateCreation', 'number', 'stats', 'back_status']
+        exclude = ['creator',  'number', 'stats', 'back_status']
