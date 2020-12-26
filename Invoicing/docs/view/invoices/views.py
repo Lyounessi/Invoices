@@ -52,12 +52,9 @@ class CreateInvoice(View):
             print('Valid---------------------')
             clt = form.save(commit=False)
             clt.creator = request.user
-            clt.number = autoNumInvoice()
-            if  'fin' in request.POST:
-                clt.back_status = 'finished'
-            elif  'save'in request.POST:
-                clt.back_status = 'insave'
+            clt.back_status =statusInv(clt, request)
             clt.dateCreation = date.today()
+            clt.fnb = autoNumInvoice(clt, request)
             clt.save()
             return redirect('docs:home')
                 

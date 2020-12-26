@@ -27,27 +27,28 @@ def home(request):
     return render(request, 'stocks/lists.html', context)
 
 
-############################### INVOICES VIEWS ###############################
+############################### Stock's VIEWS ###############################
 
 
 class CreateProd(View):
     """
-    Create and show New Product/service lists for a specific user
+    Create New Products for a specific user
     """
     
     form_class = ProdForm
     initial = {'key': 'value'}
-    template_name = 'stocks/create.html'
+    template_name = 'stocks/createProd.html'
     
 
     def get(self, request, *args, **kwargs):
         form = self.form_class(initial=self.initial)
         context = {
-            'form': form,
+            'form':form,
         }
         return render(request, self.template_name, context)
 
     def post(self, request, *args, **kwargs):
+        
         form = self.form_class(request.POST)
         context = {
             'form': form,
@@ -60,11 +61,63 @@ class CreateProd(View):
             print('-------------------------------->', request.user)
             clt.owner = request.user
             clt.gainMargin = Decimal(sell) - Decimal(buy)
+            clt.articleType = 'prod'
             clt.save()
             return redirect('stocks:home')
         else:
             print('noooooooooooooo')
         return render(request, self.template_name, context=context)
+
+
+
+class CreateServ(View):
+    """
+    Create  New Services for a specific user
+    """
+    
+    form_class = ServForm
+    initial = {'key': 'value'}
+    template_name = 'stocks/createServ.html'
+    
+
+    def get(self, request, *args, **kwargs):
+        form = self.form_class(initial=self.initial)
+        context = {
+            'form':form,
+        }
+        return render(request, self.template_name, context)
+
+    def post(self, request, *args, **kwargs):
+        
+        form = self.form_class(request.POST)
+        context = {
+            'form': form,
+        }
+        if form.is_valid():
+            
+            clt = form.save(commit=False)
+            print('-------------------------------->', request.user)
+            clt.owner = request.user
+            clt.articleType = 'srv'
+            clt.save()
+            return redirect('stocks:home')
+        else:
+            print('noooooooooooooo')
+        return render(request, self.template_name, context=context)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 class ProdDetailsView(DetailView):
@@ -79,7 +132,7 @@ class ProdDetailsView(DetailView):
 
 
 # @method_decorator(login_required, name='dispatch')
-class InvoiceDeleteView(DeleteView):
+class ArticleActifStat(DeleteView):
     """
     Delete a selected invoice
     """

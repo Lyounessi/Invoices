@@ -1,41 +1,38 @@
 from .models import *
+from datetime import date, datetime
 
 
 
 
-def autoNumInvoice():
+
+def autoNumInvoice(obj, req):
     """
     This function is made to make autonubers in every new invoice creted
     """
-    
     lastIn = Invoices.objects.all().last()
-    numb= ''
-    l1= ['0','1','2','3','4','5','6','7','8','9']
-    l = []
+    numb=""
     if lastIn:
-        l = [i for i in lastIn.number if i in l1]
-        cleanNumb = int(''.join(l)) +1 
-        numb = 'IN-'+str(cleanNumb)
-    else:
-        numb = 'IN-1'
+        idate = datetime.strptime(str(lastIn.dateCreation), '%Y-%m-%d')
+        idate =  idate.date().strftime('%y-%M')
+        today = date.today()
+
+        if  'save'in req.POST:
+            if idate == today.strftime('%y-%M') :
+                obj.number = int(lastIn.number) + 1 # Increse number
+                numb = "I-{}-{}".format(today.strftime('%y-%M'), obj.number) 
+            else:   
+                obj.number = 1
+                numb = "I-{}-{}".format(today.strftime('%y-%M'), obj.number) 
     return numb
 
 
 
-def autoNumQuote():
+def statusInv(obj, req):
     """
-    This function is made to make autonumbers in every new quote creted
+    Function to save or finalise an invoice
     """
-    
-    lastIn = Quotes.objects.all().last()
-    numb= ''
-    l1= ['0','1','2','3','4','5','6','7','8','9']
-    l = []
-    if lastIn:
-        l = [i for i in lastIn.number if i in l1]
-        print(l)
-        cleanNumb = int(''.join(l)) +1 
-        numb = 'QU-'+str(cleanNumb)
-    else:
-        'QU-1'
-    return numb
+    if  'fin' in req.POST:
+        obj.back_status = 'finished'
+    elif  'save'in req.POST:
+        obj.back_status = 'insave'
+    return obj.back_status

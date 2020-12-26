@@ -27,6 +27,7 @@ class Invoices(models.Model):
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     stats = models.CharField(max_length=100,  choices=stats_to_select, default='notPayed')
     number = models.CharField(max_length=150, unique=True, blank=True, null=True)
+    fnb = models.CharField(max_length=150, unique=True, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
      
     
