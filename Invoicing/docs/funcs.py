@@ -11,18 +11,34 @@ def autoNumInvoice(obj, req):
     """
     lastIn = Invoices.objects.all().last()
     numb=""
+    today = date.today()
     if lastIn:
         idate = datetime.strptime(str(lastIn.dateCreation), '%Y-%m-%d')
-        idate =  idate.date().strftime('%y-%M')
-        today = date.today()
-
+        idate =  idate.date().strftime('%y-%m')
         if  'save'in req.POST:
-            if idate == today.strftime('%y-%M') :
+            if idate == today.strftime('%y-%m') :
                 obj.number = int(lastIn.number) + 1 # Increse number
-                numb = "I-{}-{}".format(today.strftime('%y-%M'), obj.number) 
+                numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.number) 
             else:   
                 obj.number = 1
-                numb = "I-{}-{}".format(today.strftime('%y-%M'), obj.number) 
+                numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.number) 
+        elif 'fin' in req.POST:
+            if idate == today.strftime('%y-%m') :
+                obj.number = int(lastIn.number) + 1 # Increse number
+                numb = "{}-{}".format(today.strftime('%y-%m'), obj.number) 
+            else:   
+                obj.number = 1
+                numb = "{}-{}".format(today.strftime('%y-%m'), obj.number) 
+    else:
+        if  'save'in req.POST:
+           
+            obj.number = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.number) 
+        elif 'fin' in req.POST:
+          
+            obj.number = 1
+            numb = "{}-{}".format(today.strftime('%y-%m'), obj.number) 
+        
     return numb
 
 
