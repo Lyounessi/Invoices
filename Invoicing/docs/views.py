@@ -5,8 +5,8 @@ from .models import *
 
 
 def home(request):
-    invoices = Invoices.objects.all()
-    quotes = Quotes.objects.all()
+    invoices = Invoices.objects.filter(creator=request.user)
+    quotes = Quotes.objects.filter(creator=request.user)
     context={
         "invoices": invoices,
         "quotes": quotes,

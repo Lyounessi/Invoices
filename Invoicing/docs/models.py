@@ -2,6 +2,8 @@ from django.db import models
 from django.contrib.auth.models import User
 from clients.models import Clients
 from stocks.models import Article
+############################ In logics imports ##############################
+from datetime import date
 
 
 
@@ -26,8 +28,8 @@ class Invoices(models.Model):
     artice = models.ManyToManyField(Article)
     client = models.ForeignKey(Clients, on_delete=models.CASCADE)
     stats = models.CharField(max_length=100,  choices=stats_to_select, default='notPayed')
-    number = models.CharField(max_length=150, unique=True, blank=True, null=True)
-    fnb = models.CharField(max_length=150, unique=True, blank=True, null=True)
+    number = models.CharField(max_length=150, blank=True, null=True)
+    fnb = models.CharField(max_length=150, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
      
     
