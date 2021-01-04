@@ -23,8 +23,10 @@
             Delete </a>
         {% endif %}
 
-        <input type="submit" style="color : white; width:300px;" class="btn btn-primary square btn-min-width mr-1 mb-1"
-            value="Duplicate"> </input>
+        <a href="{% url 'docs:duplicateInvoice' invoice.pk%}" class="btn btn-secondary square btn-min-width mr-1 mb-1">
+            Duplicate
+        </a>
+
 
     </div>
 </div>

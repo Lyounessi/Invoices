@@ -98,3 +98,23 @@ class InvoiceUpdateView(UpdateView):
     #print(form.errors)
     def get_success_url(self):
         return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})
+
+def dupInvoice(request, pk):
+    """
+    This view is for duplicating a selected invois
+    """
+    invoice = Invoices.objects.filter(pk=pk)
+    invoice = invoice[0]
+    newInv = Invoices(title=invoice.title, dateCreation=date.today(), creator=request.user, 
+     client=invoice.client, stats=invoice.stats)
+    newInv.save()
+   
+    if invoice.artice.all() != None:
+        for i in invoice.artice.all():# select all manytomany article and add to the new invoice
+            newInv.artice.add(i)
+    else:
+        print("AHDAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA")
+    newInv.back_status = "insave"
+    newInv.fnb = invoiceDupAutoincreaseNumb(newInv, request)
+    newInv.save()
+    return render(request, 'docs:detailsInvoice', {"pk": newInv.pk})

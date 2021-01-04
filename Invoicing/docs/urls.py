@@ -19,6 +19,8 @@ urlpatterns = [
     path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
     path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
     path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
+    path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
+
 
 
 

@@ -7,7 +7,7 @@ from datetime import date, datetime
 
 def autoNumInvoice(obj, req):
     """
-    This function is made to make autonubers in every new invoice creted
+    This function is made to make autonubers in every new invoice creted when create invoice
     """
     lastIn = Invoices.objects.filter(creator=req.user, back_status='finished').last()
     lastSv = Invoices.objects.filter(creator=req.user, back_status='insave').last()
@@ -49,16 +49,42 @@ def autoNumInvoice(obj, req):
             numb = "{}-{}".format(today.strftime('%y-%m'), obj.number)  
             
     return numb  
-    
 
+
+def invoiceDupAutoincreaseNumb(obj, req):
+    """
+    create invoice number in duplication view
+    """
+
+    lastSv = Invoices.objects.filter(creator=req.user, back_status='insave').last()
+    today = date.today()
+    if  lastSv:
+          
+        idate = datetime.strptime(str(lastSv.dateCreation), '%Y-%m-%d')
+        idate =  idate.date().strftime('%y-%m')
+        
+        if idate == today.strftime('%y-%m') :
+            obj.prov_numb = int(lastSv.prov_numb) + 1 # Increse number
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
+        else:   
+            obj.prov_numb = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
+    
+    return numb
 
 
 def statusInv(obj, req):
     """
-    Function to save or finalise an invoice
+    Function to save or finalise an invoice when create invoice
     """
     if  'fin' in req.POST:
         obj.back_status = 'finished'
     elif  'save'in req.POST:
         obj.back_status = 'insave'
     return obj.back_status
+
+def changeStat():
+    """
+    This function is for changing an invoice status
+    """
+    print
