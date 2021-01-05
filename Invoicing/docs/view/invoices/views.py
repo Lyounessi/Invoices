@@ -117,4 +117,6 @@ def dupInvoice(request, pk):
     newInv.back_status = "insave"
     newInv.fnb = invoiceDupAutoincreaseNumb(newInv, request)
     newInv.save()
-    return render(request, 'docs:detailsInvoice', {"pk": newInv.pk})
+    
+    
+    return render(request,'docs/invoices/duplicate.html', locals())

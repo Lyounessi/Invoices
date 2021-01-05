@@ -83,8 +83,8 @@ def statusInv(obj, req):
         obj.back_status = 'insave'
     return obj.back_status
 
-def changeStat():
+def changeStat(obj):
     """
     This function is for changing an invoice status
     """
-    print
+    pass
