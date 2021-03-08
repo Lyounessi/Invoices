@@ -1,0 +1,204 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+
+        <div class="heading-elements">
+            <ul class="list-inline mb-0">
+                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-content collpase show">
+        <div class="card-body">
+
+            <form class="form form-horizontal" method='POST'>
+                {% csrf_token %}
+
+                <div class="form-body">
+                    <h4 class="form-section"></i> Add products to invoice N° : {{ invoice.fnb }}
+                    </h4>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" for="userinput1">Select Product</label>
+                                <div class="col-md-9 mx-auto">
+                                    {{form.article}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" for="userinput2">Tax°1</label>
+                                <div class="col-md-9 mx-auto">
+                                    {{form.tax_one}}
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" for="userinput3">Tax°2</label>
+                                <div class="col-md-9 mx-auto">
+                                    {{form.tax_two}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" for="userinput4">Discount</label>
+                                <div class="col-md-9 mx-auto">
+
+                                    {{form.remise}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group row">
+                                <label class="col-md-3 label-control" for="userinput4">Quantity</label>
+                                <div class="col-md-9 mx-auto">
+
+                                    {{form.qte}}
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-actions text-right">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="la la-check-square-o"></i> Save
+                    </button>
+                </div>
+            </form>
+
+
+        </div>
+
+    </div>
+</div>
+
+
+<section id="patients-list">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Producrs Exesting in the invoice N° {{ invoice.fnb }}</h3>
+                    <div class="heading-elements">
+                        <a href="{% url 'stocks:createProd' %}" class="btn btn-danger round btn-sm"><i
+                                class="la la-plus font-small-2"></i>
+                            ADD PRODUCT</a>
+                    </div>
+                </div>
+                <div class="card-body collapse show">
+                    <div class="card-body card-dashboard">
+                    </div>
+                    <div class="table-responsive">
+                        <div id="DataTables_Table_0_wrapper" class="dataTables_wrapper dt-bootstrap4">
+
+                            <div class="row">
+                                <div class="col-sm-12">
+                                    <table class="table table-striped table-bordered patients-list dataTable"
+                                        id="DataTables_Table_0" role="grid" aria-describedby="DataTables_Table_0_info">
+                                        <thead>
+                                            <tr role="row">
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 122px;">Product</th>
+
+                                                <th class="sorting_asc" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1" aria-sort="ascending"
+                                                    aria-label="Name: activate to sort column descending"
+                                                    style="width: 122px;">Type</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Disease: activate to sort column ascending"
+                                                    style="width: 106px;">Tax°1</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Location: activate to sort column ascending"
+                                                    style="width: 87px;">Tax°2</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Age: activate to sort column ascending"
+                                                    style="width: 33px;">Discount</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Previous Visit: activate to sort column ascending"
+                                                    style="width: 105px;">Quantity</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Previous Visit: activate to sort column ascending"
+                                                    style="width: 105px;">Price</th>
+                                                <th class="sorting" tabindex="0" aria-controls="DataTables_Table_0"
+                                                    rowspan="1" colspan="1"
+                                                    aria-label="Actions: activate to sort column ascending"
+                                                    style="width: 62px;">Deletes</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+
+
+
+
+                                            <tr role="row" class="odd">
+                                                {% for prod in prods %}
+
+                                                <td class="sorting_1">{{prod.article.name}}</td>
+                                                <td>{{prod.article.articleType}}</td>
+                                                <td>{{prod.tax_one}}</td>
+                                                <td>{{prod.tax_two}}</td>
+                                                <td>{{prod.remise}}</td>
+                                                <td>{{prod.qte}}</td>
+                                                <td>{{prod.price}}</td>
+
+                                                <td>
+
+                                                    <a href="{% url 'docs:deleteProd' prod.id %}"><i
+                                                            class="ft-trash-2 ml-1 text-warning"></i></a>
+                                                </td>
+                                            </tr>
+                                            {% endfor %}
+
+
+
+
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+
+                                                <th rowspan="1" colspan="1">Product</th>
+                                                <th rowspan="1" colspan="1">type</th>
+                                                <th rowspan="1" colspan="1">Tax°1</th>
+                                                <th rowspan="1" colspan="1">Tax°2</th>
+                                                <th rowspan="1" colspan="1">Discount</th>
+                                                <th rowspan="1" colspan="1">Quantity</th>
+                                                <th rowspan="1" colspan="1">Price</th>
+                                                <th rowspan="1" colspan="1">Delete</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock content %}

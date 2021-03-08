@@ -1,77 +1,185 @@
 {% extends "base.html" %}
-
+{% load static %}
 
 {% block content %}
 
+<!-- END: AJAX -->
 
 
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title">New Invoice</h5>
-        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-        <div class="heading-elements">
-            <ul class="list-inline mb-0">
 
-                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-            </ul>
+
+<div class="content-body">
+    <section class="card">
+        <div id="invoice-template" class="card-body p-4">
+            <!-- Invoice Company Details -->
+            <div id="invoice-company-details" class="row">
+                <div class="col-sm-6 col-12 text-center text-sm-left">
+                    <div class="media row">
+                        <div class="col-12 col-sm-3 col-xl-2" id='AddL'>
+                            <img src="../../../app-assets/images/logo/logo-80x80.png" alt="company logo"
+                                class="mb-1 mb-sm-0">
+                        </div>
+                        <div class="col-12 col-sm-9 col-xl-10">
+                            <div class="media-body">
+                                <ul class="ml-2 px-0 list-unstyled">
+                                    <li class="text-bold-800">Modern Creative Studio</li>
+                                    <li>4025 Oak Avenue,</li>
+                                    <li>Melbourne,</li>
+                                    <li>Florida 32940,</li>
+                                    <li>USA</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-sm-6 col-12 text-center text-sm-right">
+                    <h2>INVOICE</h2>
+                    <p class="pb-sm-3">{{ invoice.fnb }}</p>
+                    <ul class="px-0 list-unstyled">
+                        <li>Balance Due</li>
+                        <li class="lead text-bold-800">$12,000.00</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Invoice Company Details -->
+
+            <!-- Invoice Customer Details -->
+            <div id="invoice-customer-details" class="row pt-2">
+                <div class="col-12 text-center text-sm-left">
+                    <button type="button" class="btn mr-1 mb-1 btn-primary js-select-client">Select client</button>
+                    <button type="button" class="btn mr-1 mb-1 btn-secondary js-create-client">+ New client</button>
+
+                    <p class="text-muted">Bill To :</p>
+                </div>
+                <div class="col-sm-6 col-12 text-center text-sm-left" id='AddC'>
+                    <ul class="px-0 list-unstyled">
+                        <li class="text-bold-800">Mr. Bret Lezama</li>
+                        <li>4879 Westfall Avenue,</li>
+                        <li>Albuquerque,</li>
+                        <li>New Mexico-87102.</li>
+                    </ul>
+                </div>
+                <div class="col-sm-6 col-12 text-center text-sm-right">
+                    <p><span class="text-muted">Invoice Date :</span> 06/05/2019</p>
+                    <p><span class="text-muted">Terms :</span> Due on Receipt</p>
+                    <p><span class="text-muted">Due Date :</span> 10/05/2019</p>
+                </div>
+            </div>
+            <!-- Invoice Customer Details -->
+
+            <!-- Invoice Items Details -->
+            <div id="invoice-items-details" class="pt-2">
+                <div class="row">
+                    <div class="table-responsive col-12" id="AddP">
+                        <button type="button" class="btn mr-1 mb-1 btn-primary js-select-article">Select
+                            Article</button>
+                        <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-article">+ New Article</button>
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>#</th>
+                                    <th>Item &amp; Description</th>
+                                    <th class="text-right">Rate</th>
+                                    <th class="text-right">Hours</th>
+                                    <th class="text-right">Amount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <th scope="row">1</th>
+                                    <td>
+                                        <p>Create PSD for mobile APP</p>
+                                        <p class="text-muted">Simply dummy text of the printing and typesetting
+                                            industry.
+                                        </p>
+                                    </td>
+                                    <td class="text-right">$20.00/hr</td>
+                                    <td class="text-right">120</td>
+                                    <td class="text-right">$2400.00</td>
+                                </tr>
+
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-5 col-12">
+                        <p class="lead">Total due</p>
+                        <div class="table-responsive">
+                            <table class="table">
+                                <tbody>
+                                    <tr>
+                                        <td>Sub Total</td>
+                                        <td class="text-right">$14,900.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TAX (12%)</td>
+                                        <td class="text-right">$1,788.00</td>
+                                    </tr>
+                                    <tr>
+                                        <td class="text-bold-800">Total</td>
+                                        <td class="text-bold-800 text-right"> $16,688.00</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+    </section>
+
+</div>
+
+<!-- Modal for selecting client-->
+<div class="modal fade" id="modal-select-client">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
         </div>
     </div>
-    <div class="card-body">
-        <img src="{{ MEDIA_URL }}{{ logo }}" />
-        <form class="form" method="POST">
-            {% csrf_token %}
-            <div class="form-body">
-                <h4 class="form-section"></i>Invoice</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Title : </label>
-                            {{ form.title }}
-                        </div>
-                    </div>
+</div>
+<!-- Modal for selecting client-->
 
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Chose Client : </label>
-                            {{ form.client }}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Logo : </label>
-                            {{ form.logo }}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Articles : </label>
-                            {{ form.artice }}
-                        </div>
-                    </div>
-
-                </div>
+<!-- Modal for creatin prods-->
+<div class="modal animated bounceInLeft text-left show" id="modal-new-article">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
 
-                <div class="form-actions">
-
-                    <button class="btn  btn-min-width mr-1 mb-1" style="background-color:#50ED58; width: 300px;"
-                        type="submit" name="fin">Finalise</button>
-                    <button class="btn  btn-min-width mr-1 mb-1 white"
-                        style="color : white; background-color:#397AD7; width: 300px;" type="submit" name="save">Save
-                        for later</button>
-
-
-                </div>
-        </form>
+        </div>
     </div>
 </div>
+<!-- Modal for selecting client-->
+
+<script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
+
+
+
+<!-- BEGIN: Page Vendor JS-->
+
+
+<!-- END: Page Vendor JS-->
+
+<!-- BEGIN: Theme JS-->
+<script src="{% static '/app-assets/js/core/app-menu.js' %}"></script>
+<script src="{% static '/app-assets/js/core/app.js' %}"></script>
+
+<!-- END: Theme JS-->
+
+<!-- BEGIN: Page JS-->
+<script src="{% static '/app-assets/js/scripts/tables/datatables/datatable-advanced.js' %}"></script>
+
+<script src="{% static '/app-assets/js/scripts/pages/appointment.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/pages/material-app.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/tables/material-datatable.js' %}"></script>
+<!-- END: Page JS-->
+
 {% endblock content %}

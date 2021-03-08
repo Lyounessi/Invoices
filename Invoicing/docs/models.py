@@ -25,21 +25,39 @@ class Invoices(models.Model):
     logo = models.ImageField(blank=True)
     dateCreation = models.DateField()
     creator = models.ForeignKey(User, on_delete=models.CASCADE, blank=True, null=True)
-    artice = models.ManyToManyField(Article)
-    client = models.ForeignKey(Clients, on_delete=models.CASCADE)
+    client = models.ForeignKey(Clients, on_delete=models.CASCADE, blank=True, null=True)
     stats = models.CharField(max_length=100,  choices=stats_to_select, default='notPayed')
     prov_numb = models.CharField(max_length=150, blank=True, null=True)# When invoice is not finished
     number = models.CharField(max_length=150, blank=True, null=True)# when invoice is finished
     fnb = models.CharField(max_length=150, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
      
-    
-    
-    
     def __str__(self):
-        return self.stats
+        return str(self.pk)
 
    
+class Article_Inv(models.Model):
+    """
+    Many to many trough article in invoices
+    """
+    invoice = models.ForeignKey(Invoices, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    tax_one =  models.IntegerField(blank=True, null=True, default=0)
+    tax_two = models.IntegerField(blank=True, null=True, default=0) 
+    remise = models.IntegerField(blank=True, null=True, default=0) 
+    qte = models.IntegerField(blank=True, null=True, default=1) 
+    price = models.CharField(max_length=50, blank=True, null=True)
+    
+    def __str__(self):
+        return str(self.invoice.client)
+    
+    class Meta:
+        unique_together = [['invoice','article']]
+       
+   
+
+
+
 
 
 class Quotes(models.Model):

@@ -1,4 +1,5 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
 
 <div class="card">
@@ -18,9 +19,11 @@
     <div>
         {% if invoice.back_status == 'insave' %}
         <a href="{% url 'docs:updateInvoice' invoice.pk %}" class="btn btn-secondary square btn-min-width mr-1 mb-1">
-            Open </a>
+            Update </a>
         <a href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger square btn-min-width mr-1 mb-1">
             Delete </a>
+        <a href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn btn-danger square btn-min-width mr-1 mb-1">
+            Finalise </a>
         {% endif %}
 
         <a href="{% url 'docs:duplicateInvoice' invoice.pk%}" class="btn btn-secondary square btn-min-width mr-1 mb-1">
@@ -30,5 +33,164 @@
 
     </div>
 </div>
+<div class="content-wrapper">
+
+    <div class="content-body">
+        <section class="card">
+            <div id="invoice-template" class="card-body p-4">
+                <!-- Invoice Company Details -->
+                <div id="invoice-company-details" class="row">
+                    <div class="col-sm-6 col-12 text-center text-sm-left">
+                        <div class="media row">
+                            <div class="col-12 col-sm-3 col-xl-2">
+                                <img src="../../../app-assets/images/logo/logo-80x80.png" alt="company logo"
+                                    class="mb-1 mb-sm-0">
+                            </div>
+                            <div class="col-12 col-sm-9 col-xl-10">
+                                <div class="media-body">
+                                    <ul class="ml-2 px-0 list-unstyled">
+                                        <li class="text-bold-800">Company Name</li>
+                                        <li>{{ User.adress }},</li>
+
+                                        <li>{{ User.city }},</li>
+                                        <li>{{ User.countrie }}</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-6 col-12 text-center text-sm-right">
+                        <h2>INVOICE</h2>
+                        <p class="pb-sm-3">{{ invoice.fnb }}</p>
+                        <ul class="px-0 list-unstyled">
+                            <li>Balance Due</li>
+                            <li class="lead text-bold-800">$12,000.00</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Invoice Company Details -->
+
+                <!-- Invoice Customer Details -->
+                <div id="invoice-customer-details" class="row pt-2">
+                    <div class="col-12 text-center text-sm-left">
+                        <p class="text-muted">Bill To</p>
+                    </div>
+                    <div class="col-sm-6 col-12 text-center text-sm-left">
+                        <ul class="px-0 list-unstyled">
+                            <li class="text-bold-800">{{ invoice.client.name }}.</li>
+                            <li>{{ invoice.client.adress }},</li>
+                            <li>{{ invoice.client.countrie }},</li>
+                            <li>{{ invoice.client.city }}.</li>
+                        </ul>
+                    </div>
+                    <div class="col-sm-6 col-12 text-center text-sm-right">
+                        <p><span class="text-muted">Invoice Date :</span> {{ invoice.dateCreation }}</p>
+                        <p><span class="text-muted">Terms :</span> Due on Receipt</p>
+
+                    </div>
+                </div>
+                <!-- Invoice Customer Details -->
+
+                <!-- Invoice Items Details -->
+                <div id="invoice-items-details" class="pt-2">
+                    <div class="row">
+                        <div class="table-responsive col-12">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Ref</th>
+                                        <th>Name</th>
+                                        <th class="text-right">Unit</th>
+                                        <th class="text-right">Type</th>
+                                        <th class="text-right">Price HT</th>
+                                        <th class="text-right">Tax</th>
+                                        <th class="text-right">TTV</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in invoice.artice.all %}
+                                    <tr>
+                                        <th scope="row">1</th>
+                                        <td>
+                                            {{ i.ref }}
+                                        </td>
+                                        <td class="text-right">{{ i.name }}</td>
+                                        <td class="text-right">{{ i.articleType }}</td>
+                                        <td class="text-right">{{ i.sellPrice }}</td>
+                                        <td class="text-right">{{ i.tax }}</td>
+                                        <td class="text-right">TTC PRICE</td>
+
+
+
+
+                                        {% endfor %}
+                                    </tr>
+
+                                </tbody>
+                            </table>
+
+                        </div>
+                        <p class="text-right"></p>
+                    </div>
+                </div>
+
+                <!-- Invoice Footer -->
+                <div id="invoice-footer">
+                    <div class="row">
+                        <div class="col-sm-7 col-12 text-center text-sm-left">
+                            <h4>Total Balance to Pay :</h4>
+
+                        </div>
+                        <div class="col-sm-5 col-12 text-center">
+                            <button type="button" class="btn btn-info btn-print btn-lg my-1"><i
+                                    class="la la-paper-plane-o mr-50"></i>
+                                Print
+                                Invoice</button>
+
+                        </div>
+
+                    </div>
+                </div>
+                <!-- Invoice Footer -->
+
+            </div>
+        </section>
+
+    </div>
+</div>
+
+
+<!-- BEGIN: Vendor JS-->
+<script src="{% static '/app-assets/vendors/js/vendors.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/material-vendors.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/datatable/datatables.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/datatable/dataTables.buttons.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.flash.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/jszip.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/pdfmake.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/vfs_fonts.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.html5.min.js' %}"></script>
+<script src="{% static '/app-assets/vendors/js/tables/buttons.print.min.js' %}"></script>
+<!-- BEGIN Vendor JS-->
+
+<!-- BEGIN: Page Vendor JS-->
+<script src="{% static '/app-assets/vendors/js/charts/chart.min.js' %}"></script>
+
+<!-- END: Page Vendor JS-->
+
+<!-- BEGIN: Theme JS-->
+<script src="{% static '/app-assets/js/core/app-menu.js' %}"></script>
+<script src="{% static '/app-assets/js/core/app.js' %}"></script>
+
+<!-- END: Theme JS-->
+
+<!-- BEGIN: Page JS-->
+<script src="{% static '/app-assets/js/scripts/tables/datatables/datatable-advanced.js' %}"></script>
+
+<script src="{% static '/app-assets/js/scripts/pages/appointment.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/pages/material-app.js' %}"></script>
+<script src="{% static '/app-assets/js/scripts/tables/material-datatable.js' %}"></script>
+<!-- END: Page JS-->
+
 
 {% endblock content%}

@@ -1,0 +1,71 @@
+{% load static %}
+<div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
+    <div class="modal-header">
+
+        <h4 class="modal-title">Create a new Article</h4>
+    </div>
+    <div class="modal-body">
+
+
+        <div class="card accordion">
+            <a id="heading1" class="card-header collapsed" role="tab" data-toggle="collapse" href="#accordion1"
+                aria-expanded="false" aria-controls="accordion1">
+                <div class="card-title lead">+ Add new Product</div>
+            </a>
+            <div id="accordion1" role="tabpanel" data-parent="#accordionWrapa1" aria-labelledby="heading1"
+                class="collapse">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'stocks:createProd' %}" class="js-article-create-form">
+                            {% csrf_token %}
+
+                            <div class="form-group{% if field.errors %} has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ form1.as_p }}</label>
+
+                            </div>
+
+
+
+                            <button type="submit" class="btn btn-primary">Add Product</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <a id="heading2" class="card-header collapsed" data-toggle="collapse" href="#accordion2"
+                aria-expanded="false" aria-controls="accordion2">
+                <div class="card-title lead collapsed">+ Create New Service</div>
+            </a>
+            <div id="accordion2" role="tabpanel" data-parent="#accordionWrapa1" aria-labelledby="heading2"
+                class="collapse" aria-expanded="false">
+                <div class="card-content">
+                    <div class="card-body">
+                        <form method="post" action="{% url 'stocks:createProd' %}" class="js-article-create-form">
+                            {% csrf_token %}
+
+                            <div class=" form-group{% if field.errors %} has-error{% endif %}">
+                                <label for="{{ field.id_for_label }}">{{ form2.as_p }}</label>
+
+                            </div>
+
+
+
+                            <button type="submit" class="btn btn-primary">Add Service</button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block" data-dismiss="modal"><i
+                class="ft-x"></i>Close</button>
+    </div>
+
+</div>
+
+<script src="{% static '/app-assets/vendors/js/vendors.min.js' %}"></script>
+
+<script src="{% static '/app-assets/js/core/app.js' %}"></script>
+<script src="{% static '/app-assets/data/locales/en.json' %}"></script>

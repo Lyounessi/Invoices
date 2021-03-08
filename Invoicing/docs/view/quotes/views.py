@@ -8,7 +8,7 @@ from docs.forms import *
 from django.contrib.auth.decorators import login_required
 ############################ In logics imports ##############################
 import datetime
-from docs.funcs import *
+from docs.inv_funcs import *
 ############################Clients CRUDs##############################################
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView

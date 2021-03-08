@@ -13,7 +13,11 @@ class Units(models.Model):
     def __str__(self):
         return self.name
 
-   
+class Tax(models.Model):
+    name = models.CharField(max_length=150, blank=True)
+    value = models.IntegerField(blank=True)
+
+
 
 class Article(models.Model):
 
@@ -29,7 +33,6 @@ class Article(models.Model):
     name = models.CharField(max_length=150, blank=True)
     ref = models.CharField(max_length=150, blank=True)
     unit = models.ForeignKey(Units, on_delete=models.CASCADE)
-    tax = models.IntegerField(blank=True)
     actif = models.BooleanField(null=True, default=True)
     buyPrice = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
     gainMargin = models.DecimalField(max_digits=19, decimal_places=2,  blank=True,null=True)

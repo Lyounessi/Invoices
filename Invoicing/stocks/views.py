@@ -56,7 +56,10 @@ class CreateProd(View):
         if form.is_valid():
             sell = request.POST.get("sellPrice")
             buy = request.POST.get("buyPrice")
-            print(sell, type(sell))
+            if buy == None:
+                buy = 0
+            elif sell == None:
+                sell = 0
             clt = form.save(commit=False)
             print('-------------------------------->', request.user)
             clt.owner = request.user
@@ -142,16 +145,3 @@ class ArticleActifStat(DeleteView):
     #success_url = reverse_lazy('docs:home')
 
 
-
-class InvoiceUpdateView(UpdateView):
-    """
-    Update the Invoices's Informations
-    """
-    pass
-    #model = Invoices
-    #template_name = 'docs/invoices/cruds/update.html'
-    #context_object_name = 'invoice'
-    #fields = ('title', 'logo', 'client', 'stats')
-
-    #def get_success_url(self):
-    #    return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})

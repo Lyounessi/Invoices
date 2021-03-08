@@ -20,6 +20,15 @@ urlpatterns = [
     path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
     path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
     path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
+    path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
+
+    
+
+    ################################## TRough PRoducts invoice URLs ##################################
+
+    path('createIn/client/select/', selectClient, name='selectClient'),
+    path("createIn/addprodInv/",  addPtoInv, name="addProds"), # AddProducts to a selected invoice
+    #path("deleteProd/<int:pk>",  InvoiceAddProds.delete, name="deleteProd"), # Delete a specific product
 
 
 
