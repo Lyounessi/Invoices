@@ -27,8 +27,9 @@ urlpatterns = [
     ################################## TRough PRoducts invoice URLs ##################################
 
     path('createIn/client/select/', selectClient, name='selectClient'),
-    path("createIn/addprodInv/",  addPtoInv, name="addProds"), # AddProducts to a selected invoice
-    #path("deleteProd/<int:pk>",  InvoiceAddProds.delete, name="deleteProd"), # Delete a specific product
+    path("createIn/addprodInv/",  addPfromInv, name="addProds"), # AddProducts directly to the stock 
+    path("createIn/selectprodInv/",  selecProd, name="selectProds"), # AddProducts to a selected invoice
+    path("createIn/deleteArtInv/<int:pk>",  deleteArtFromInv, name="deleteArtInv"), # Delete a specific product
 
 
 

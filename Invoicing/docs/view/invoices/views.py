@@ -37,56 +37,158 @@ class CreateInvoice(View):
     """
     Create and show New Invoice lists for a specific user
     """
-    form_class = InvoiceForm
+    #form_class = InvoiceForm
     initial = {'key': 'value'}
     template_name = 'docs/invoices/cruds/create.html'
     
 
     def get(self, request, *args, **kwargs):
-        form = self.form_class(initial=self.initial)
-        invoices = Invoices.objects.create(dateCreation=date.today(),
-            creator = request.user,)
-        invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
-        print(invoices[0].creator)
-        invoice = Invoices(
-            fnb=autoNumInvoice(invoices[0], request), 
+        invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+        context = {}
+        
+        if invoice:
             
-            back_status ='insave',
-            )
-        invc = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
-        print(invc)
-        #logo = invoices[0]# Get the logo if exist
-        context = {
-            'form': form,
-            #'logo': logo,
-            'invoice': invc[0],
-        }
+
+            if invoice[0].client == None:
+                
+                artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
+
+                context = {
+            
+                #'logo': logo,
+                'invoice': invoice[0],
+                'artInv': artInv,
+                }
+                #print('1111111111111111111', artInv[0].invoice.creator)
+        
+            else:
+                invoices = Invoices.objects.create(dateCreation=date.today(),
+                    creator = request.user,)
+
+                
+                invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+                print(invoices[0].creator)
+                invoice = Invoices(
+                    fnb=autoNumInvoice(invoices[0], request), 
+                    
+                    back_status ='insave',
+                    )
+                invc = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+                print('-------------------------->',invc[0].client)
+                #logo = invoices[0]# Get the logo if exist
+                context = {
+                
+                    #'logo': logo,
+                    'invoice': invc[0],
+                }
         return render(request, self.template_name, context)
 
-    '''def post(self, request, *args, **kwargs):
-        form = self.form_class(request.POST)
-        context = {
-            'form': form,
-        }
-        print('-------------------Recieved')
-        print(form.errors) 
-        if form.is_valid():
-            
-            print('Valid---------------------')
-            clt = form.save(commit=False)
-            clt.creator = request.user
-            clt.back_status ='insave'
-            clt.dateCreation = date.today()
-            clt.fnb = autoNumInvoice(clt, request)
-            clt.save()
-            return redirect('docs:addProds', clt.pk)
-                
-        else:
-            print('-------------Not Valid')
-            
-            
-        return render(request, self.template_name, context=context)'''
 
+
+
+########################### Begin AJAXING INVOICE ###########################
+def addPfromInv(request,  *args, **kwargs):
+    '''
+    This view is made to make a direct new article from the 
+    invoice template
+    '''
+    data = dict()
+    if request.method == 'POST':
+        form1 = ProdForm(request.POST)
+        form2 = ServForm(request.POST)
+        if form1.is_valid():
+            sell = request.POST.get("sellPrice")
+            buy = request.POST.get("buyPrice")
+            if buy == None:
+                buy = 0
+            elif sell == None:
+                sell = 0
+            clt = form1.save(commit=False)
+            print('-------------------------------->', request.user)
+            clt.owner = request.user
+            clt.gainMargin = Decimal(sell) - Decimal(buy)
+            clt.articleType = 'prod'
+            clt.save()
+            data["form_is_valid"] = True
+            
+        elif form2.is_valid():
+            clt = form2.save(commit=False)
+            print('-------------------------------->', request.user)
+            clt.owner = request.user
+            clt.articleType = 'srv'
+            clt.save()
+            data["form_is_valid"] = True
+        else:
+            data['form_is_valid'] = False
+    else:
+        form1 = ProdForm()
+        form2 = ServForm()
+    context = {'form1': form1,
+    'form2':form2}
+    data["html_form"] = render_to_string('docs/invoices/ajax/new_article.html',
+        context,
+        request=request,
+    )
+    return JsonResponse(data)
+
+def selecProd(request,  *args, **kwargs):
+    '''
+    This view is made to add a direct article to the 
+    invoice and refresh the template
+    '''
+    data = dict()
+    invoice =invc = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+    artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
+   
+    if request.method == 'POST':
+        form = AddArticlesForm(request.POST)
+        if form.is_valid():
+            clt = form.save(commit=False)
+            articlePrice = Article.objects.filter(pk=clt.article.pk)
+            clt.amount = (articlePrice[0].sellPrice * clt.qte)-clt.remise
+            clt.invoice = invoice[0]
+        
+            form.save()
+            data['form_is_valid'] = True
+            
+            data['html_select_article'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
+                'artInv': artInv
+            })
+        else:
+            data['form_is_valid'] = False
+    else:
+        form = AddArticlesForm()
+
+    context = {'form': form}
+    data['html_form'] = render_to_string('docs/invoices/ajax/artInv.html',
+        context,
+        request=request
+    )
+    return JsonResponse(data)
+
+def deleteArtFromInv(request, pk, *args, **kwargs):
+    '''
+    This view is for deleting a specific article from 
+    a specific Invoice
+    '''
+    article = get_object_or_404(Article_Inv, pk=pk)
+    data = dict()
+    if request.method == 'POST':
+        article.delete()
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        artInv = Article_Inv.objects.all()
+        data['html_book_list'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
+            'artInv': artInv
+        })
+    else:
+        context = {'article': article}
+        data['html_form'] = render_to_string('docs/invoices/ajax/partial-article-delete.html',
+            context,
+            request=request,
+        )
+    return JsonResponse(data)
+
+########################### End AJAXING INVOICE ###########################
 
 
 def selectClient(request, *args, **kwargs):
@@ -101,7 +203,7 @@ def selectClient(request, *args, **kwargs):
     else:
         clients = Clients.objects.all()
         context = {'clients': clients}
-        html_form = render_to_string('docs/invoices/select_client.html',
+        html_form = render_to_string('docs/invoices/ajax/select_client.html',
             context,
             request=request,
         )
@@ -150,97 +252,6 @@ class InvoiceUpdateView(UpdateView):
 
 
 
-
-class InvoiceAddProds(View):
-    """
-    Create and show New Invoice lists for a specific user
-    """
-    form_class = AddProdsForm
-    initial = {'key': 'value'}
-    template_name = 'docs/invoices/addprods.html'
-
-    def get(self, request, pk, *args, **kwargs):
-        
-        form = self.form_class(initial=self.initial)
-        invoice = Invoices.objects.filter(pk=pk)
-        invoice_prods = Article_Inv.objects.filter(invoice=invoice[0].pk)
-        context = {
-            'form': form,
-            'invoice': invoice[0],
-            'prods' : invoice_prods,
-       
-        }
-        return render(request, self.template_name, context)
-
-    '''def post(self, request, pk, *args, **kwargs):
-        form = self.form_class(request.POST)
-        invoice = Invoices.objects.filter(pk=pk)
-        invoice_prods = Article_Inv.objects.filter(invoice=invoice[0].pk)
-        pk = pk
-        context = {
-            'form': form,
-            'invoice': invoice[0],
-            'prods' : invoice_prods,
-        }
-        
-        if form.is_valid():
-              
-            
-            clt = form.save(commit=False)
-            if clt.tax_one >= 0 and clt.tax_two >= 0 and clt.qte >= 0 and clt.remise >= 0 :
-                clt.invoice = invoice[0]
-                clt.price = pricingInInvoice(clt, clt.article.sellPrice)
-                clt.save()
-                return redirect('docs:addProds', pk)
-            else:
-                print('EROOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOORRRRRRRRRRRR')
-
-          
-                
-            
-        else:
-            print('-------------Not Valid')
-            
-            
-        return render(request, self.template_name, context=context)'''
-def addPtoInv(request, *args, **kwargs):
-    data = dict()
-    if request.method == 'POST':
-        form1 = ProdForm
-        form2 = ServForm
-        if form1.is_valid():
-            sell = request.POST.get("sellPrice")
-            buy = request.POST.get("buyPrice")
-            if buy == None:
-                buy = 0
-            elif sell == None:
-                sell = 0
-            clt = form.save(commit=False)
-            print('-------------------------------->', request.user)
-            clt.owner = request.user
-            clt.gainMargin = Decimal(sell) - Decimal(buy)
-            clt.articleType = 'prod'
-            clt.save()
-            data["form_is_valid"] = True
-        elif form2.is_valid():
-            clt = form.save(commit=False)
-            print('-------------------------------->', request.user)
-            clt.owner = request.user
-            clt.articleType = 'srv'
-            clt.save()
-            data["form_is_valid"] = True
-        else:
-            data['form_is_valid'] = False
-    else:
-        form1 = ProdForm
-        form2 = ServForm
-    context = {'form1': form1,
-    'form2':form2}
-    html_form = render_to_string('docs/invoices/new_article.html',
-        context,
-        request=request,
-    )
-    return JsonResponse({'html_form': html_form})
     
         
 

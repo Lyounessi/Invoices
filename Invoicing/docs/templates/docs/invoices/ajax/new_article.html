@@ -16,7 +16,7 @@
                 class="collapse">
                 <div class="card-content">
                     <div class="card-body">
-                        <form method="post" action="{% url 'stocks:createProd' %}" class="js-article-create-form">
+                        <form method="post" action="{% url 'docs:addProds' %}" class="js-article-create-form">
                             {% csrf_token %}
 
                             <div class="form-group{% if field.errors %} has-error{% endif %}">
@@ -39,7 +39,7 @@
                 class="collapse" aria-expanded="false">
                 <div class="card-content">
                     <div class="card-body">
-                        <form method="post" action="{% url 'stocks:createProd' %}" class="js-article-create-form">
+                        <form method="post" action="{% url 'docs:addProds' %}" class="js-article-create-form">
                             {% csrf_token %}
 
                             <div class=" form-group{% if field.errors %} has-error{% endif %}">

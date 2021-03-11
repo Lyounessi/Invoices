@@ -46,10 +46,11 @@ class Article_Inv(models.Model):
     tax_two = models.IntegerField(blank=True, null=True, default=0) 
     remise = models.IntegerField(blank=True, null=True, default=0) 
     qte = models.IntegerField(blank=True, null=True, default=1) 
-    price = models.CharField(max_length=50, blank=True, null=True)
+    amount = models.CharField(max_length=50, null=True,)
+    
     
     def __str__(self):
-        return str(self.invoice.client)
+        return str(self.pk)
     
     class Meta:
         unique_together = [['invoice','article']]

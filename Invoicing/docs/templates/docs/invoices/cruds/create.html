@@ -34,7 +34,7 @@
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                     <h2>INVOICE</h2>
-                    <p class="pb-sm-3">{{ invoice.fnb }}</p>
+                    <p class="pb-sm-3">{{ invoice.pk }}</p>
                     <ul class="px-0 list-unstyled">
                         <li>Balance Due</li>
                         <li class="lead text-bold-800">$12,000.00</li>
@@ -52,17 +52,28 @@
                     <p class="text-muted">Bill To :</p>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-left" id='AddC'>
+                    {% if invoice.client %}
                     <ul class="px-0 list-unstyled">
-                        <li class="text-bold-800">Mr. Bret Lezama</li>
+                        <li class="text-bold-800">{{ invoice.client.firstName}}</li>
+                        <li class="text-bold-800">{{ invoice.client.name}}</li>
+                        <li class="text-bold-800">{{ invoice.client.companyName}}</li>
+                        <li class="text-bold-800">{{ invoice.client.adresse}}</li>
+                        <li class="text-bold-800">{{ invoice.client.email}}</li>
+
                         <li>4879 Westfall Avenue,</li>
                         <li>Albuquerque,</li>
                         <li>New Mexico-87102.</li>
                     </ul>
+                    {% else %}
+                    <p class="pb-sm-3">No Client Selected</p>
+
+                    {% endif %}
+
+
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
-                    <p><span class="text-muted">Invoice Date :</span> 06/05/2019</p>
-                    <p><span class="text-muted">Terms :</span> Due on Receipt</p>
-                    <p><span class="text-muted">Due Date :</span> 10/05/2019</p>
+                    <p><span class="text-muted">Invoice Date :</span> {{ invoice.dateCreation }}</p>
+
                 </div>
             </div>
             <!-- Invoice Customer Details -->
@@ -71,32 +82,29 @@
             <div id="invoice-items-details" class="pt-2">
                 <div class="row">
                     <div class="table-responsive col-12" id="AddP">
-                        <button type="button" class="btn mr-1 mb-1 btn-primary js-select-article">Select
+                        <button type="button" class="btn mr-1 mb-1 btn-primary js-select-article"
+                            data-url="{% url 'docs:selectProds' %}">Select
                             Article</button>
                         <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-article">+ New Article</button>
-                        <table class="table">
+                        <table class="table" id="#articles-table">
                             <thead>
                                 <tr>
-                                    <th>#</th>
-                                    <th>Item &amp; Description</th>
-                                    <th class="text-right">Rate</th>
-                                    <th class="text-right">Hours</th>
+                                    <th>#Ref</th>
+                                    <th>Name</th>
+                                    <th class="text-right">Type</th>
+                                    <th class="text-right">Unit</th>
+                                    <th class="text-right">Quantity</th>
+                                    <th class="text-right">U.Price</th>
+                                    <th class="text-right">Tax%</th>
+                                    <th class="text-right">Tax%</th>
                                     <th class="text-right">Amount</th>
+                                    <th class="text-right">Options</th>
+
                                 </tr>
                             </thead>
-                            <tbody>
-                                <tr>
-                                    <th scope="row">1</th>
-                                    <td>
-                                        <p>Create PSD for mobile APP</p>
-                                        <p class="text-muted">Simply dummy text of the printing and typesetting
-                                            industry.
-                                        </p>
-                                    </td>
-                                    <td class="text-right">$20.00/hr</td>
-                                    <td class="text-right">120</td>
-                                    <td class="text-right">$2400.00</td>
-                                </tr>
+                            <tbody id='tbody'>
+                                {% include 'docs/invoices/ajax/partial-articles-list.html' %}
+
 
                             </tbody>
                         </table>
@@ -107,19 +115,23 @@
                     <div class="col-sm-5 col-12">
                         <p class="lead">Total due</p>
                         <div class="table-responsive">
-                            <table class="table">
+                            <table class="table" id="articles-table">
                                 <tbody>
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td class="text-right">$14,900.00</td>
+                                        <td class="text-right">$Prix Unit total</td>
                                     </tr>
                                     <tr>
-                                        <td>TAX (12%)</td>
-                                        <td class="text-right">$1,788.00</td>
+                                        <td>TAX 1</td>
+                                        <td class="text-right">$Tax in dollars</td>
+                                    </tr>
+                                    <tr>
+                                        <td>TAX 2</td>
+                                        <td class="text-right">$Tax in Dollars</td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold-800">Total</td>
-                                        <td class="text-bold-800 text-right"> $16,688.00</td>
+                                        <td class="text-bold-800 text-right"> $Total price with taxs</td>
                                     </tr>
 
                                 </tbody>
@@ -148,8 +160,8 @@
 </div>
 <!-- Modal for selecting client-->
 
-<!-- Modal for creatin prods-->
-<div class="modal animated bounceInLeft text-left show" id="modal-new-article">
+<!-- Begin Modal for create add delete prods-->
+<div class="modal animated bounceInLeft text-left " id="modal-new-article">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -157,7 +169,26 @@
         </div>
     </div>
 </div>
-<!-- Modal for selecting client-->
+
+
+<div class="modal animated bounceInLeft text-left " id="modal-select-article">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+
+<div class="modal animated bounceInLeft text-left " id="modal-delete-article">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<!-- End Modal for create add delete prods-->
 
 <script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
 
