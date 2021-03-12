@@ -14,11 +14,11 @@
     <td class="text-right">{{ article.tax_one }}%</td>
     <td class="text-right">{{ article.tax_two }}%</td>
     <td class="text-right">{{ article.amount}}</td>
+
     <td><button type="button" class="btn btn-danger btn-sm js-delete-article"
             data-url="{% url 'docs:deleteArtInv' article.pk %}">
-            <span class="glyphicon glyphicon-trash"></span> Delete
-        </button></a></td>
-
+            <i class="fas fa-trash"></i>Delete
+        </button></td>
 
 </tr>
 {% empty %}

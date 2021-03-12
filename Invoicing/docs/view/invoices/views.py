@@ -83,6 +83,9 @@ class CreateInvoice(View):
                 }
         return render(request, self.template_name, context)
 
+        def delete(self, request):
+            pass
+
 
 
 
@@ -176,7 +179,7 @@ def deleteArtFromInv(request, pk, *args, **kwargs):
     if request.method == 'POST':
         article.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        artInv = Article_Inv.objects.all()
+        artInv =  Article_Inv.objects.filter(invoice=invoice[0])
         data['html_book_list'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
             'artInv': artInv
         })

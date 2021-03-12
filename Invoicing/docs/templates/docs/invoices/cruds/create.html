@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% load static %}
 
+
 {% block content %}
-
-<!-- END: AJAX -->
-
-
-
 
 <div class="content-body">
     <section class="card">
@@ -99,7 +95,6 @@
                                     <th class="text-right">Tax%</th>
                                     <th class="text-right">Amount</th>
                                     <th class="text-right">Options</th>
-
                                 </tr>
                             </thead>
                             <tbody id='tbody'>
@@ -150,7 +145,7 @@
 </div>
 
 <!-- Modal for selecting client-->
-<div class="modal fade" id="modal-select-client">
+<div class="modal fade" id="modal-invoice">
     <div class="modal-dialog">
         <div class="modal-content">
 
@@ -160,38 +155,9 @@
 </div>
 <!-- Modal for selecting client-->
 
-<!-- Begin Modal for create add delete prods-->
-<div class="modal animated bounceInLeft text-left " id="modal-new-article">
-    <div class="modal-dialog">
-        <div class="modal-content">
 
-
-        </div>
-    </div>
-</div>
-
-
-<div class="modal animated bounceInLeft text-left " id="modal-select-article">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-
-        </div>
-    </div>
-</div>
-
-<div class="modal animated bounceInLeft text-left " id="modal-delete-article">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-
-        </div>
-    </div>
-</div>
-<!-- End Modal for create add delete prods-->
 
 <script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
-
 
 
 <!-- BEGIN: Page Vendor JS-->

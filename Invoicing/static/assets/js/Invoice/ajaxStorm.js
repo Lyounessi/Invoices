@@ -13,10 +13,10 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal-select-client").modal("show");
+                $("#modal-invoice").modal("show");
             },
             success: function (data) {
-                $("#modal-select-client .modal-content").html(data.html_form);
+                $("#modal-invoice .modal-content").html(data.html_form);
             }
         });
     });
@@ -33,10 +33,11 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal-new-article").modal("show");
+                $("#modal-invoice").modal("show");
             },
             success: function (data) {
-                $("#modal-new-article .modal-content").html(data.html_form);
+                $("#modal-invoice .modal-content").html(data.html_form);
+
             }
         });
     });
@@ -44,7 +45,7 @@ $(function () {
 });
 
 // Ajax func to add the new article to the article base
-$("#modal-new-article").on("submit", ".js-article-create-form", function () {
+$("#modal-invoice").on("submit", ".js-article-create-form", function () {
     console.log('HEEEEY');
     let form = $(this);
 
@@ -54,18 +55,18 @@ $("#modal-new-article").on("submit", ".js-article-create-form", function () {
         type: form.attr("method"),
         dataType: 'json',
         beforeSend: function () {
-            $("#modal-new-article").modal("show");
+            $("#modal-invoice").modal("show");
         },
         success: function (data) {
             if (data.form_is_valid) {
-                alert("Article created!");  // <-- This is just a placeholder for now for testing
-                $("#modal-new-article ").modal('hide');
+                alert("Article created! check the selection");  // <-- This is just a placeholder for now for testing
+                $("#modal-invoice").modal("hide");
 
             }
             else {
                 alert("Something went wrong!");  // <-- This is just a placeholder for now for testing
 
-                $("#modal-new-article .modal-content").html(data.html_form);
+                $("#modal-invoice .modal-content").html(data.html_form);
             }
         }
 
@@ -88,11 +89,11 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal-select-article .modal-content").html("");
-                $("#modal-select-article").modal("show");
+                $("#modal-invoice .modal-content").html("");
+                $("#modal-invoice").modal("show");
             },
             success: function (data) {
-                $("#modal-select-article .modal-content").html(data.html_form);
+                $("#modal-invoice .modal-content").html(data.html_form);
             }
         });
     };
@@ -111,14 +112,14 @@ $(function () {
                 if (data.form_is_valid) {
                     $(".table #tbody").html(data.html_select_article);
                     alert("Article is well Added to the Invoice");// <-- This is just a placeholder for now for testing
-                    $("#modal-select-article").modal("hide");
+                    $("#modal-invoice").modal("hide");
 
 
                 }
                 else {
                     alert("Something went wrong!");  // <-- This is just a placeholder for now for testing
 
-                    $("#modal-select-article .modal-content").html(data.html_form);
+                    $("#modal-invoice modal-content").html(data.html_form);
                 }
             }
 
@@ -129,12 +130,11 @@ $(function () {
 
 
 
-
     //add Article In Invoice
     $(".js-select-article").click(loadForm);
-    $("#modal-select-article").on("submit", ".js-select-article-form", saveForm);
+    $("#modal-invoice").on("submit", ".js-select-article-form", saveForm);
 
     // Delete an article from an invoice
     $("#articles-table").on("click", ".js-delete-article", loadForm);
-    $("#modal-delete-article").on("submit", ".js-article-delete-form", saveForm);
+    $("#modal-invoice").on("submit", ".js-article-delete-form", saveForm);
 });
