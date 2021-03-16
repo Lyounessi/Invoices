@@ -1,6 +1,58 @@
 // Ajax Func to add or change logo
 
+/*
+###########################################################
+##############INVOICE AJAX HANDLING################
+###########################################################
+*/
+//Ajax func to select and add a client to the selected invoice
+$(function () {
 
+    /* Functions */
+
+    const loadForm = function () {
+
+        const btn = $(this);
+
+        $.ajax({
+            url: btn.attr("data-url"),
+            type: 'get',
+            dataType: 'json',
+            beforeSend: function () {
+                //$("#modal-invoice .modal-content").html("");
+                $("#modal-invoice").modal("show");
+            },
+            success: function (data) {
+                $("#modal-invoice .modal-content").html(data.html_form);
+            }
+        });
+    };
+
+    const saveForm = function () {
+        const form = $(this);
+        $.ajax({
+            url: form.attr("action"),
+            data: form.serialize(),
+            type: form.attr("method"),
+            dataType: 'json',
+            success: function (data) {
+                if (data.form_is_valid) {
+                    $("#AddC").text(data.html_select_client);
+                    $("#modal-invoice").modal("hide");
+                }
+                else {
+                    $("#modal-invoice .modal-content").html(data.html_form);
+                }
+            }
+        });
+        return false;
+    };
+
+
+    // save Invoice
+    //$(".js-save-invoice").click(loadForm);
+
+});
 /*
 ##########################################################
 ##############INVOICE ARTICLES AJAX HANDLING##############
@@ -16,6 +68,8 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
+                $("#modal-invoice .modal-content").html("");
+
                 $("#modal-invoice").modal("show");
             },
             success: function (data) {
@@ -69,7 +123,7 @@ $(function () {
             type: 'get',
             dataType: 'json',
             beforeSend: function () {
-                $("#modal-invoice .modal-content").html("");
+
                 $("#modal-invoice").modal("show");
             },
             success: function (data) {
@@ -107,9 +161,6 @@ $(function () {
 
         return false;
     };
-
-
-
     //add Article In Invoice
     $(".js-select-article").click(loadForm);
     $("#modal-invoice").on("submit", ".js-select-article-form", saveForm);
@@ -124,13 +175,11 @@ $(function () {
 
 
 /*
-##########################################################
-##############INVOICE CLIENTS AJAX HANDLING##############
-##########################################################
+###########################################################
+##############INVOICE CLIENTS AJAX HANDLING################
+###########################################################
 */
-//Ajax func to select and add a client to the selected invoice$(function () {
-
-
+//Ajax func to select and add a client to the selected invoice
 $(function () {
 
     /* Functions */

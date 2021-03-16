@@ -16,11 +16,11 @@ urlpatterns = [
     ################################## Invoices URLs ##################################
     
     path("createIn/",  CreateInvoice.as_view(), name="createInvoice"),
-    path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
+    #path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
     path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
-    path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
-    path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
-    path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
+    #path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
+    #path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
+    #path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
 
     
 
@@ -31,7 +31,7 @@ urlpatterns = [
     path("createIn/selectprodInv/",  selecProd, name="selectProds"), # AddProducts to a selected invoice
     path("createIn/deleteArtInv/<int:pk>",  deleteArtFromInv, name="deleteArtInv"), # Delete a specific product
     path("createIn/addClientInv/",  addClientInv, name="addClientInv"), # Delete a specific product
-
+    path("saveInv/<int:pk>",saveInvoice,name="saveInv"),
     ################################## Quotes URLs ##################################
     
     path("createQu/",  CreateQuote.as_view(), name="createQuote"),

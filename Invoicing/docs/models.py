@@ -18,8 +18,10 @@ class Invoices(models.Model):
         
     ]
     back_stats =[
-        ('finished', 'fnsh'),
-        ('insave', 'insv'),
+        ('Finilised', 'fnsh'),
+        ('In save', 'insv'),
+        ('In Process', 'inpro'),
+
     ]
     title = models.CharField(max_length=150, blank=True, null=True)
     logo = models.ImageField(blank=True)

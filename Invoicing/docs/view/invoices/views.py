@@ -47,8 +47,6 @@ class CreateInvoice(View):
         context = {}
         
         if invoice:
-            
-
             if invoice[0].client == None:  
                 artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
                 context = {
@@ -58,25 +56,17 @@ class CreateInvoice(View):
                 'artInv': artInv,
                 }
                 #print('1111111111111111111', artInv[0].invoice.creator)
-        
             else:
                 invoices = Invoices.objects.create(dateCreation=date.today(),
                     creator = request.user,)
-
-                
-                invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
-                print(invoices[0].creator)
-                invoice = invoices[0]
-                invoice.fnb=autoNumInvoice(invoices[0], request), 
-                
-                invoice.back_status ='insave',
-                    
-                
+                invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
+                Invoices.objects.filter(pk=invoice).update(back_status ='In Process')#Update Infos of the selected invoice
+                print("------------------------",invoice)
+                invoice = invoices
                 #logo = invoices[0]# Get the logo if exist
                 context = {
-                
                     #'logo': logo,
-                    'invoice': invc,
+                    'invoice': invoice,
                 }
         return render(request, self.template_name, context)
 
@@ -260,9 +250,24 @@ def addClientInv(request,  *args, **kwargs):
     )
     return JsonResponse(data)
 
+#-----------------------------INVOICE's OPEARATIONS----------------------------#
+
+
+   
 ###########################################################################
 ########################### END AJAXING INVOICE ###########################
 ###########################################################################
+
+def saveInvoice(request, pk, *args, **kwargs):
+    '''
+    This view is for saving invoices
+    '''
+    invoice = Invoices.objects.get(pk=pk)   
+    Invoices.objects.filter(pk=pk).update(back_status='In save')
+    return redirect("docs:home")
+
+
+
 
 
 class InvoiceDetailsView(DetailView):
@@ -283,6 +288,8 @@ class InvoiceDeleteView(DeleteView):
     model = Invoices
     template_name = 'docs/invoices/cruds/delete.html'
     success_url = reverse_lazy('docs:home')
+
+
 
 
 

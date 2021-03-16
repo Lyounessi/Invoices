@@ -3,7 +3,89 @@
 
 
 {% block content %}
+<section id="block-level-buttons">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Invoice's Options</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
 
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show" style="">
+                    <div class="card-body">
+                        <!-- Block level buttons -->
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-6">
+                                <div class="form-group">
+                                    {% if invoice.back_status == 'In Process' %}
+                                    <a class="btn mb-1 btn-primary btn-lg btn-block js-save-invoice"
+                                        href="{% url 'docs:saveInv' invoice.pk %}">Save
+                                        for later</a>
+
+
+
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-success btn-lg btn-block">Finilise
+                                            Invoice </button>
+                                    </form>
+
+
+                                    <a class="btn mb-1 btn-danger btn-lg btn-block"
+                                        href="{% url 'docs:deleteInvoice' invoice.pk %}">Delete
+                                        Invoice
+                                    </a>
+
+
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
+                                            Invoice
+                                        </button>
+                                    </form>
+
+                                    {% elif invoice.back_status == 'insave' %}
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-success btn-lg btn-block">Finilise
+                                            Invoice </button>
+                                    </form>
+
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-danger btn-lg btn-block">Delete
+                                            Invoice
+                                        </button>
+                                    </form>
+
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
+                                            Invoice
+                                        </button>
+                                    </form>
+                                    {% else %}
+                                    <form action="">
+                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
+                                            Invoice
+                                        </button>
+                                    </form>
+                                    {% endif %}
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 <div class="content-body">
     <section class="card">
         <div id="invoice-template" class="card-body p-4">
@@ -137,7 +219,7 @@
 </div>
 
 <!-- Modal for selecting client-->
-<div class="modal fade" id="modal-invoice">
+<div class="modal fadeInUp" id="modal-invoice">
     <div class="modal-dialog">
         <div class="modal-content">
 
