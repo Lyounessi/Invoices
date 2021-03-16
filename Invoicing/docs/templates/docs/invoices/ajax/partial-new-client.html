@@ -1,12 +1,9 @@
 {% load static %}
-
-<form method="post" action="{% url 'docs:selectClient' %}" class=".js-client-select-form">
+<form method="post" action="{% url 'docs:addClientInv' %}" class=".js-client-new-form">
     {% csrf_token %}
     <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-        </button>
-        <h4 class="modal-title">Select a Client</h4>
+
+        <h4 class="modal-title">create new Client</h4>
     </div>
     <div class="modal-body">
 
@@ -14,10 +11,7 @@
             <label for="{{ field.id_for_label }}">{{ client.name }}</label>
             <select id="issueinput5" name="client" class="form-control" data-toggle="tooltip" data-trigger="hover"
                 data-placement="top" data-title="Priority" data-original-title="" title="">
-                {% for client in clients %}
-
-                <option value="{{client.pk}}">{{client.name}}</option>
-                {% endfor %}
+                {{ form.as_p }}
 
             </select>
 

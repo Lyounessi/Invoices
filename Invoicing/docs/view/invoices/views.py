@@ -49,10 +49,8 @@ class CreateInvoice(View):
         if invoice:
             
 
-            if invoice[0].client == None:
-                
+            if invoice[0].client == None:  
                 artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
-
                 context = {
             
                 #'logo': logo,
@@ -68,18 +66,17 @@ class CreateInvoice(View):
                 
                 invoices = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
                 print(invoices[0].creator)
-                invoice = Invoices(
-                    fnb=autoNumInvoice(invoices[0], request), 
+                invoice = invoices[0]
+                invoice.fnb=autoNumInvoice(invoices[0], request), 
+                
+                invoice.back_status ='insave',
                     
-                    back_status ='insave',
-                    )
-                invc = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
-                print('-------------------------->',invc[0].client)
+                
                 #logo = invoices[0]# Get the logo if exist
                 context = {
                 
                     #'logo': logo,
-                    'invoice': invc[0],
+                    'invoice': invc,
                 }
         return render(request, self.template_name, context)
 
@@ -88,8 +85,11 @@ class CreateInvoice(View):
 
 
 
-
+#############################################################################
 ########################### Begin AJAXING INVOICE ###########################
+#############################################################################
+
+#-----------------------------Articles----------------------------#
 def addPfromInv(request,  *args, **kwargs):
     '''
     This view is made to make a direct new article from the 
@@ -140,7 +140,7 @@ def selecProd(request,  *args, **kwargs):
     invoice and refresh the template
     '''
     data = dict()
-    invoice =invc = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+    invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
     artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
    
     if request.method == 'POST':
@@ -170,17 +170,19 @@ def selecProd(request,  *args, **kwargs):
     return JsonResponse(data)
 
 def deleteArtFromInv(request, pk, *args, **kwargs):
+
     '''
     This view is for deleting a specific article from 
     a specific Invoice
     '''
     article = get_object_or_404(Article_Inv, pk=pk)
     data = dict()
+    invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
     if request.method == 'POST':
         article.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         artInv =  Article_Inv.objects.filter(invoice=invoice[0])
-        data['html_book_list'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
+        data['html_select_article'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
             'artInv': artInv
         })
     else:
@@ -191,29 +193,76 @@ def deleteArtFromInv(request, pk, *args, **kwargs):
         )
     return JsonResponse(data)
 
-########################### End AJAXING INVOICE ###########################
-
-
+#-----------------------------Clients----------------------------#
 def selectClient(request, *args, **kwargs):
     """
     This view is for ajax select and show client infos
     """
-    if request.method == "POST" and request.is_ajax():
-        datastring = request.body.decode("utf-8")
-        print(datastring)
-        return JsonResponse({'html_form': html_form})
+    data = dict()
+    invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+    if request.method == "POST":
+        IdClient = request.POST.get("client")
+        if IdClient:
+            client = Clients.objects.filter(pk=IdClient)
+            print("-------------------------------------", invoice[0])
 
+            #invoice[0].update(client=client[0])
+            Invoices.objects.filter(pk=invoice).update(client= client[0])
+
+            data['form_is_valid'] = True
+
+        data['html_select_client'] = render_to_string('docs/invoices/ajax/client-partial-select.html', {
+        'client':client[0],
+        })
+       
     else:
-        clients = Clients.objects.all()
+        clients = Clients.objects.filter(createdBy=request.user)
         context = {'clients': clients}
-        html_form = render_to_string('docs/invoices/ajax/select_client.html',
+        data['html_form'] = render_to_string('docs/invoices/ajax/select_client.html',
             context,
             request=request,
         )
-        return JsonResponse({'html_form': html_form})
+    print("-------------------------------------", invoice[0].client)
+
+    return JsonResponse(data)
 
 
+def addClientInv(request,  *args, **kwargs):
+    '''
+    This view is made to make a direct new client from the 
+    invoice template
+    '''
+    data = dict()
+    print('IM HERE YEAH')
 
+    if request.method == 'POST':
+        form = ClientForm(request.POST)
+       
+        if form.is_valid():
+            clt = form.save(commit=False)
+            clt.actif = True
+            clt.createdBy = request.user
+            clt.save()
+            data["form_is_valid"] = True
+            
+        else:
+            data['form_is_valid'] = False
+    else:
+        print('IM HERE YEAH')
+
+        form = ClientForm()
+        
+    context = {'form': form,
+   }
+    data["html_form"] = render_to_string('docs/invoices/ajax/partial-new-client.html',
+        context,
+        request=request,
+    )
+    return JsonResponse(data)
+
+###########################################################################
+########################### END AJAXING INVOICE ###########################
+###########################################################################
 
 
 class InvoiceDetailsView(DetailView):

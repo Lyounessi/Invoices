@@ -57,3 +57,24 @@ class AddArticlesForm(ModelForm):
 
         model = Article_Inv
         exclude = ['invoice','amount']
+
+
+
+################################### Clients selection forms ################################### 
+class SelectClientForm(forms.Select):
+    """
+    Form of select clients to an invoice
+    """
+    pass
+
+class ClientForm(ModelForm):
+    def __init__(self, *args, **kwargs):
+        super(ClientForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update(
+                {'class': 'form-control form-control-square'})
+
+    class Meta:
+
+        model = Clients
+        exclude = ['actif','createdBy']

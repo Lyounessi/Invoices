@@ -30,10 +30,7 @@ urlpatterns = [
     path("createIn/addprodInv/",  addPfromInv, name="addProds"), # AddProducts directly to the stock 
     path("createIn/selectprodInv/",  selecProd, name="selectProds"), # AddProducts to a selected invoice
     path("createIn/deleteArtInv/<int:pk>",  deleteArtFromInv, name="deleteArtInv"), # Delete a specific product
-
-
-
-
+    path("createIn/addClientInv/",  addClientInv, name="addClientInv"), # Delete a specific product
 
     ################################## Quotes URLs ##################################
     
