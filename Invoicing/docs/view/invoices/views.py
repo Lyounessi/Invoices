@@ -29,7 +29,6 @@ from stocks.forms import ProdForm, ServForm
 
 
 
-
 ############################### INVOICES VIEWS ###############################
 
 
@@ -47,6 +46,8 @@ class CreateInvoice(View):
         context = {}
         
         if invoice:
+
+            print('--------------> Invoice Exist')
             if invoice[0].client == None:  
                 artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
                 context = {
@@ -55,8 +56,9 @@ class CreateInvoice(View):
                 'invoice': invoice[0],
                 'artInv': artInv,
                 }
-                #print('1111111111111111111', artInv[0].invoice.creator)
             else:
+                print('--------------> Invoice have no client')
+
                 invoices = Invoices.objects.create(dateCreation=date.today(),
                     creator = request.user,)
                 invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
@@ -68,10 +70,23 @@ class CreateInvoice(View):
                     #'logo': logo,
                     'invoice': invoice,
                 }
+        else:
+            print('--------------> Invoice doesn\'t Exist')
+
+            invoices = Invoices.objects.create(dateCreation=date.today(),
+                creator = request.user,)
+            invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
+            Invoices.objects.filter(pk=invoice).update(back_status ='In Process')#Update Infos of the selected invoice
+            print("------------------------",invoice)
+            invoice = invoices
+            #logo = invoices[0]# Get the logo if exist
+            context = {
+                #'logo': logo,
+                'invoice': invoice,
+            }
         return render(request, self.template_name, context)
 
-        def delete(self, request):
-            pass
+       
 
 
 
@@ -97,7 +112,7 @@ def addPfromInv(request,  *args, **kwargs):
             elif sell == None:
                 sell = 0
             clt = form1.save(commit=False)
-            print('-------------------------------->', request.user)
+            
             clt.owner = request.user
             clt.gainMargin = Decimal(sell) - Decimal(buy)
             clt.articleType = 'prod'
@@ -106,7 +121,7 @@ def addPfromInv(request,  *args, **kwargs):
             
         elif form2.is_valid():
             clt = form2.save(commit=False)
-            print('-------------------------------->', request.user)
+            
             clt.owner = request.user
             clt.articleType = 'srv'
             clt.save()
@@ -194,10 +209,7 @@ def selectClient(request, *args, **kwargs):
         IdClient = request.POST.get("client")
         if IdClient:
             client = Clients.objects.filter(pk=IdClient)
-            print("-------------------------------------", invoice[0])
-
-            #invoice[0].update(client=client[0])
-            Invoices.objects.filter(pk=invoice).update(client= client[0])
+            Invoices.objects.filter(pk=invoice).update(client= client[0],deadlinePay=client[0].payments_conditions)
 
             data['form_is_valid'] = True
 
@@ -212,7 +224,7 @@ def selectClient(request, *args, **kwargs):
             context,
             request=request,
         )
-    print("-------------------------------------", invoice[0].client)
+
 
     return JsonResponse(data)
 
@@ -238,7 +250,7 @@ def addClientInv(request,  *args, **kwargs):
         else:
             data['form_is_valid'] = False
     else:
-        print('IM HERE YEAH')
+        
 
         form = ClientForm()
         
@@ -258,6 +270,10 @@ def addClientInv(request,  *args, **kwargs):
 ########################### END AJAXING INVOICE ###########################
 ###########################################################################
 
+#-_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-
+###########################################################################
+########################### BEGIN INVOICE'S OPREATIONS#####################
+###########################################################################
 def saveInvoice(request, pk, *args, **kwargs):
     '''
     This view is for saving invoices
@@ -267,8 +283,25 @@ def saveInvoice(request, pk, *args, **kwargs):
     return redirect("docs:home")
 
 
+def finaliseInv(request, pk):
+    """
+    this view is made to change an invoice's statu, 
+    from insave to finalised
+    """
+    invoice = Invoices.objects.get(pk=pk)
+    Invoices.objects.filter(pk=pk).update(back_status='In save')
 
+    if invoice.creator == request.user :
+        Invoices.objects.filter(pk=pk).update(back_status='Finilised')
+        return redirect('docs:createInvoice')
+    else:
+        print('SOMETHING is wrong ///////////////////////////////////')
+    return render(request, 'docs:home')
+###########################################################################
+########################### END INVOICE'S OPREATIONS ######################
+###########################################################################
 
+#-_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-
 
 class InvoiceDetailsView(DetailView):
     """
@@ -338,15 +371,3 @@ def dupInvoice(request, pk):
     
     return render(request,'docs/invoices/duplicate.html', locals())
 
-def finaliseInv(request, pk):
-    """
-    this view is made to change an invoice's statu, 
-    from insave to finalised
-    """
-    invoice = Invoices.objects.get(pk=pk)
-    if invoice.creator == request.user :
-        invoice.back_stats = 'finished'
-        return redirect('docs:detailsInvoice pk')
-    else:
-        print('SOMETHING is wrong ///////////////////////////////////')
-    return render(request, 'docs:detailsInvoice pk')

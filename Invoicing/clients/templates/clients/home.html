@@ -5,7 +5,80 @@
 <h1>Clients</h1>
 
 <h5>Useful Links :</h5> <br>
-<a href="{% url 'clients:createClient' %}">New Client</a><br>
-<a href="">List Clients Client</a>
+<!--###########################################Clients List##########################################################-->
+<div class="card">
+    <div class="card-body">
+        <!-- Material Data Tables -->
+        <section id="material-datatables">
+            <div class="row">
+                <div class="col-12">
+                    <div class="card mb-0">
+                        <div class="card-header">
+                            <h1 class="">Clients List</h1>
+                            <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                            <div class="heading-elements">
+                                <ul class="list-inline mb-0">
+                                    <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                                    <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                                </ul>
+                            </div> 
+                        </div>
+                        <a class="btn btn-primary square btn-min-width mr-1 mb-1" href="{% url 'clients:createClient' %}"><span style="font-size: 18px;">Print the list</span> </a><br>
+                        <a class="btn btn-primary square btn-min-width mr-1 mb-1" href="{% url 'clients:createClient' %}"><span style="font-size: 18px;">Export to exel</span> </a><br>
+                        <a class="btn btn-primary square btn-min-width mr-1 mb-1" href="{% url 'clients:createClient' %}"><span style="font-size: 18px;">+ New Client</span> </a><br>
+                        <div class="card-content collapse show">
+
+                            <div class="card-body">
+                                <table class="table material-table">
+                                    <thead>
+                                        <tr>
+                                            <th>First Name</th>
+                                            <th>Last Name</th>
+                                            <th>Client's company</th>
+                                            <th>Operations</th>
+                                            <th>Statu</th>
+
+
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for client in clients %}
+                                        <tr>
+                                            <td><a href="{% url 'clients:detailsClient' client.pk %}">
+                                                    {{client.firstName}}
+                                            <td>{{ client.name }}</td>
+                                            <td>{{ client.companyName }}</td>
+                                            <td><a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-edit"></i><span></span></a>
+                                                <button type="button" data-url="{% url 'clients:deactivateClient' client.pk %}" class="btn btn-float btn-pink js-deactivate-client"><i class="ft-trash"></i><span></span></button></td>
+
+                                            <td>{% if client.actif == True %}
+                                                <p>ACTIF</p>
+                                                {% else %}
+                                                <p>INACTIF</p>
+                                                {% endif %}
+                                            </td>
+                                        </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Material Data Tables -->
+    </div>
+</div>
+<!-- Modal for selecting client-->
+<div class="modal fadeInUp" id="modal-client">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<script src="{% static '/assets/js/clients/ajaxStorm.js' %}"></script>
 
 {% endblock content %}

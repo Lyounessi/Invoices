@@ -12,8 +12,6 @@ urlpatterns = [
     path("changeStat/<int:pk>",  actif, name="statChange"), # Change status to actif or inactif for a specific client
     path("details/<int:pk>",  ClientDetailsView.as_view(), name="detailsClient"), # view detail of a specific client
     path("update/<int:pk>",  ClientUpdateView.as_view(), name="updateClient"), # view detail of a specific client
-
-    
-
+    path("deactivate/<int:pk>",  deactivateClient, name="deactivateClient"), # view detail of a specific client
 
 ]

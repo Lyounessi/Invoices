@@ -1,23 +1,113 @@
 {% extends "base.html" %}
+{% load static %}
 {% block content %}
-
 <div class="card">
-    <div class="card-header">
-        <h5 class="card-title">Client Details</h5>
-    </div>
-    <div class="card-body">
-        <dl class="row">
-            <dt class="col-sm-3">Name :</dt>
-            <dd class="col-sm-9">{{ client.name }}</dd>
-            <dt class="col-sm-3">First Name :</dt>
-            <dd class="col-sm-9">{{ client.firstName }}</dd>
+    <div class="card-content">
+        <div class="card-body">
+            <div class="row bg-primary bg-lighten-5 rounded mb-2 mx-25 text-center text-lg-left">
+                <div class="col-12 col-sm-4 p-2">
+                    <h6 class="text-primary mb-0"><span class="font-large-1 ">Total Invoices: </span>X</h6>
+                </div>
+                <div class="col-12 col-sm-4 p-2">
+                    <h6 class="text-primary mb-0"><span class="font-large-1 ">Amount Payed:</span> XX.XX$</h6>
+                </div>
+                <div class="col-12 col-sm-4 p-2">
+                    <h6 class="text-primary mb-0"><span class="font-large-1 ">Still to Pay:</span> XX.XX$</h6>
+                </div>
+            </div>
+            <div class="col-12">
+                <h2 class="mb-1"><i class="la la-user"></i> Personal Informations 
+                {% if client.actif %}
+                <i class="ft-zap" style="color: green; font: muli 12px;">ACTIF</i>
+                {% else %}
+                <i class="ft-zap" style="color: red; font: muli 12px;">Non Actif</i>
+                {% endif %}
 
-        </dl>
-
-    </div>
-    <div>
-        <a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-primary"> Edit </a>
-
+                    </h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight: bold;">First name :</span></td>
+                            <td class="users-view-username"> {{ client.firstName }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Name:</span></td>
+                            <td class="users-view-name"> {{ client.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">E-mail:</span></td>
+                            <td class="users-view-email"> {{ client.email }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Countrie :</span></td>
+                            <td> {{ client.country }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">City :</span></td>
+                            <td> {{ client.city }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Phone :</span></td>
+                            <td> {{ client.phone }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+                
+               
+            </div>
+            <div class="col-12">
+                <h2 class="mb-1"><i class="la la-briefcase">Company's Informations</i> </h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight: bold;">Company Name :</span></td>
+                            <td>{{ client.companyName }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Adress :</span></td>
+                            <td>{{ client.adress }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Postal Code :</span></td>
+                            <td>{{ client.postCode }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Tax N° :</span></td>
+                            <td>{{ client.taxNum }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-12">
+                <h2 class="mb-1"><i class="ft-plus">Suppliment Informations</i> </h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight: bold;">Website :</span></td>
+                            <td>{{ client.website }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Payements operations:</span></td>
+                            <td>{{ client.payments_conditions }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Comment :</span></td>
+                            <td>{{ client.comment }}</td>
+                        </tr>
+                       
+                    </tbody>
+                </table>
+            </div>
+            
+        </div>
+        <div class="col-xl-4 col-lg-12 mb-1">
+            <div class="form-group text-center">
+                
+                <a href="{% url 'clients:home' %}" class="btn btn-float btn-blue"><i class="ft-rewind"></i><span>Go Back</span></a>
+                <a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-float btn-blue"><i class="ft-edit"></i><span>Edit</span></a>
+                <a href="#" class="btn btn-float btn-pink"><i class="ft-trash"></i><span>Delete</span></a>
+            </div>
+        </div>
     </div>
 </div>
 

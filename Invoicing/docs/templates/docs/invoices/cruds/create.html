@@ -32,47 +32,41 @@
 
 
 
-                                    <form action="">
-                                        <button type="button" class="btn mb-1 btn-success btn-lg btn-block">Finilise
-                                            Invoice </button>
-                                    </form>
-
+                                    
+                                    <a href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn mb-1 btn-success btn-lg btn-block">Finilise
+                                        Invoice </a>
+                                   
 
                                     <a class="btn mb-1 btn-danger btn-lg btn-block"
                                         href="{% url 'docs:deleteInvoice' invoice.pk %}">Delete
                                         Invoice
                                     </a>
 
-
-                                    <form action="">
                                         <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
                                             Invoice
                                         </button>
-                                    </form>
+                              
+                                    {% elif invoice.back_status == 'In save' %}
+                                    
+                                       <a href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn mb-1 btn-success btn-lg btn-block">Finilise
+                                        Invoice </a>
 
-                                    {% elif invoice.back_status == 'insave' %}
-                                    <form action="">
-                                        <button type="button" class="btn mb-1 btn-success btn-lg btn-block">Finilise
-                                            Invoice </button>
-                                    </form>
+                                        <a class="btn mb-1 btn-danger btn-lg btn-block"
+                                        href="{% url 'docs:deleteInvoice' invoice.pk %}">Delete
+                                        Invoice
+                                    </a>
 
-                                    <form action="">
-                                        <button type="button" class="btn mb-1 btn-danger btn-lg btn-block">Delete
-                                            Invoice
-                                        </button>
-                                    </form>
-
-                                    <form action="">
+                                    
                                         <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
                                             Invoice
                                         </button>
-                                    </form>
+                                    
                                     {% else %}
-                                    <form action="">
+                                    
                                         <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
                                             Invoice
                                         </button>
-                                    </form>
+                                   
                                     {% endif %}
 
                                 </div>
@@ -123,6 +117,7 @@
 
             <!-- Invoice Customer Details -->
             <div id="invoice-customer-details" class="row pt-2">
+             
                 <div class="col-12 text-center text-sm-left">
                     <button type="button" class="btn mr-1 mb-1 btn-primary js-select-client"
                         data-url="{% url 'docs:selectClient' %}">Select client</button>
@@ -237,20 +232,6 @@
 
 <script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
 
-<!-- END: Page Vendor JS-->
 
-<!-- BEGIN: Theme JS-->
-<script src="{% static '/app-assets/js/core/app-menu.js' %}"></script>
-<script src="{% static '/app-assets/js/core/app.js' %}"></script>
-
-<!-- END: Theme JS-->
-
-<!-- BEGIN: Page JS-->
-<script src="{% static '/app-assets/js/scripts/tables/datatables/datatable-advanced.js' %}"></script>
-
-<script src="{% static '/app-assets/js/scripts/pages/appointment.js' %}"></script>
-<script src="{% static '/app-assets/js/scripts/pages/material-app.js' %}"></script>
-<script src="{% static '/app-assets/js/scripts/tables/material-datatable.js' %}"></script>
-<!-- END: Page JS-->
 
 {% endblock content %}

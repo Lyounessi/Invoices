@@ -5,7 +5,10 @@ from django.contrib.auth.models import User
 
 # Create your models here.
 class Clients(models.Model):
-    
+    PAYEMENTS = [
+    ('30', '30 days'),
+    ('END', 'End of the current month'),
+]
     actif = models.BooleanField(null=True, default=True)
     number =  models.CharField(max_length=50, null=True)
     createdBy = models.ForeignKey(User, on_delete=models.CASCADE)
@@ -20,5 +23,8 @@ class Clients(models.Model):
     taxNum = models.CharField(max_length=50, blank=True)
     phone = models.CharField(max_length=50, blank=True)
     website = models.CharField(max_length=50, blank=True)
+    comment = models.TextField(max_length=50, blank=True, null=True)
+    payments_conditions = models.CharField(max_length=10,choices=PAYEMENTS,null=True)
+
     def __str__(self):
         return self.name

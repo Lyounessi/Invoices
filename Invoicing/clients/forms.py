@@ -21,4 +21,4 @@ class ClientForm(ModelForm):
     class Meta:
 
         model = Clients
-        exclude = ['createdBy']
+        exclude = ['createdBy', 'actif', 'number']

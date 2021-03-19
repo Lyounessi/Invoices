@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+
+<div class="card">
+    <div class="card-header">
+        <h2 class="">New Client</h2>
+       
+            
+        <div class="heading-elements">
+            <ul class="list-inline mb-0">
+                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-body">
+
+        <form class="form" method="POST" action='{% url "clients:createClient" %}'>
+            {% csrf_token %}
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> Personal Info</h4>
+                <div class="row">
+                   
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">First Name</label>
+                            {{form.firstName}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput2">Last Name</label>
+                            {{form.name}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput3">E-mail</label>
+                            {{form.email}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput4">Phone Number</label>
+                            {{form.phone}}
+                        </div>
+                    </div>
+                </div>
+
+                <h4 class="form-section"><i class="la la-paperclip"></i> Requirements</h4>
+
+                <div class="form-group">
+                    <label for="companyName">Company</label>
+                    {{form.companyName}}
+                </div>
+
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">Countrie</label>
+                            {{form.countrie}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput6">City</label>
+                            {{form.city}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput5">POst Code</label>
+                            {{form.postCode}}
+                        </div>
+                    </div>
+
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput6">Web Site</label>
+                            {{form.website}}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>Taxe Number</label>
+                    {{form.taxNum}}
+                </div>
+
+                <div class="form-group">
+                    <label for="projectinput8">Adress</label>
+                    {{form.adress}}
+                </div>
+           
+                            <h4 class="form-section"><i class="ft-user"></i> Additional infos</h4>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="projectinput1">Payments options : </label>
+                                        {{form.payments_conditions}}
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label for="projectinput2">Comment : </label>
+                                        {{form.comment}}
+                                    </div>
+                                </div>
+                            </div>
+                        
+                        <div class="form-actions">
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-check-square-o"></i> Save
+                            </button>
+                        </div>
+          
+            </div>
+
+        </form>
+         
+        {% for msg in messages %}
+        <span style="font-size: 22px; color: red;">{{ msg }}</span>
+            
+        {% endfor %}
+    </div>
+</div>
+
+
+{% endblock content %}

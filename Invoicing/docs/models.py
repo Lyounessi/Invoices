@@ -33,7 +33,7 @@ class Invoices(models.Model):
     number = models.CharField(max_length=150, blank=True, null=True)# when invoice is finished
     fnb = models.CharField(max_length=150, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
-     
+    deadlinePay = models.CharField(max_length=100,  blank=True, null=True) 
     def __str__(self):
         return str(self.pk)
 

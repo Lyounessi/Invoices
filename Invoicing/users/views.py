@@ -39,7 +39,7 @@ def create_user(request):
 
         form = SignUpForm(request.POST)
         if form.is_valid():
-            user = form.save()
+            user = form.save(commit=False)
             user.refresh_from_db()  # load the profile instance created by the signal
             user.save()
 
