@@ -23,7 +23,7 @@ def home(request):
     List and clients's home page
     '''
     template_name = 'clients/home.html'
-    clients = Clients.objects.filter(createdBy=request.user)
+    clients = Clients.objects.filter(createdBy=request.user, actif=True)
     context = {
         
         'clients': clients,
@@ -97,26 +97,27 @@ def deactivateClient(request, pk, *args, **kwargs):
         )
     return JsonResponse(data)
 
-# @method_decorator(login_required, name='dispatch')
-def actif(request, pk):
-    """
-    Make a View to change status client to inactif
-    """
-    # To add a direct link with ajax to change the status
-    client = Clients.objects.filter(pk=pk)
-    client.actif = False
-    return(request, 'clients:createClient')
+def clientUpdateView(request, pk): 
+    '''
+    update view for articles 
+    '''
+    # dictionary for initial data with  
+    # field names as keys 
+    context ={} 
+    # fetch the object related to passed id 
+    obj = get_object_or_404(Clients, pk = pk)    
+    form = ClientForm(request.POST or None, instance = obj) 
+    # save the data from the form and 
+    # redirect to detail_view 
+    if form.is_valid():           
+        form.save() 
+        return redirect("clients:home") 
+    else:
+        print('//////////////////////////////', form.errors)
 
-
-class ClientUpdateView(UpdateView):
-    """
-    Update the clients's Informations
-    """
-    model = Clients
-    template_name = 'clients/cruds/update.html'
-    context_object_name = 'client'
-    fields = ('name', 'firstName', 'companyName', 'adress', 'countrie',
-              'city', 'postCode', 'email', 'taxNum', 'phone', 'website','actif')
-
-    def get_success_url(self):
-        return reverse_lazy('clients:detailsClient', kwargs={'pk': self.object.id})
+        context["form"] = form 
+    # add form dictionary to context 
+    context["form"] = form 
+    
+  
+    return render(request, "clients/cruds/update.html", context) 

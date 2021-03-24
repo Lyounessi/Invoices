@@ -1,0 +1,96 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<button data-url="{% url 'stocks:addUnit' %}" class="btn  btn-primary btn-lg btn-block js-add-unit">Add New  Unit</button>
+<a href="{% url 'stocks:createProd' %} " class="btn  btn-primary btn-lg btn-block">Add New Product</a><br>
+<a href="{% url 'stocks:createServ' %}" class="btn  btn-primary btn-lg btn-block">Add New Service</a>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card">
+            <div class="card-header">
+                <h4 class="card-title">List of Articles</h4>
+                <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
+                <div class="heading-elements">
+                    <ul class="list-inline mb-0">
+                        <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                        <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+                        <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="card-content collapse show">
+                <div class="card-body card-dashboard dataTables_wrapper dt-bootstrap">
+                    
+                    <div id="DataTables_Table_10_wrapper" class="dataTables_wrapper dt-bootstrap4">
+                        
+                        <table class="table table-striped table-bordered file-export dataTable" id="DataTables_Table_10" role="grid" aria-describedby="DataTables_Table_10_info">
+                            <thead>
+                                <tr>
+                                    <th rowspan="1" colspan="1">#Ref</th>
+                                    <th rowspan="1" colspan="1">Type</th>
+                                    <th rowspan="1" colspan="1">Name</th>
+                                    <th rowspan="1" colspan="1">Unit</th>
+                                    <th rowspan="1" colspan="1">Buy Price</th>
+                                    <th rowspan="1" colspan="1">Sell Price</th>
+                                    <th rowspan="1" colspan="1">Gain Margin</th>
+                                    <th rowspan="1" colspan="1"> Operations</th>                      
+                                </tr>
+
+                                
+                            </thead>
+                            <tbody>    
+                                    
+                                    {% for article in articles %}
+                                    <tr role="row" class="odd">
+                                    <td class="sorting_1">{{ article.ref}}</td>
+                                    <td class="sorting_1">{{ article.articleType}}</td>
+                                    <td class="sorting_1">{{ article.name}}</td>
+                                    <td class="sorting_1">{{ article.unit}}</td>
+                                    <td class="sorting_1">$ {{ article.buyPrice}}</td>
+                                    <td class="sorting_1">$ {{ article.sellPrice}}</td>
+                                    <td class="sorting_1">$ {{ article.gainMargin}}</td>
+
+                                    <td>
+                                        <a href="{% url 'stocks:details' article.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-more-horizontal"></i><span></span></a>
+
+                                        <a href="{% url 'stocks:updateArticle' article.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-edit"></i><span></span></a>                                        
+                                        <button type="button" data-url="{% url 'stocks:deactivateArticle' article.pk  %}" class="btn btn-float btn-pink js-deactivate-article"><i class="ft-trash"></i><span></span></button>
+                                    
+                                    </td>
+                                </tr>                                  
+                                    {% endfor %}                                                  
+                                </tbody>
+                            <tfoot>
+                                <tr><th rowspan="1" colspan="1">#Ref</th><th rowspan="1" colspan="1">Type</th>
+                                    <th rowspan="1" colspan="1">Name</th><th rowspan="1" colspan="1">Unit</th>
+                                    <th rowspan="1" colspan="1">Buy Price</th>
+                                    <th rowspan="1" colspan="1">Sell Price</th>
+                                    <th rowspan="1" colspan="1">Gain Margin</th>
+                                    <th rowspan="1" colspan="1"> Operations</th>                      
+
+                                </tr>
+                            </tfoot>
+                        </table>
+                    </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fadeInUp" id="modal-article">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+
+
+{% block scripts %}
+<script src="{% static '/assets/js/stock/ajaxStorm.js' %}"></script>
+
+{% endblock scripts %}
+{% endblock content %}

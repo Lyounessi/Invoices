@@ -7,7 +7,6 @@ from django.contrib.auth.models import User
 
 class Units(models.Model):
     
-
     name = models.CharField(max_length=50, blank=False)
 
     def __str__(self):
@@ -22,8 +21,8 @@ class Tax(models.Model):
 class Article(models.Model):
 
     types_to_select =[
-        ('srv', 'service'),
-        ('prod', 'product'),
+        ('service', 'srv'),
+        ('product', 'prod'),
     ]
 
 

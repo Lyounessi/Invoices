@@ -1,0 +1,14 @@
+{% load static %}
+<form method="post" action="{% url 'stocks:addUnit' %}" class="js-unit-add-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 class="modal-title">Add New Unit</h4>
+    </div>
+    <div class="modal-body">
+       {{ form.as_p }}
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-danger">Yes</button>
+    </div>
+</form>

@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<div class="card">
+    <div class="card-content">
+        <div class="card-body">
+          
+            <div class="col-12">
+                <h2 class="mb-1"><i class="ft-tag"></i> Article Informations 
+                {% if article.actif %}
+                <i class="ft-zap" style="color: green; font: muli 12px;">ACTIF</i>
+                {% else %}
+                <i class="ft-zap" style="color: red; font: muli 12px;">Non Actif</i>
+                {% endif %}
+
+                    </h2>
+                <table class="table">
+                    <tbody>
+                        <tr>
+                            <td><span style="font-weight: bold;">Reference :</span></td>
+                            <td class="users-view-username"> {{ article.reference }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Name:</span></td>
+                            <td class="users-view-name"> {{ article.name }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Type :</span></td>
+                            <td class="users-view-email"> {{ article.articleType }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Unit used :</span></td>
+                            <td> {{ article.unit }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Price Sell :</span></td>
+                            <td> {{ article.sellPrice }}</td>
+                        </tr>
+                        
+                        {% if article.articleTyp == 'product' or  article.articleTyp == 'prod' %}
+                        <tr>
+                            <td><span style="font-weight: bold;">Buy Price :</span></td>
+                            <td> {{ article.buyPrice }}</td>
+                        </tr>
+                        <tr>
+                            <td><span style="font-weight: bold;">Gain margin :</span></td>
+                            <td> {{ article.gainMargin }}</td>
+                        </tr>
+                        {% endif %}
+                            
+                       
+                    </tbody>
+                </table>
+                
+               
+            </div>
+          
+           
+            
+        </div>
+        <div class="col-xl-4 col-lg-12 mb-1">
+            <div class="form-group text-center">
+                
+                <a href="{% url 'stocks:home' %}" class="btn btn-float btn-blue"><i class="ft-rewind"></i><span>Go Back</span></a>
+                <a href="{% url 'stocks:updateArticle' article.pk%}" class="btn btn-float btn-blue"><i class="ft-edit"></i><span>Edit</span></a>
+                
+                {% if article.actif %}
+                <button type="button" data-url="{% url 'stocks:deactivateArticle' article.pk %}" class="btn btn-float btn-pink js-deactivate-article"><i class="ft-trash">Deactivate</i></button>
+                    
+                {% endif %}
+                    
+
+            </div>
+        </div>
+    </div>
+</div>
+<!-- Modal for selecting client-->
+<div class="modal fadeInUp" id="modal-article">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<script src="{% static '/assets/js/stock/ajaxStorm.js' %}"></script>
+
+{% endblock content%}

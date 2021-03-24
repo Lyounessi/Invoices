@@ -1,11 +1,11 @@
 {% load static %}
-<form method="post" action="{% url 'clients:deactivateClient' client.pk %}" class="js-article-delete-form">
+<form method="post" action="{% url 'stocks:deactivateArticle' article.pk %}" class="js-article-delete-form">
     {% csrf_token %}
     <div class="modal-header">
-        <h4 class="modal-title">Confirm Client Deactivate</h4>
+        <h4 class="modal-title">Confirm Artcile Deactivate</h4>
     </div>
     <div class="modal-body">
-        <p class="lead">Are you sure you want to deactivate <strong>{{ client.firstName }}</strong>?</p>
+        <p class="lead">Are you sure you want to deactivate <strong>{{ article.firstName }}</strong>?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-default" data-dismiss="modal">Return</button>

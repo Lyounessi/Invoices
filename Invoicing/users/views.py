@@ -6,6 +6,7 @@ from django.views import View
 from django.contrib import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
+
 ############################Company CRUDs##############################################
 from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView

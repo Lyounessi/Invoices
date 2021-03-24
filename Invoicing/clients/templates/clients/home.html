@@ -44,11 +44,14 @@
                                     <tbody>
                                         {% for client in clients %}
                                         <tr>
-                                            <td><a href="{% url 'clients:detailsClient' client.pk %}">
+                                            <td>
                                                     {{client.firstName}}
                                             <td>{{ client.name }}</td>
                                             <td>{{ client.companyName }}</td>
-                                            <td><a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-edit"></i><span></span></a>
+                                            <td>
+                                        <a href="{% url 'clients:detailsClient' client.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-more-horizontal"></i><span></span></a>
+
+                                                <a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-float btn-blue" style="margin-left: 15px;"><i class="ft-edit"></i><span></span></a>
                                                 <button type="button" data-url="{% url 'clients:deactivateClient' client.pk %}" class="btn btn-float btn-pink js-deactivate-client"><i class="ft-trash"></i><span></span></button></td>
 
                                             <td>{% if client.actif == True %}

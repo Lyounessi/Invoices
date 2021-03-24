@@ -105,10 +105,21 @@
                 
                 <a href="{% url 'clients:home' %}" class="btn btn-float btn-blue"><i class="ft-rewind"></i><span>Go Back</span></a>
                 <a href="{% url 'clients:updateClient' client.pk %}" class="btn btn-float btn-blue"><i class="ft-edit"></i><span>Edit</span></a>
-                <a href="#" class="btn btn-float btn-pink"><i class="ft-trash"></i><span>Delete</span></a>
+                <button type="button" data-url="{% url 'clients:deactivateClient' client.pk %}" class="btn btn-float btn-pink js-deactivate-client"><i class="ft-trash">Deactivate</i></button>
+
             </div>
         </div>
     </div>
 </div>
+<!-- Modal for selecting client-->
+<div class="modal fadeInUp" id="modal-client">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+<script src="{% static '/assets/js/clients/ajaxStorm.js' %}"></script>
 
 {% endblock content%}

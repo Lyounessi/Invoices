@@ -14,7 +14,7 @@ class ProdForm(ModelForm):
         super(ProdForm, self).__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update(
-                {'class': 'form-control form-control-square'})
+                {'class': 'form-control'})
 
     class Meta:
 
@@ -30,9 +30,24 @@ class ServForm(ModelForm):
         super(ServForm, self).__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update(
-                {'class': 'form-control form-control-square'})
+                {'class': 'form-control'})
 
     class Meta:
 
         model = Article
         exclude = ['owner', 'gainMargin','buyPrice','articleType']
+
+
+class UnitForm(ModelForm):
+    """
+    Form of Units CRUDS
+    """
+    def __init__(self, *args, **kwargs):
+        super(UnitForm, self).__init__(*args, **kwargs)
+        for field in iter(self.fields):
+            self.fields[field].widget.attrs.update(
+                {'class': 'form-control'})
+
+    class Meta:
+        model = Units
+        fields = '__all__'

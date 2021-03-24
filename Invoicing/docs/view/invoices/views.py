@@ -112,7 +112,6 @@ def addPfromInv(request,  *args, **kwargs):
             elif sell == None:
                 sell = 0
             clt = form1.save(commit=False)
-            
             clt.owner = request.user
             clt.gainMargin = Decimal(sell) - Decimal(buy)
             clt.articleType = 'prod'
@@ -120,8 +119,7 @@ def addPfromInv(request,  *args, **kwargs):
             data["form_is_valid"] = True
             
         elif form2.is_valid():
-            clt = form2.save(commit=False)
-            
+            clt = form2.save(commit=False)            
             clt.owner = request.user
             clt.articleType = 'srv'
             clt.save()

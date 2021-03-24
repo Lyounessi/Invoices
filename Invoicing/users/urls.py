@@ -1,6 +1,8 @@
 from django.contrib import admin
 from django.urls import path, include
 from .views import *
+from django.contrib.auth import views
+
 
 
 
@@ -13,6 +15,12 @@ urlpatterns = [
     path('logs/', include('django.contrib.auth.urls')),
     path('dashboard/', dashboard, name="dashindex"),
 
+    path('login/',views.LoginView.as_view(
+        template_name="registration/login.html",
+        authentication_form=UserLoginForm
+        ),
+        name='login'),
+    
     ######### Company's URLs ##########
 
     path('company_create/', CreateCompany.as_view(), name='companyCreate'),#create companys
@@ -23,15 +31,3 @@ urlpatterns = [
 ]
 
 
-
-#FOR logs URLs
-"""
-    user/logs/login/ [name='login']
-    user/logs/logout/ [name='logout']
-    user/logs/password_change/ [name='password_change']
-    user/logs/password_change/done/ [name='password_change_done']
-    user/logs/password_reset/ [name='password_reset']
-    user/logs/password_reset/done/ [name='password_reset_done']
-    user/logs/reset/<uidb64>/<token>/ [name='password_reset_confirm']
-    user/logs/reset/done/ [name='password_reset_complete']
-    """

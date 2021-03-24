@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Article Update</h5>
+        {{ article.name }}
+    </div>
+    <div class="card-body">
+        <form class="form" method="post">
+            {% csrf_token %}
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-user"></i> Personal Info</h4>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput1">Article Name</label>
+                            {{form.name}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput2">Refrence</label>
+                            {{form.ref}}
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput3">Unit</label>
+                            {{form.unit}}
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label for="projectinput4">Status Actif</label>
+                           {{form.actif}}
+                        </div>
+                    </div>
+                </div>
+
+                
+
+                <div class="form-group">
+                    <label for="companyName">Price Selling</label>
+                    {{form.sellPrice}}
+                </div>
+
+                {% if article.articleType == 'product' or article.articleType == 'prod' %}
+    
+        
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label for="projectinput5">Price bought with</label>
+                                {{form.buyPrice}}
+                            </div>
+                        </div>
+
+                        
+                    </div>
+
+                {% endif %}
+
+
+                
+
+                
+            <div class="form-actions">
+
+                <button type="submit" class="btn btn-primary">
+                    <i class="la la-check-square-o"></i> Save
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}
