@@ -322,8 +322,8 @@
                                     data-i18n="Report">Add
                                     clients</span></a>
                         </li>
-                        <li class=" nav-item"><a href="#"><span class="menu-title" data-i18n="Report">Add
-                                    products</span></a>
+                        <li class=" nav-item"><a href="{% url 'stocks:home' %}"><span class="menu-title" data-i18n="Report">Add
+                                    Article</span></a>
                         </li>
                     </ul>
                 </li>
@@ -332,11 +332,11 @@
                 <li class=" nav-item"><a href="#"><i class="la la-list"></i><span class="menu-title"
                             data-i18n="Appointment">Lists</span></a>
                     <ul class="menu-content">
-                        <li><a class="menu-item" href="{% url 'docs:home' %}"><i></i><span>List clients</span></a>
+                        <li><a class="menu-item" href="{% url 'clients:home' %}"><i></i><span>List clients</span></a>
                         </li>
-                        <li><a class="menu-item" href="#"><i></i><span>List documents</span></a>
+                        <li><a class="menu-item" href="{% url 'docs:home' %}"><i></i><span>List documents</span></a>
                         </li>
-                        <li><a class="menu-item" href="#"><i></i><span>List products</span></a>
+                        <li><a class="menu-item" href="{% url 'stocks:home' %}"><i></i><span>List Articles</span></a>
                         </li>
                     </ul>
                 </li>

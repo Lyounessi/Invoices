@@ -25,49 +25,35 @@
                         <div class="row">
                             <div class="col-lg-12 col-md-6">
                                 <div class="form-group">
-                                    {% if invoice.back_status == 'In Process' %}
-                                    <a class="btn mb-1 btn-primary btn-lg btn-block js-save-invoice"
-                                        href="{% url 'docs:saveInv' invoice.pk %}">Save
-                                        for later</a>
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        {% if invoice.back_status == 'In Process' %}
+                                        <a  href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn btn-primary">Save</a>
+                                        <a  class="btn btn-success">Finalise</a>
+                                        
+                                        
+                                        <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        
+                                        <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
+                                        {% elif invoice.back_status == 'In save' %}
+                                        <a  class="btn btn-success">Finalise</a>
+                                        <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
 
-
-
-                                    
-                                    <a href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn mb-1 btn-success btn-lg btn-block">Finilise
-                                        Invoice </a>
-                                   
-
-                                    <a class="btn mb-1 btn-danger btn-lg btn-block"
-                                        href="{% url 'docs:deleteInvoice' invoice.pk %}">Delete
-                                        Invoice
-                                    </a>
-
-                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
-                                            Invoice
-                                        </button>
-                              
-                                    {% elif invoice.back_status == 'In save' %}
-                                    
-                                       <a href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn mb-1 btn-success btn-lg btn-block">Finilise
-                                        Invoice </a>
-
-                                        <a class="btn mb-1 btn-danger btn-lg btn-block"
-                                        href="{% url 'docs:deleteInvoice' invoice.pk %}">Delete
-                                        Invoice
-                                    </a>
-
-                                    
-                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
-                                            Invoice
-                                        </button>
-                                    
+                                        
                                     {% else %}
-                                    
-                                        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block">Duplicate
-                                            Invoice
-                                        </button>
-                                   
+                                    <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+
                                     {% endif %}
+
+                                    </div>
+                                    
+                              
+                                    
+                                    
+                    
+                                    
+                                        
+                                   
 
                                 </div>
 
@@ -205,7 +191,21 @@
                     </div>
                 </div>
             </div>
+            <!-- Invoice footer Details -->
 
+            <div id="invoice-footer">
+                <div class="row">
+                    <div class="col-sm-7 col-12 text-center text-sm-left">
+                        <h6>Terms &amp; Condition</h6>
+                        <p>Test pilot isn't always the healthiest business.</p>
+                    </div>
+                    <div class="col-sm-5 col-12 text-center">
+                        <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
+                            Print
+                            Invoice</button>
+                    </div>
+                </div>
+            </div>
 
 
         </div>
@@ -231,7 +231,7 @@
 <!-- BEGIN: Page Vendor JS-->
 
 <script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
-
+<script src="{% static '/app-assets/js/scripts/pages/invoice-template.js' %}"></script>
 
 
 {% endblock content %}

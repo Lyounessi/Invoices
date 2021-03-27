@@ -6,11 +6,36 @@ from django.contrib.auth.models import User
 ################################ user's Views #########################################
 
 class SignUpForm(UserCreationForm):
-    
+    email = forms.EmailField(widget=forms.EmailInput(
+        attrs={
+            'class':'form-control',
+            'placeholder': 'Enter Email',
+        }
+    ))
+    first_name = forms.CharField(max_length=100,widget=forms.TextInput(
+        attrs={
+            'class':'form-control',
+            'placeholder': 'Enter First Name',
+        }
+    ))
+    last_name = forms.CharField(max_length=100,widget=forms.TextInput(
+        attrs={
+            'class':'form-control',
+            'placeholder': 'Enter Last Name',
+        }
+    ))
+
     class Meta:
         model = User
-        fields = (  'username', 'email' , 'password1', 'password2')
+        fields = ( 'first_name', 'last_name', 'email', 'password1', 'password2')
 
+    def __init__(self, *arg, **kwargs):
+        super(SignUpForm, self).__init__(*arg, **kwargs)
+        
+        self.fields['password1'].widget.attrs['class'] = 'form-control'
+        self.fields['password1'].widget.attrs['placeholder'] = 'Enter Password'
+        self.fields['password2'].widget.attrs['class'] = 'form-control'
+        self.fields['password2'].widget.attrs['placeholder'] = 'Confirm Password'
 
 
 

@@ -21,9 +21,9 @@
                               <div class="card border-grey border-lighten-3 m-0">
                                   <div class="card-header border-0">
                                       <div class="card-title text-center">
-                                          <div class="p-1"><img src="../../../app-assets/images/logo/logo-dark.png" alt="branding logo"></div>
+                                          <div class="p-1"><img src="{% static 'app-assets/images/logo/logo-dark.png' %}" alt="branding logo"></div>
                                       </div>
-                                      <h6 class="card-subtitle line-on-side text-muted text-center font-small-3 pt-2"><span>Login with Modern</span>
+                                      <h6 class="card-subtitle line-on-side  text-center font-large-3 pt-2"><span>Login</span>
                                       </h6>
                                   </div>
                                   <div class="card-content">
@@ -55,7 +55,7 @@
                                       <div class="">
                                           <p class="float-xl-left text-center m-0"><a href="recover-password.html" class="card-link">Recover
                                                   password</a></p>
-                                          <p class="float-xl-right text-center m-0">New to Moden Admin? <a href="register-simple.html" class="card-link">Sign Up</a></p>
+                                          <p class="float-xl-right text-center m-0">New to Free Invoicing? <a href="{% url 'users:register' %}" class="card-link">Sign Up</a></p>
                                       </div>
                                   </div>
                               </div>

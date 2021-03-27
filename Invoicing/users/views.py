@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.urls import reverse_lazy
 from django.utils.decorators import method_decorator
 from .models import *
-from django.views import View
+from django.views import View, generic
 from django.contrib import messages
 from .forms import *
 from django.contrib.auth.decorators import login_required
@@ -12,6 +12,7 @@ from django.views.generic.edit import CreateView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import UpdateView
 from django.views.generic.edit import DeleteView
+from django.contrib.auth.forms import UserCreationForm
 
 
 ################################ user's Views #########################################
@@ -32,27 +33,11 @@ def dashboard(request):
     return render(request, 'users/dashboard/index.html')
 
 
-def create_user(request):
-    """
-    this view is dedicated to create user account as signup
-    """
-    if request.method == "POST":
+class UserRegisterView(generic.CreateView):
+    form_class = SignUpForm
+    template_name = 'registration/signup.html'
+    success_url = 'clients:home'
 
-        form = SignUpForm(request.POST)
-        if form.is_valid():
-            user = form.save(commit=False)
-            user.refresh_from_db()  # load the profile instance created by the signal
-            user.save()
-
-            return redirect('users:home')
-        else:
-            messages.error(request, 'The form is invalid.')
-
-    else:
-
-        form = SignUpForm()
-
-    return render(request, 'registration/signup.html', {"form": form})
 
 
 ################################ Company's Views #########################################

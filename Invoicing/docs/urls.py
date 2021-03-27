@@ -22,9 +22,6 @@ urlpatterns = [
     #path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
     #path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
     path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
-
-    
-
     ################################## TRough PRoducts invoice URLs ##################################
 
     path('createIn/client/select/', selectClient, name='selectClient'),
