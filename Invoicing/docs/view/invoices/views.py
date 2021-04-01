@@ -101,6 +101,8 @@ def addPfromInv(request,  *args, **kwargs):
     invoice template
     '''
     data = dict()
+    invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+
     if request.method == 'POST':
         form1 = ProdForm(request.POST)
         form2 = ServForm(request.POST)
@@ -115,7 +117,10 @@ def addPfromInv(request,  *args, **kwargs):
             clt.owner = request.user
             clt.gainMargin = Decimal(sell) - Decimal(buy)
             clt.articleType = 'prod'
+            print('IM UPDATING///////////////////////////////:/')
             clt.save()
+
+            
             data["form_is_valid"] = True
             
         elif form2.is_valid():
@@ -123,7 +128,32 @@ def addPfromInv(request,  *args, **kwargs):
             clt.owner = request.user
             clt.articleType = 'srv'
             clt.save()
+            
             data["form_is_valid"] = True
+            ###########Invoice Updates..#############
+            print('IM UPDATING///////////////////////////////:/')
+            Invoices.objects.filter(pk=invoice).update(
+                sub_total = invoice.sub_total + clt.article.sellPrice,
+                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
+                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
+            )
+            Invoices.objects.filter(pk=invoice).update(
+                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
+            )
+            
+            ############END INVC UPDATES#############
+            ###########Invoice Updates..#############
+            print('IM UPDATING///////////////////////////////:/')
+            Invoices.objects.filter(pk=invoice).update(
+                sub_total = invoice.sub_total + clt.article.sellPrice,
+                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
+                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
+            )
+            Invoices.objects.filter(pk=invoice).update(
+                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
+            )
+            
+            ############END INVC UPDATES#############
         else:
             data['form_is_valid'] = False
     else:

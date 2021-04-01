@@ -86,6 +86,13 @@ def pricingInInvoice(obj, prodPrice):
     else:
         return "%.2f" % round(pr, 2)
 
+def taxConversionInv(amount, tax):
+    """
+    convert tax from % to value in $
+    """  
+    return quantity_inc_price * float(tax/100)
+
+
 
 def changeStat(obj):
     """

@@ -169,19 +169,19 @@
                                 <tbody>
                                     <tr>
                                         <td>Sub Total</td>
-                                        <td class="text-right">$Prix Unit total</td>
+                                        <td class="text-right">$ {{ invoice.sub_total }}</td>
                                     </tr>
                                     <tr>
                                         <td>TAX 1</td>
-                                        <td class="text-right">$Tax in dollars</td>
+                                        <td class="text-right">$ {{ invoice.tax_one }}</td>
                                     </tr>
                                     <tr>
                                         <td>TAX 2</td>
-                                        <td class="text-right">$Tax in Dollars</td>
+                                        <td class="text-right">$ {{ invoice.tax_two }}</td>
                                     </tr>
                                     <tr>
                                         <td class="text-bold-800">Total</td>
-                                        <td class="text-bold-800 text-right"> $Total price with taxs</td>
+                                        <td class="text-bold-800 text-right"> $ {{ invoice.total }}</td>
                                     </tr>
 
                                 </tbody>

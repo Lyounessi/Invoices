@@ -34,6 +34,11 @@ class Invoices(models.Model):
     fnb = models.CharField(max_length=150, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
     deadlinePay = models.CharField(max_length=100,  blank=True, null=True) 
+    sub_total = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+    tax_one = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+    tax_two = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+    total = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True)
+
     def __str__(self):
         return str(self.pk)
 
