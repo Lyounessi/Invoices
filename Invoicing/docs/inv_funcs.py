@@ -5,7 +5,20 @@ from decimal import Decimal
 
 
 
-
+'''
+   ###########Invoice Updates..#############
+            print('IM UPDATING///////////////////////////////:/')
+            Invoices.objects.filter(pk=invoice).update(
+                sub_total = invoice.sub_total + clt.article.sellPrice,
+                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
+                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
+            )
+            Invoices.objects.filter(pk=invoice).update(
+                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
+            )
+            
+            ############END INVC UPDATES#############      
+'''
 def autoNumInvoice(obj, req):
     """
     This function is made to make autonubers in every new invoice creted when create invoice
@@ -74,25 +87,49 @@ def invoiceDupAutoincreaseNumb(obj, req):
     return numb
 
 
+def subTotal(obj, invoice):
+    """
+    Updating the sub total
+    """
+    sub_total =  invoice.sub_total
+    if sub_total:
+        return obj.amount + sub_total
+    else:
+        sub_total = 0
+        return obj.amount + sub_total
+
+    
 
 def pricingInInvoice(obj, prodPrice):
+    pass
     """
     When adding product to an invoice Caluculating the price
-    """
+    
     tax = (obj.tax_one + obj.tax_two)/100
-    pr = (Decimal(obj.qte) * Decimal(prodPrice)) * Decimal(tax)
+    if tax > 0:
+        pr = (Decimal(obj.qte) * Decimal(prodPrice)) * Decimal(tax)
+    else : 
+        pr = Decimal(obj.qte) * Decimal(prodPrice)
     if obj.remise > 0 :
         return pr - obj.remise
     else:
         return "%.2f" % round(pr, 2)
+    """
 
-def taxConversionInv(amount, tax):
+def taxConversionInv(amount,  tax):
     """
     convert tax from % to value in $
     """  
-    return quantity_inc_price * float(tax/100)
-
-
+    return  float(amount) * float(tax/100)
+def total(obj):
+    if obj.sub_total == None:
+        obj.sub_total = 0
+    if obj.tax_one == None:
+        obj.tax_one = 0
+    if obj.tax_two == None:
+        obj.tax_two = 0
+        
+    return sum([obj.sub_total, obj.tax_one, obj.tax_two])
 
 def changeStat(obj):
     """

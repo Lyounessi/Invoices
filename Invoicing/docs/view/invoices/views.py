@@ -114,46 +114,24 @@ def addPfromInv(request,  *args, **kwargs):
             elif sell == None:
                 sell = 0
             clt = form1.save(commit=False)
+           
             clt.owner = request.user
             clt.gainMargin = Decimal(sell) - Decimal(buy)
             clt.articleType = 'prod'
-            print('IM UPDATING///////////////////////////////:/')
+           
             clt.save()
-
+ 
             
             data["form_is_valid"] = True
             
         elif form2.is_valid():
-            clt = form2.save(commit=False)            
+            clt = form2.save(commit=False)  
+             
             clt.owner = request.user
             clt.articleType = 'srv'
             clt.save()
             
             data["form_is_valid"] = True
-            ###########Invoice Updates..#############
-            print('IM UPDATING///////////////////////////////:/')
-            Invoices.objects.filter(pk=invoice).update(
-                sub_total = invoice.sub_total + clt.article.sellPrice,
-                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
-                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
-            )
-            Invoices.objects.filter(pk=invoice).update(
-                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
-            )
-            
-            ############END INVC UPDATES#############
-            ###########Invoice Updates..#############
-            print('IM UPDATING///////////////////////////////:/')
-            Invoices.objects.filter(pk=invoice).update(
-                sub_total = invoice.sub_total + clt.article.sellPrice,
-                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
-                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
-            )
-            Invoices.objects.filter(pk=invoice).update(
-                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
-            )
-            
-            ############END INVC UPDATES#############
         else:
             data['form_is_valid'] = False
     else:
@@ -175,7 +153,7 @@ def selecProd(request,  *args, **kwargs):
     data = dict()
     invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
     artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
-   
+    invc = invoice[0]
     if request.method == 'POST':
         form = AddArticlesForm(request.POST)
         if form.is_valid():
@@ -183,7 +161,15 @@ def selecProd(request,  *args, **kwargs):
             articlePrice = Article.objects.filter(pk=clt.article.pk)
             clt.amount = (articlePrice[0].sellPrice * clt.qte)-clt.remise
             clt.invoice = invoice[0]
-        
+            
+            Invoices.objects.filter(creator=request.user).update(
+                sub_total= subTotal(clt, invoice[0]),
+                tax_one= taxConversionInv(clt.amount, clt.tax_one),
+                tax_two= taxConversionInv(clt.amount, clt.tax_two),   
+            )
+            Invoices.objects.filter(creator=request.user).update(
+                   total = total(invc)         
+            )
             form.save()
             data['form_is_valid'] = True
             
@@ -195,9 +181,11 @@ def selecProd(request,  *args, **kwargs):
     else:
         form = AddArticlesForm()
 
-    context = {'form': form}
+    context = {'form': form,
+    'artInv': artInv}
     data['html_form'] = render_to_string('docs/invoices/ajax/artInv.html',
         context,
+
         request=request
     )
     return JsonResponse(data)

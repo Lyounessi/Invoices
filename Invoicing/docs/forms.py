@@ -5,6 +5,7 @@ from .models import *
 
 
 
+
 ################################### Invoices's linkded forms ################################### 
 class InvoiceForm(ModelForm):
     """
@@ -19,7 +20,9 @@ class InvoiceForm(ModelForm):
     class Meta:
 
         model = Invoices
-        exclude = ['stats','creator', 'dateCreation', 'number']
+        exclude = ['stats','creator', 'dateCreation', 
+                    'number','sub_total','inv_tax_one',
+                    'inv_tax_two','total']
 
 
 ################################### Invoices's linkded forms ################################### 
@@ -37,7 +40,8 @@ class QuoteForm(ModelForm):
     class Meta:
 
         model = Quotes
-        exclude = ['creator',  'number', 'stats', 'back_status']
+        exclude = ['creator',  'number', 'stats', 'back_status',
+                'sub_total','inv_tax_one', 'inv_tax_two','total']
 
 
 

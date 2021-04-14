@@ -13,13 +13,13 @@ urlpatterns = [
     path("register/",  UserRegisterView.as_view(), name="register"),
     path("home/",  home, name="home"),
     path('logs/', include('django.contrib.auth.urls')),
-        path('dashboard/', dashboard, name="dashindex"),
+    path('dashboard/', dashboard, name="dashindex"),
 
-        path('login/',views.LoginView.as_view(
-            template_name="registration/login.html",
-        authentication_form=UserLoginForm
-        ),
-        name='login'),
+    path('login/',views.LoginView.as_view(
+        template_name="registration/login.html",
+    authentication_form=UserLoginForm
+    ),
+    name='login'),
     ######### Company's URLs ##########
     path('company_create/', CreateCompany.as_view(), name='companyCreate'),#create companys
     path('company/<int:pk>', CompanyDetailView.as_view(), name='companyDetail'),# view details of company

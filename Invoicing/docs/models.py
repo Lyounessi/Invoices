@@ -4,7 +4,9 @@ from clients.models import Clients
 from stocks.models import Article
 ############################ In logics imports ##############################
 from datetime import date
-
+from .inv_funcs import pricingInInvoice, taxConversionInv
+from django.db.models.signals import post_delete, post_save, pre_save
+from django.dispatch import receiver
 
 
 class Invoices(models.Model):
@@ -92,3 +94,5 @@ class Quotes(models.Model):
     
     def __str__(self):
         return self.stats
+
+
