@@ -87,10 +87,17 @@ def invoiceDupAutoincreaseNumb(obj, req):
     return numb
 
 
+
+
+#########################################
+############Updates totals++ ############
+#########################################
+
 def subTotal(obj, invoice):
     """
     Updating the sub total
     """
+    
     sub_total =  invoice.sub_total
     if sub_total:
         return obj.amount + sub_total
@@ -98,41 +105,78 @@ def subTotal(obj, invoice):
         sub_total = 0
         return obj.amount + sub_total
 
-    
-
-def pricingInInvoice(obj, prodPrice):
-    pass
-    """
-    When adding product to an invoice Caluculating the price
-    
-    tax = (obj.tax_one + obj.tax_two)/100
-    if tax > 0:
-        pr = (Decimal(obj.qte) * Decimal(prodPrice)) * Decimal(tax)
-    else : 
-        pr = Decimal(obj.qte) * Decimal(prodPrice)
-    if obj.remise > 0 :
-        return pr - obj.remise
-    else:
-        return "%.2f" % round(pr, 2)
-    """
-
-def taxConversionInv(amount,  tax):
+def taxConversionInvI(obj, amount, tax):
     """
     convert tax from % to value in $
-    """  
-    return  float(amount) * float(tax/100)
-def total(obj):
-    if obj.sub_total == None:
-        obj.sub_total = 0
-    if obj.tax_one == None:
-        obj.tax_one = 0
-    if obj.tax_two == None:
-        obj.tax_two = 0
-        
-    return sum([obj.sub_total, obj.tax_one, obj.tax_two])
+    """ 
+    
+    result_tax = 0   
+    if tax == None:
+        tax = 0
+    obj.tax_one +=  Decimal(amount) * Decimal(tax/100)
+    result_tax = obj.tax_one
+    return result_tax
 
-def changeStat(obj):
+
+def taxConversionInvII(obj, amount, tax):
     """
-    This function is for changing an invoice status
+    convert tax from % to value in $
+    """ 
+    
+    result_tax = 0   
+    if tax == None:
+        tax = 0
+    obj.tax_two +=  Decimal(amount) * Decimal(tax/100)
+    result_tax = obj.tax_two
+    return result_tax
+
+def total(obj, sub):
     """
-    pass
+    Creating the invoice total calculating all elements
+    """
+        
+    return sub + obj.tax_one + obj.tax_two
+
+#########################################
+############Updates totals-- ############
+#########################################
+
+def subTotal_(obj, invoice):
+    """
+    Updating the sub total
+    """
+    sub_total =  invoice.sub_total
+    return sub_total - Decimal(obj.amount)   
+
+def taxConversionInv_I(obj, amount, tax):
+    """
+    convert tax from % to value in $
+    """ 
+  
+    result_tax = obj.tax_one
+    if tax == None:
+        tax = 0
+    result_tax -=  Decimal(amount) * Decimal(tax/100)
+    return result_tax
+
+
+def taxConversionInv_II(obj, amount, tax):
+    """
+    convert tax from % to value in $
+    """ 
+   
+    result_tax = 0   
+    if tax == None:
+        tax = 0
+    obj.tax_two -=  Decimal(amount) * Decimal(tax/100)
+    result_tax = obj.tax_two
+    return result_tax
+
+def total_(obj, article):
+    """
+    Creating the invoice total calculating all elements when delete t
+    """
+    tax_one = Decimal(article.amount)* Decimal(article.tax_one/100)
+    tax_two = Decimal(article.amount)* Decimal(article.tax_two/100)
+
+    return obj.total - (Decimal(article.amount) + tax_one + tax_two)

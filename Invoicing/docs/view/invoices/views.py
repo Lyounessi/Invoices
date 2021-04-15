@@ -164,17 +164,23 @@ def selecProd(request,  *args, **kwargs):
             
             Invoices.objects.filter(creator=request.user).update(
                 sub_total= subTotal(clt, invoice[0]),
-                tax_one= taxConversionInv(clt.amount, clt.tax_one),
-                tax_two= taxConversionInv(clt.amount, clt.tax_two),   
+                tax_one= taxConversionInvI(invc, clt.amount, clt.tax_one),
+                tax_two= taxConversionInvII(invc, clt.amount, clt.tax_two),   
             )
+            
+            
             Invoices.objects.filter(creator=request.user).update(
-                   total = total(invc)         
+                   total = total(invc, subTotal(clt, invc))         
             )
             form.save()
+            invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+
             data['form_is_valid'] = True
-            
             data['html_select_article'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
                 'artInv': artInv
+            })
+            data['html_total_dynamic'] = render_to_string('docs/invoices/ajax/partial-total-updates.html', {
+                'invoice': invoice[0]
             })
         else:
             data['form_is_valid'] = False
@@ -199,13 +205,27 @@ def deleteArtFromInv(request, pk, *args, **kwargs):
     article = get_object_or_404(Article_Inv, pk=pk)
     data = dict()
     invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+    invc = invoice[0]
     if request.method == 'POST':
+        Invoices.objects.filter(creator=request.user).update(
+                sub_total= subTotal_(article, invc),
+                tax_one= taxConversionInv_I(invc, article.amount, article.tax_one),
+                tax_two= taxConversionInv_II(invc, article.amount, article.tax_two),   
+            )
+            
+            
+        Invoices.objects.filter(creator=request.user).update(
+                total = total_(invc, article)         
+        )
         article.delete()
         data['form_is_valid'] = True  # This is just to play along with the existing code
         artInv =  Article_Inv.objects.filter(invoice=invoice[0])
         data['html_select_article'] = render_to_string('docs/invoices/ajax/partial-articles-list.html', {
             'artInv': artInv
         })
+        data['html_total_dynamic'] = render_to_string('docs/invoices/ajax/partial-total-updates.html', {
+                'invoice': invoice[0]
+            })
     else:
         context = {'article': article}
         data['html_form'] = render_to_string('docs/invoices/ajax/partial-article-delete.html',

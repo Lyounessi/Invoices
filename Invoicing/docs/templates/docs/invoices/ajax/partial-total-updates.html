@@ -1,35 +1,28 @@
 <tr>
     <td>Sub Total</td>
     <td class="text-right"> 
-    {% if invoice.sub_total %}
+    
     $ {{ invoice.sub_total }}
-    {% else %}
-    $ 0
-    {% endif %}
+    
+    
 
        </td>
 </tr>
 <tr>
     <td>TAX 1</td>
-    <td class="text-right"> {% if invoice.tax_one %}
+    <td class="text-right"> 
         $ {{ invoice.tax_one }}
-        {% else %}
-        $ 0
-        {% endif %}</td>
+        </td>
 </tr>
 <tr>
     <td>TAX 2</td>
-    <td class="text-right">{% if invoice.tax_two %}
+    <td class="text-right">
         $ {{ invoice.tax_two }}
-        {% else %}
-        $ 0
-        {% endif %} </td>
+        </td>
 </tr>
 <tr>
     <td class="text-bold-800">Total</td>
-    <td class="text-bold-800 text-right"> {% if invoice.total %}
+    <td class="text-bold-800 text-right"> 
         $ {{ invoice.total }}
-        {% else %}
-        $ 0
-        {% endif %}</td>
+        </td>
 </tr>

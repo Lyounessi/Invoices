@@ -47,11 +47,9 @@ $("#modal-invoice").on("submit", ".js-article-create-form", function () {
         },
         success: function (data) {
             if (data.form_is_valid) {
-                alert("Article created! check the selection");  // <-- This is just a placeholder for now for testing
+        
                 $("#modal-invoice").modal("hide");
-                $(".modal-backdrop").modal("hide");
-
-
+                            
             }
             else {
                 alert("Something went wrong!");  // <-- This is just a placeholder for now for testing
@@ -98,7 +96,7 @@ $(function () {
             success: function (data) {
                 if (data.form_is_valid) {
                     $(".main-one #tbody").html(data.html_select_article);
-
+                    $(".main-two #tbody2").html(data.html_total_dynamic);
                     $("#modal-invoice").modal("hide");
 
 
