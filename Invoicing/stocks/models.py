@@ -25,8 +25,6 @@ class Article(models.Model):
         ('product', 'prod'),
     ]
 
-
-    
     owner =  models.ForeignKey(User, on_delete=models.CASCADE)
     articleType = models.CharField(max_length=100,  choices=types_to_select)
     name = models.CharField(max_length=150, blank=True)

@@ -1,7 +1,5 @@
 {% extends "base.html" %}
 {% load static %}
-
-
 {% block content %}
 <section id="block-level-buttons">
     <div class="row">
@@ -27,21 +25,21 @@
                                 <div class="form-group">
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         {% if invoice.back_status == 'In Process' %}
-                                        <a  href="{% url 'docs:finaliseInvoice' invoice.pk %}" class="btn btn-primary">Save</a>
+                                        <button   class="btn btn-primary js-save-invoice" data-url="{% url 'docs:saveInv' invoice.pk %}">Save</button>
                                         <a  class="btn btn-success">Finalise</a>
                                         
                                         
-                                        <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        <a href="{% url 'docs:duplicateInvoice' invoice.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
                                         
                                         <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
                                         {% elif invoice.back_status == 'In save' %}
                                         <a  class="btn btn-success">Finalise</a>
-                                        <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        <a href="{% url 'docs:duplicateInvoice' invoice.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
                                         <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
 
                                         
                                     {% else %}
-                                    <a  class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                    <a href="{% url 'docs:duplicateInvoice' invoice.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
 
                                     {% endif %}
 
@@ -112,12 +110,12 @@
 
                     <p class="text-muted">Bill To :</p>
                 </div>
-                <div class="col-sm-6 col-12 text-center text-sm-left" id='AddC'>
+                <div class="col-sm-6 col-12 text-center text-sm-left " >
                     {% if invoice.client %}
                     {% include 'docs/invoices/ajax/client-partial-select.html' %}
 
                     {% else %}
-                    <p class="pb-sm-3">No Client Selected</p>
+                    <p class="pb-sm-3 AddC">No Client Selected</p>
 
                     {% endif %}
 
@@ -136,7 +134,7 @@
                         <button type="button" class="btn mr-1 mb-1 btn-primary js-select-article"
                             data-url="{% url 'docs:selectProds' %}">Select
                             Article</button>
-                        <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-article">+ New Article</button>
+                        <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-article" data-url="{% url 'docs:addProds' %}">+ New Article</button>
                         <table class="table main-one">
                             <thead>
                                 <tr>
@@ -199,7 +197,7 @@
 
 </div>
 
-<!-- Modal for selecting client-->
+<!-- Modal inside invoice's operations-->
 <div class="modal fadeInUp" id="modal-invoice">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -210,13 +208,22 @@
 </div>
 <!-- Modal for selecting client-->
 
+<div class="modal fadeInUp" id="modal-invoice-options">
+    <div class="modal-dialog">
+        <div class="modal-content">
 
+
+        </div>
+    </div>
+</div>
 
 
 
 <!-- BEGIN: Page Vendor JS-->
 
 <script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
+<script src="{% static '/assets/js/Invoice/ajaxOptions.js' %}"></script>
+
 <script src="{% static '/app-assets/js/scripts/pages/invoice-template.js' %}"></script>
 
 

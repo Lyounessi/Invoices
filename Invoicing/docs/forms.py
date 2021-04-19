@@ -2,6 +2,7 @@ from django import forms
 from django.forms import ModelForm
 from django.contrib.auth.models import User
 from .models import *
+from stocks.models import Article
 
 
 
@@ -43,26 +44,21 @@ class QuoteForm(ModelForm):
         exclude = ['creator',  'number', 'stats', 'back_status',
                 'sub_total','inv_tax_one', 'inv_tax_two','total']
 
-
-
-
 ################################### Products's added forms ################################### 
 class AddArticlesForm(ModelForm):
     """
     Form of adding products to an invoice
     """
-    def __init__(self, *args, **kwargs):
+    def __init__(self, user, *args, **kwargs):
         super(AddArticlesForm, self).__init__(*args, **kwargs)
         for field in iter(self.fields):
             self.fields[field].widget.attrs.update(
                 {'class': 'form-control border-primary'})
-        
+        self.fields['article'].queryset =  Article.objects.filter(owner=user)
     class Meta:
 
         model = Article_Inv
         exclude = ['invoice','amount']
-
-
 
 ################################### Clients selection forms ################################### 
 class SelectClientForm(forms.Select):
@@ -81,4 +77,4 @@ class ClientForm(ModelForm):
     class Meta:
 
         model = Clients
-        exclude = ['actif','createdBy']
+        exclude = ['createdBy', 'actif', 'number']

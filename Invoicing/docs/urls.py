@@ -16,11 +16,11 @@ urlpatterns = [
     ################################## Invoices URLs ##################################
     
     path("createIn/",  CreateInvoice.as_view(), name="createInvoice"),
-    #path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
+    path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
     path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
-    path("saveInv/<int:pk>",saveInvoice,name="saveInv"),
+    path("saveInv/<int:pk>",saveInvoice, name="saveInv"),
     #path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
-    #path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
+    path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
     path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
     ################################## TRough PRoducts invoice URLs ##################################
 

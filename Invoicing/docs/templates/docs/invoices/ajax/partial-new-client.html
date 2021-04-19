@@ -7,13 +7,11 @@
     </div>
     <div class="modal-body">
 
-        <div class="form-group{% if client.errors %} has-error{% endif %}">
-            <label for="{{ field.id_for_label }}">{{ client.name }}</label>
-            <select id="issueinput5" name="client" class="form-control" data-toggle="tooltip" data-trigger="hover"
-                data-placement="top" data-title="Priority" data-original-title="" title="">
+        <div class="form-group">
+           
+            
                 {{ form.as_p }}
 
-            </select>
 
         </div>
     </div>
