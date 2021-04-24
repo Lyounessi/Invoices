@@ -50,14 +50,17 @@
                         <tr role="row" class="odd">
                             <td class="sorting_1">
                                 <a href="">
+                                    
+                                    {% if inv.fnb %}
                                     {{ inv.fnb }}
+                                    {% else %}
+                                    {{ inv.prov_numb }}
+                                    {% endif %}                                       
                                 </a>
                             </td>
                             <td>Invoice</td>
                             <td>{{ inv.client.name }}</td>
                             <td>{{ inv.stats }} - {{ inv.back_status }}</td>
-
-
                         </tr>
                         {% endfor %}
                         {% for qut in quotes %}
@@ -66,11 +69,8 @@
                             <td>Quote</td>
                             <td>{{ qut.client.name }}</td>
                             <td>{{ qut.stats }} </td>
-
-
                         </tr>
                         {% endfor %}
-
                     </tbody>
                     <tfoot>
                         <tr>
@@ -78,13 +78,9 @@
                             <th rowspan="1" colspan="1">Type</th>
                             <th rowspan="1" colspan="1">Client</th>
                             <th rowspan="1" colspan="1">Statut</th>
-
-
                         </tr>
                     </tfoot>
                 </table>
-
-
             </div>
         </div>
     </div>
@@ -104,6 +100,4 @@
 <script src="{% static '/app-assets/vendors/js/tables/buttons.html5.min.js' %}"></script>
 <script src="{% static '/app-assets/vendors/js/tables/buttons.print.min.js' %}"></script>
 <!-- BEGIN Vendor JS-->
-
-
 {% endblock content %}

@@ -26,16 +26,15 @@
                                     <div class="btn-group" role="group" aria-label="Basic example">
                                         {% if invoice.back_status == 'In Process' %}
                                         <button   class="btn btn-primary js-save-invoice" data-url="{% url 'docs:saveInv' invoice.pk %}">Save</button>
-                                        <a  class="btn btn-success">Finalise</a>
+                                        <button  class="btn btn-success js-finilise-invoice"  data-url="{% url 'docs:finaliseInvoice' invoice.pk %}">Finalise</button>
                                         
                                         
                                         <a href="{% url 'docs:duplicateInvoice' invoice.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
                                         
-                                        <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
                                         {% elif invoice.back_status == 'In save' %}
                                         <a  class="btn btn-success">Finalise</a>
                                         <a href="{% url 'docs:duplicateInvoice' invoice.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
-                                        <a   href="{% url 'docs:deleteInvoice' invoice.pk %}" class="btn btn-danger">Delete</a>
+                                        
 
                                         
                                     {% else %}
@@ -72,7 +71,7 @@
                 <div class="col-sm-6 col-12 text-center text-sm-left">
                     <div class="media row">
                         <div class="col-12 col-sm-3 col-xl-2" id='AddL'>
-                            <img src="../../../app-assets/images/logo/logo-80x80.png" alt="company logo"
+                            <img src="{% static 'app-assets/images/logo/logo-80x80.png' %}" alt="company logo"
                                 class="mb-1 mb-sm-0">
                         </div>
                         <div class="col-12 col-sm-9 col-xl-10">
@@ -90,7 +89,13 @@
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-right">
                     <h2>INVOICE</h2>
-                    <p class="pb-sm-3">{{ invoice.pk }}</p>
+                    <p class="pb-sm-3">N° : 
+                    {% if invoice.fnb %}
+                    {{ invoice.fnb }}
+                    {% else %}
+                    {{ invoice.prov_numb }}
+                    {% endif %}
+                        </p>
                     <ul class="px-0 list-unstyled">
                         <li>Balance Due</li>
                         <li class="lead text-bold-800">$12,000.00</li>

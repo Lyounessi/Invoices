@@ -4,87 +4,125 @@ from decimal import Decimal
 
 
 
+def firstInvoiceNumber():
+    today = date.today()
+    return"I-{}-{}".format(today.strftime('%y-%m'), 1) 
 
-'''
-   ###########Invoice Updates..#############
-            print('IM UPDATING///////////////////////////////:/')
-            Invoices.objects.filter(pk=invoice).update(
-                sub_total = invoice.sub_total + clt.article.sellPrice,
-                tax_one = invoice.tax_one + taxConversionInv(clt.amount, clt.tax_one),
-                tax_two = invoice.tax_two  + taxConversionInv(clt.amount, clt.tax_one),
-            )
-            Invoices.objects.filter(pk=invoice).update(
-                total = invoice.sub_total + invoice.tax_one + invoice.tax_two 
-            )
-            
-            ############END INVC UPDATES#############      
-'''
-def autoNumInvoice(obj, req):
+def creationInv(req):
     """
     This function is made to make autonubers in every new invoice creted when create invoice
     """
-    #lastIn = Invoices.objects.filter(creator=req.user, back_status='finished').last()
-    lastSv = Invoices.objects.filter(pk=obj.pk, back_status='insave').last()
-
-    numb=""
+    
+    lastSv = Invoices.objects.filter(creator=req.user, back_status='In save').last()
+    lastPro = Invoices.objects.filter(creator=req.user, back_status='In Process').last()
+    numb= ""
     today = date.today()
-    
-    
-    if lastSv:
+           
+    if lastSv :     
         idate = datetime.strptime(str(lastSv.dateCreation), '%Y-%m-%d')
         idate =  idate.date().strftime('%y-%m')
-        print('////////////////////////////////////////////',lastSv)
-        if idate == today.strftime('%y-%m') :
-            obj.prov_numb = int(lastSv.prov_numb) + 1 # Increse number
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
-        else:   
-            obj.prov_numb = 1
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
-        
-    elif not lastSv :
-        
-        obj.prov_numb = 1
-        numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
-    '''if lastIn and 'fin' in req.POST:
-             
-       
-        idate = datetime.strptime(str(lastIn.dateCreation), '%Y-%m-%d')
+
+        if idate == today.strftime('%y-%m') : 
+            number = int(lastSv.number) + 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            invoices = Invoices.objects.create(dateCreation=date.today(),
+                creator=req.user, number=number, prov_numb=numb, back_status='In Process')
+            print(invoices)
+        else:
+            number = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            invoices = Invoices.objects.create(dateCreation=date.today(),
+                creator=req.user, number=number, prov_numb=numb, back_status='In Process')
+            print(invoices)
+   
+    if lastPro :     
+        idate = datetime.strptime(str(lastPro.dateCreation), '%Y-%m-%d')
         idate =  idate.date().strftime('%y-%m')
-        if idate == today.strftime('%y-%m') :
-            obj.number = int(lastIn.number) + 1 # Increse number
-            numb = "{}-{}".format(today.strftime('%y-%m'), obj.number) 
-        else:   
-            obj.number = 1
-            numb = "{}-{}".format(today.strftime('%y-%m'), obj.number) 
-        
-    elif not lastIn :
-        if 'fin' in req.POST:
-            obj.number = 1
-            numb = "{}-{}".format(today.strftime('%y-%m'), obj.number)  
-    '''        
-    return numb  
 
-
-def invoiceDupAutoincreaseNumb(obj, req):
-    """
-    create invoice number in duplication view
-    """
-
-    lastSv = Invoices.objects.filter(creator=req.user, back_status='insave').last()
-    today = date.today()
-    if  lastSv:
-          
-        idate = datetime.strptime(str(lastSv.dateCreation), '%Y-%m-%d')
-        idate =  idate.date().strftime('%y-%m')
-        
-        if idate == today.strftime('%y-%m') :
-            obj.prov_numb = int(lastSv.prov_numb) + 1 # Increse number
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
-        else:   
-            obj.prov_numb = 1
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), obj.prov_numb) 
+        if idate == today.strftime('%y-%m') : 
+            number = int(lastPro.number) + 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            invoices = Invoices.objects.create(dateCreation=date.today(),
+                creator=req.user, number=number, prov_numb=numb, back_status='In Process')
+            print(invoices)
+        else:
+            number = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            invoices = Invoices.objects.create(dateCreation=date.today(),
+                creator=request.user, number=number, prov_numb=numb, back_status='In Process')
+            print(invoices)
+      
     
-    return numb
+
+    
+    return invoices  
+
+
+def invoiceDuplicator(invoice, req):
+    """
+    duplicate a selected invoice
+    """
+
+    numb= ""
+    today = date.today()
+    idate = datetime.strptime(str(invoice.dateCreation), '%Y-%m-%d')
+    idate =  idate.date().strftime('%y-%m')
+
+    if idate == today.strftime('%y-%m') : 
+        number = int(invoice.number) + 1
+        numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+        newInv = Invoices(title=invoice.title, dateCreation=date.today(), creator=req.user, 
+                        client=invoice.client, stats=invoice.stats, 
+                        back_status= "In Process",number=number, prov_numb=numb)    
+        newInv.save()
+        pk = newInv.pk
+
+    else:
+        number = 1
+        numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+        newInv = Invoices(title=invoice.title, dateCreation=date.today(), creator=req.user, 
+                        client=invoice.client, stats=invoice.stats, 
+                        back_status= "In Process",number=number, prov_numb=numb)    
+        newInv.save()
+    
+        pk = newInv.pk
+    
+
+    return newInv
+
+def invoiceFinalisator(invoice, req):
+    '''
+    Update the selected invoice back status to finilised
+    '''
+
+    #select last finilised invoice
+    last_F_Inv = Invoices.objects.filter(creator=req.user, back_status='Finilised').last()
+    numb= ""
+    today = date.today()
+    idate = datetime.strptime(str(invoice.dateCreation), '%Y-%m-%d')
+    idate =  idate.date().strftime('%y-%m')
+    if last_F_Inv:    
+        if idate == today.strftime('%y-%m') : 
+            number = int(last_F_Inv.number) + 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
+            number=number, fnb=numb, prov_numb=None)
+        else:
+            number = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
+            number=number, fnb=numb, prov_numb=None)
+    else:
+            number = 1
+            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
+            number=number, fnb=numb, prov_numb=None)
+           
+    return invoice
+
+
+
+
 
 
 

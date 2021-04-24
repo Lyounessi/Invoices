@@ -58,9 +58,12 @@ $(function () {
 
         return false;
     };
-    //add Article In Invoice
+    //save an Invoice
     $(".js-save-invoice").click(loadForm);
     $("#modal-invoice").on("submit", ".js-save-invoice-form", saveForm);
+//finalise an Invoice
+$(".js-finilise-invoice").click(loadForm);
+$("#modal-invoice").on("submit", ".js-finilise-invoice-form", saveForm);
 
     
 });

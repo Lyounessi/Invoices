@@ -49,12 +49,7 @@ class CreateInvoice(View):
                 'artInv': artInv,
                 }
             else:               
-                invoices = Invoices.objects.create(dateCreation=date.today(),
-                    creator = request.user,)
-                invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
-                Invoices.objects.filter(pk=invoice).update(back_status ='In Process')#Update Infos of the selected invoice
-                print("------------------------",invoice)
-                invoice = invoices
+                creationInv(request)
                 #logo = invoices[0]# Get the logo if exist
                 context = {
                     #'logo': logo,
@@ -62,15 +57,18 @@ class CreateInvoice(View):
                 }
         else:          
             invoices = Invoices.objects.create(dateCreation=date.today(),
-                creator = request.user,)
+                creator = request.user)
             invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
-            Invoices.objects.filter(pk=invoice).update(back_status ='In Process')#Update Infos of the selected invoice
-            print("------------------------",invoice)
+            
+            Invoices.objects.filter(pk=invoice).update(prov_numb=firstInvoiceNumber(),
+            back_status ='In Process', number=1)#Update Infos of the selected invoice
+            
             invoice = invoices
             #logo = invoices[0]# Get the logo if exist
             context = {
                 #'logo': logo,
                 'invoice': invoice,
+                'pk': invoice.pk,
             }
         return render(request, self.template_name, context)
 
@@ -307,17 +305,23 @@ def saveInvoice(request, pk, *args, **kwargs):
 def finaliseInv(request, pk):
     """
     this view is made to change an invoice's statu, 
-    from insave to finalised
+    to finalised
     """
+    data = dict()
     invoice = Invoices.objects.get(pk=pk)
-    Invoices.objects.filter(pk=pk).update(back_status='In save')
-
-    if invoice.creator == request.user :
-        Invoices.objects.filter(pk=pk).update(back_status='Finilised')
+    
+    if request.method == 'POST':
+        invoiceFinalisator(invoice, request)
+        data['form_is_valid'] = True  # This is just to play along with the existing code
         return redirect('docs:createInvoice')
     else:
-        print('SOMETHING is wrong ///////////////////////////////////')
-    return render(request, 'docs:home')
+        context = {'invc':invoice}
+        data['html_form'] = render_to_string('docs/invoices/ajax_invoic\'es_options/partial-finalise-option.html',
+            context,
+            request=request,
+        )
+    return JsonResponse(data)
+    
 
 
 
@@ -328,12 +332,9 @@ def dupInvoice(request, pk):
     """
     invoice = Invoices.objects.filter(pk=pk)
     invoice = invoice[0]
-    newInv = Invoices(title=invoice.title, dateCreation=date.today(), creator=request.user, 
-     client=invoice.client, stats=invoice.stats, back_status= "In Process")    
-    newInv.save()
-    pk = newInv.pk
+    invoiceDuplicator(invoice, request)
     context = {
-        "invoice": newInv,
+        "invoice": invoiceDuplicator(invoice, request),
         "pk": pk
     }
     
