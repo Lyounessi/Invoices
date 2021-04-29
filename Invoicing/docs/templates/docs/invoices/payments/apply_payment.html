@@ -1,0 +1,96 @@
+{% load static %}
+<form method="post" action="{% url 'docs:payInvoice' invoice.pk %}" class="js-payement-invoice-form">
+    {% csrf_token %}
+    <div class="modal-header">
+        <h4 class="modal-title">Confirm Payement of Invoice Number : {{ invoice.fnb }}</h4>
+    </div>
+    <div class="modal-body">
+        <div class="row mt-1">
+        
+            <div class="col-md-6 col-sm-12">
+                <p class="lead">Invoice N° :  <strong>{{ invoice.fnb }}</strong></p>
+        
+                </div>
+                <div class="col-md-6 col-sm-12">
+                <p class="lead">To client:  <strong>{{ invoice.client.name }}</strong></p>
+        
+                </div>
+        </div>
+        
+        {% if invoice.stats != 'payed' %}
+        <div class="card-content">
+            <div class="card-body">
+                <ul class="nav nav-tabs mb-2" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center active" id="account-tab" data-toggle="tab" href="#account" aria-controls="account" role="tab" aria-selected="true">
+                            <i class="la la-money"></i><span class="d-none d-sm-block">Pay all the amount</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link d-flex align-items-center" id="information-tab" data-toggle="tab" href="#information" aria-controls="information" role="tab" aria-selected="false">
+                            <i class="la la-money"></i><span class="d-none d-sm-block">Pay part of the amount</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="tab-content">
+                    <div class="tab-pane active" id="account" aria-labelledby="account-tab" role="tabpanel">
+                       
+                        <!-- users edit media object ends -->
+                        <!-- users edit account form start -->
+                        <form method="post" action="{% url 'docs:payInvoice' invoice.pk %}" class="js-payment-invoice-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <h5>Validate this request, will save the invoice as payed <span class="required">*</span></h5>
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text" style="border: none;">$</span>
+                                        </div>
+                                        <input type="number" step="any" name="amount" value="{{ invoice.total }}" class="form-control" style="border: none;" required="" data-validation-required-message="This field is required" aria-invalid="false">
+                                        
+                                    </div>
+                                <div class="help-block"></div></div>
+                            </div>
+                        
+                        <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 40px;" >Save</button>
+
+                        </form>
+                        <!-- users edit account form ends -->
+                    </div>
+                    <div class="tab-pane" id="information" aria-labelledby="information-tab" role="tabpanel">
+                        <!-- users edit Info form start -->
+                        <form method="post" action="{% url 'docs:payInvoice' invoice.pk %}" class="js-payment-invoice-form">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <h5>Pay the ammount of</h5>
+                                <div class="controls">
+                                    <div class="input-group">
+                                        <div class="input-group-prepend">
+                                            <span class="input-group-text">$</span>
+                                        </div>
+                                        <input type="number"  step="any" name="amount" class="form-control"  required="" data-validation-required-message="This field is required" aria-invalid="false">
+                                        
+                                    </div>
+                                <div class="help-block"></div></div>
+                                <h5>From <span class="input-group-text">$ {{ invoice.total }}</span></h5>
+
+                            </div>
+                        <button type="submit" class="btn btn-primary btn-lg btn-block"  style="height: 40px;" >Save</button>
+
+                        </form>
+                        <!-- users edit Info form ends -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        {% else %}
+        <h3> The Invoice number : <strong>{{ invoice.fnb }}</strong> is already payed</h3>
+        {% endif %}
+            
+    
+
+    </div>
+    <div class="modal-footer ">
+        <button type="button" class="btn  btn-danger btn-lg btn-block" style="height: 40px;" data-dismiss="modal">Close</button>
+    </div>
+</form>

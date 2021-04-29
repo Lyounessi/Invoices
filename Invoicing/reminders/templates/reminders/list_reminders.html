@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+
+<div class="row">
+    
+    {% for text in texts %}
+    
+    <div class="col-lg-6 col-md-12">
+        <div class="card">
+            <div class="card-content">
+                <div class="card-body">
+                    <h4 class="card-title info">{{ text.levels }}</h4>
+                    <p class="card-text">{{ text.text }}</p>
+                    
+                    <a href="{% url 'reminders:updateText' text.pk %}" class="btn btn-outline-success">Edit</a>
+                    <a href="{% url 'reminders:createReminders' %}" class="btn btn-outline-info">Add New Reminder</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+        
+   
+</div>
+
+{% endblock content %}
+    

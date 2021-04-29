@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5 class="card-title">Update</h5>
+        
+    </div>
+    <div class="card-body">
+        <form class="form" method="POST">
+            {% csrf_token %}
+            <div class="form-body">
+                <h4 class="form-section"><i class="ft-edit-1"></i> Title : <strong> {{ text.levels }} </strong></h4>
+                <div class="row">
+                    
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label for="projectinput2"><strong> Content :</strong>  </label>
+                            {{form.text}}
+                        </div>
+                    </div>
+                </div>
+                
+            </div>
+            <div class="form-actions">
+                <a  class="btn btn-secondary" href="{% url 'reminders:listReminders' %}">
+                    <i class="ft-corner-up-left"></i> Back
+                </a>
+                <button type="submit" class="btn btn-primary">
+                    <i class="la la-check-square-o"></i> Save
+                </button>
+                
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock content %}

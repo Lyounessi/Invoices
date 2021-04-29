@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+<div class="row">
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card pull-up">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media d-flex">
+                        <div class="align-self-center">
+                            <i class="la la-thumb-tack font-large-2 success"></i>
+                        </div>
+                        <div class="media-body text-right">
+                            <h5 class="text-muted text-bold-500">Total Invoices</h5>
+                            <h3 class="text-bold-600">
+                            {{ total_invoices }}
+                             
+                                </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card pull-up">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media d-flex">
+                        <div class="align-self-center">
+                            <i class="la la-calculator font-large-2 warning"></i>
+                        </div>
+                        <div class="media-body text-right">
+                            <h5 class="text-muted text-bold-500">Total Unpaid Invoices</h5>
+                            <h3 class="text-bold-600">                           
+                                 {{ unpaid }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card pull-up">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media d-flex">
+                        <div class="align-self-center">
+                            <i class="la la-money font-large-2 danger"></i>
+                        </div>
+                        <div class="media-body text-right">
+                            <h5 class="text-muted text-bold-500">Still to be paid</h5>
+                            <h3 class="text-bold-600">                                 
+                                <strong style="color: green;">$</strong> {{ part_paid }}
+                            </h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-xl-3 col-lg-6 col-md-6 col-12">
+        <div class="card pull-up">
+            <div class="card-content">
+                <div class="card-body">
+                    <div class="media d-flex">
+                        <div class="align-self-center">
+                            <i class="la la-money font-large-2 success"></i>
+                        </div>
+                        <div class="media-body text-right">
+                            <h5 class="text-muted text-bold-500">From a total of</h5>
+                            <h3 class="text-bold-600"><strong style="color: green;">$</strong> {{total_cash}}</h3>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+    
