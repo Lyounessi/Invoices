@@ -16,7 +16,7 @@ class Invoices(models.Model):
         ('payed','pyd' ),
         ('notPayed', 'npyd'),
         ('canceled', 'cnl'),
-        
+        ('partial payed', 'part-payed'),
     ]
     back_stats =[
         ('Finilised', 'fnsh'),
@@ -34,7 +34,9 @@ class Invoices(models.Model):
     number = models.CharField(max_length=150, blank=True, null=True)# when invoice is finished
     fnb = models.CharField(max_length=150, blank=True, null=True)
     back_status = models.CharField(max_length=100,  choices=back_stats, blank=True, null=True)
+    sent = models.BooleanField(default=False)
     deadlinePay = models.CharField(max_length=100,  blank=True, null=True) 
+    still_to_pay = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True, default=0)
     sub_total = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True, default=0)
     tax_one = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True, default=0)
     tax_two = models.DecimalField(max_digits=19, decimal_places=2, blank=True, null=True, default=0)

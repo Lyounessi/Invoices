@@ -41,6 +41,11 @@ INSTALLED_APPS = [
     'clients',
     'docs',
     'stocks',
+    'reminders',
+    'froala_editor',
+    'dashboard',
+
+
 
 
 ]

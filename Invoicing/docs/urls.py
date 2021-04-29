@@ -14,22 +14,22 @@ urlpatterns = [
     path("list/",  home, name="home"),
 
     ################################## Invoices URLs ##################################
-    
     path("createIn/",  CreateInvoice.as_view(), name="createInvoice"),
     path("detailsIn/<int:pk>",  InvoiceDetailsView.as_view(), name="detailsInvoice"), # view detail of a specific invoice
-    path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
+    #path("deleteIn/<int:pk>",  InvoiceDeleteView.as_view(), name="deleteInvoice"), # delete a specific invoice
     path("saveInv/<int:pk>",saveInvoice, name="saveInv"),
     #path("updateIn/<int:pk>",  InvoiceUpdateView.as_view(), name="updateInvoice"), # update a specific invoice
     path("duplicate/<int:pk>",  dupInvoice, name="duplicateInvoice"), # update a specific invoice
     path("fin/<int:pk>",  finaliseInv, name="finaliseInvoice"), # finalise selected invoice
-    ################################## TRough PRoducts invoice URLs ##################################
+    path("unpaid_list/",  unpaidList, name="unpaidList"), # finalise selected invoice
+    path("payments/<int:pk>",  payments, name="payInvoice"), # finalise selected invoice
 
+    ################################## TRough PRoducts invoice URLs ##################################
     path('createIn/client/select/', selectClient, name='selectClient'),
     path("createIn/addprodInv/",  addPfromInv, name="addProds"), # AddProducts directly to the stock 
     path("createIn/selectprodInv/",  selecProd, name="selectProds"), # AddProducts to a selected invoice
     path("createIn/deleteArtInv/<int:pk>",  deleteArtFromInv, name="deleteArtInv"), # Delete a specific product
     path("createIn/addClientInv/",  addClientInv, name="addClientInv"), # Delete a specific product
-    
     ################################## Quotes URLs ##################################
     
     path("createQu/",  CreateQuote.as_view(), name="createQuote"),

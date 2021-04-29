@@ -64,6 +64,9 @@ $(function () {
 //finalise an Invoice
 $(".js-finilise-invoice").click(loadForm);
 $("#modal-invoice").on("submit", ".js-finilise-invoice-form", saveForm);
+//payements of an Invoice
+$(".js-payment").click(loadForm);
+$("#modal-invoice").on("submit", ".js-payement-invoice-form", saveForm);
 
     
 });

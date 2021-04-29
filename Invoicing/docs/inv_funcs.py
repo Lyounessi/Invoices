@@ -102,21 +102,23 @@ def invoiceFinalisator(invoice, req):
     idate = datetime.strptime(str(invoice.dateCreation), '%Y-%m-%d')
     idate =  idate.date().strftime('%y-%m')
     if last_F_Inv:    
+        total = last_F_Inv.total
+
         if idate == today.strftime('%y-%m') : 
             number = int(last_F_Inv.number) + 1
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            numb = "{}-{}".format(today.strftime('%y-%m'), number) 
             Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
-            number=number, fnb=numb, prov_numb=None)
+            number=number, fnb=numb, prov_numb=None, still_to_pay= total)
         else:
             number = 1
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            numb = "{}-{}".format(today.strftime('%y-%m'), number) 
             Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
-            number=number, fnb=numb, prov_numb=None)
+            number=number, fnb=numb, prov_numb=None, still_to_pay= total)
     else:
             number = 1
-            numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
+            numb = "{}-{}".format(today.strftime('%y-%m'), number) 
             Invoices.objects.filter(pk=invoice.pk).update(back_status='Finilised', 
-            number=number, fnb=numb, prov_numb=None)
+            number=number, fnb=numb, prov_numb=None, still_to_pay= invoice.total)
            
     return invoice
 

@@ -24,8 +24,6 @@ from stocks.forms import ProdForm, ServForm
 
 
 ############################### INVOICES VIEWS ###############################
-
-
 class CreateInvoice(View):
     """
     Create and show New Invoice lists for a specific user
@@ -356,18 +354,6 @@ class InvoiceDetailsView(DetailView):
     model = Invoices
     template_name = 'docs/invoices/cruds/details.html'
     context_object_name = 'invoice'
-
-# @method_decorator(login_required, name='dispatch')
-class InvoiceDeleteView(DeleteView):
-    """
-    Delete a selected invoice
-    """
-    model = Invoices
-    template_name = 'docs/invoices/cruds/delete.html'
-    success_url = reverse_lazy('docs:home')
-
-
-
 class InvoiceUpdateView(UpdateView):
     """
     Update the Invoices's Informations
@@ -380,4 +366,51 @@ class InvoiceUpdateView(UpdateView):
     #print(form.errors)
     def get_success_url(self):
         return reverse_lazy('docs:detailsInvoice', kwargs={'pk': self.object.id})
+
+########################################################################################
+####################################PAYEMENTS OF INVOICES###############################
+########################################################################################
+def unpaidList(request):
+    '''
+    Vue of all impayed invoices
+    '''
+    invoices = Invoices.objects.filter(creator=request.user, back_status='Finilised')
+    context={
+        "invoices": invoices,    
+    }
+
+    return render(request, 'docs/invoices/payments/list-unpaid.html', context)
+
+
+def payments(request, pk):
+    '''
+    vue of handling payments after finalisation
+    '''
+    data = dict()
+    invoice = Invoices.objects.filter(pk=pk)
+    invoice = invoice[0]
+
+    if request.method == 'POST':       
+        amount = request.POST.get('amount')
+        print(amount)
+        amount = Decimal(invoice.still_to_pay) - Decimal(amount)
+        if amount == 0.00:
+            Invoices.objects.filter(pk=pk).update(stats='payed', still_to_pay=0)
+        elif amount > 0.00:
+            Invoices.objects.filter(pk=pk).update(stats='partial payed', still_to_pay=amount)
+        else: 
+            data['form_is_valid'] = False
+        data['form_is_valid'] = True  # This is just to play along with the existing code
+        
+        return redirect('docs:unpaidList')
+    else:
+        context = {'invoice':invoice}
+        data['html_form'] = render_to_string('docs/invoices/payments/apply_payment.html',
+            context,
+            request=request,
+        )
+    return JsonResponse(data)
+    
+    
+    
 

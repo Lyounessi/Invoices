@@ -49,7 +49,7 @@
                         {% for inv in invoices %}
                         <tr role="row" class="odd">
                             <td class="sorting_1">
-                                <a href="">
+                                <a href="{% url 'docs:detailsInvoice' inv.pk %}">
                                     
                                     {% if inv.fnb %}
                                     {{ inv.fnb }}
