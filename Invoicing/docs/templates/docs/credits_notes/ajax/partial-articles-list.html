@@ -1,0 +1,26 @@
+{% for article in artInv %}
+<tr>
+    <th scope="row">
+        {{ article.article.ref }}
+    </th>
+
+    <td class="text-right">{{ article.article.name }}</td>
+    <td class="text-right">{{ article.article.type }}</td>
+    <td class="text-right">{{ article.article.unit }}</td>
+    <td class="text-right">{{ article.qte }}</td>
+    <td class="text-right">{{ article.article.sellPrice }}</td>
+    <td class="text-right">{{ article.tax_one }}%</td>
+    <td class="text-right">{{ article.tax_two }}%</td>
+    <td class="text-right">{{ article.amount}}</td>
+
+    <td><button type="button" class="btn btn-danger btn-sm js-delete-article"
+            data-url="{% url 'docs:deleteArtInv' article.pk %}">
+            <i class="fas fa-trash"></i>Delete
+        </button></td>
+
+</tr>
+{% empty %}
+<tr>
+    <td class="text-center">----No Articles Yet!----</td>
+</tr>
+{% endfor %}

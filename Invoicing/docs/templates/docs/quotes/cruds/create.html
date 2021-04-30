@@ -1,68 +1,237 @@
 {% extends "base.html" %}
-
-
+{% load static %}
 {% block content %}
-<div class="card">
-    <div class="card-header">
-        <h5 class="card-title">New Quotes</h5>
-        <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
-        <div class="heading-elements">
-            <ul class="list-inline mb-0">
-                <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
-                <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
-                <li><a data-action="expand"><i class="ft-maximize"></i></a></li>
-            </ul>
+<section id="block-level-buttons">
+    <div class="row">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-header">
+                    <h4 class="card-title">Quote's Options</h4>
+                    <a class="heading-elements-toggle"><i class="la la-ellipsis font-medium-3"></i></a>
+                    <div class="heading-elements">
+                        <ul class="list-inline mb-0">
+                            <li><a data-action="collapse"><i class="ft-minus"></i></a></li>
+                            <li><a data-action="reload"><i class="ft-rotate-cw"></i></a></li>
+
+                        </ul>
+                    </div>
+                </div>
+                <div class="card-content collapse show" style="">
+                    <div class="card-body">
+                        <!-- Block level buttons -->
+
+                        <div class="row">
+                            <div class="col-lg-12 col-md-6">
+                                <div class="form-group">
+                                    <div class="btn-group" role="group" aria-label="Basic example">
+                                        {% if quote.back_status == 'In Process' %}
+                                        <button   class="btn btn-primary js-save-invoice" data-url="{% url 'docs:saveQuote' quote.pk %}">Save</button>
+                                        <button  class="btn btn-success js-finilise-invoice"  data-url="{% url 'docs:finaliseQuote' quote.pk %}">Finalise</button>
+                                        
+                                        
+                                        <a href="{% url 'docs:duplicateQuote' quote.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        
+                                        {% elif quote.back_status == 'In save' %}
+                                        
+                                        <button  class="btn btn-success js-finilise-invoice"  data-url="{% url 'docs:finaliseQuote' quote.pk %}">Finalise</button>
+
+                                        <a href="{% url 'docs:duplicateQuote' quote.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+                                        
+
+                                        
+                                    {% else %}
+                                    <a href="{% url 'docs:duplicateQuote' quote.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
+
+                                    {% endif %}
+
+                                    </div>
+                                    
+                              
+                                    
+                                    
+                    
+                                    
+                                        
+                                   
+
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-    <div class="card-body">
-
-        <form class="form" method="POST">
-            {% csrf_token %}
-            <div class="form-body">
-                <h4 class="form-section"><i class="ft-user"></i>Quote</h4>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Title : </label>
-                            {{ form.title }}
+</section>
+<div class="content-body">
+    <section class="card">
+        <div id="invoice-template" class="card-body p-4">
+            <!-- Invoice Company Details -->
+            <div id="invoice-company-details" class="row">
+                <div class="col-sm-6 col-12 text-center text-sm-left">
+                    <div class="media row">
+                        <div class="col-12 col-sm-3 col-xl-2" id='AddL'>
+                            <img src="{% static 'app-assets/images/logo/logo-80x80.png' %}" alt="company logo"
+                                class="mb-1 mb-sm-0">
+                        </div>
+                        <div class="col-12 col-sm-9 col-xl-10">
+                            <div class="media-body">
+                                <ul class="ml-2 px-0 list-unstyled">
+                                    <li class="text-bold-800">Modern Creative Studio</li>
+                                    <li>4025 Oak Avenue,</li>
+                                    <li>Melbourne,</li>
+                                    <li>Florida 32940,</li>
+                                    <li>USA</li>
+                                </ul>
+                            </div>
                         </div>
                     </div>
+                </div>
+                <div class="col-sm-6 col-12 text-center text-sm-right">
+                    <h2>Quote</h2>
+                    <p class="pb-sm-3">N° : 
+                    {% if quote.fnb %}
+                    {{ quote.fnb }}
+                    {% else %}
+                    {{ quote.prov_numb }}
+                    {% endif %}
+                        </p>
+                    <ul class="px-0 list-unstyled">
+                        <li>Balance Due</li>
+                        <li class="lead text-bold-800">$12,000.00</li>
+                    </ul>
+                </div>
+            </div>
+            <!-- Invoice Company Details -->
+
+            <!-- Invoice Customer Details -->
+            <div id="invoice-customer-details" class="row pt-2">
+             
+                <div class="col-12 text-center text-sm-left">
+                    <button type="button" class="btn mr-1 mb-1 btn-primary js-select-client"
+                        data-url="{% url 'docs:selectClient' %}">Select client</button>
+                    <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-client"
+                        data-url="{% url 'docs:addClientQuote' %}">+ New client</button>
+
+                    <p class="text-muted">Bill To :</p>
+                </div>
+                <div class="col-sm-6 col-12 text-center text-sm-left " >
+                    {% if invoice.client %}
+                    {% include 'docs/quotes/ajax/client-partial-select.html' %}
+
+                    {% else %}
+                    <p class="pb-sm-3 AddC">No Client Selected</p>
+
+                    {% endif %}
+
 
                 </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Chose Client : </label>
-                            {{ form.client }}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Logo : </label>
-                            {{ form.logo }}
-                        </div>
-                    </div>
-
-                </div>
-                <div class="row">
-                    <div class="col-md-6">
-                        <div class="form-group">
-                            <label for="projectinput1">Articles : </label>
-                            {{ form.artice }}
-                        </div>
-                    </div>
+                <div class="col-sm-6 col-12 text-center text-sm-right">
+                    <p><span class="text-muted">Quote Date :</span> {{ quote.dateCreation }}</p>
 
                 </div>
             </div>
-            <div class="form-actions">
-                <button class="btn btn-primary btn-min-width mr-1 mb-1" type="submit">SUBMIT</button>
+
+            <!-- Invoice Items Details -->
+            <div id="invoice-items-details" class="pt-2">
+                <div class="row">
+                    <div class="table-responsive col-12" id="AddP">
+                        <button type="button" class="btn mr-1 mb-1 btn-primary js-select-article"
+                            data-url="{% url 'docs:selectProds' %}">Select
+                            Article</button>
+                        <button type="button" class="btn mr-1 mb-1 btn-secondary js-new-article" data-url="{% url 'docs:addProds' %}">+ New Article</button>
+                        <table class="table main-one">
+                            <thead>
+                                <tr>
+                                    <th>#Ref</th>
+                                    <th>Name</th>
+                                    <th class="text-right">Type</th>
+                                    <th class="text-right">Unit</th>
+                                    <th class="text-right">Quantity</th>
+                                    <th class="text-right">U.Price</th>
+                                    <th class="text-right">Tax%</th>
+                                    <th class="text-right">Tax%</th>
+                                    <th class="text-right">Amount</th>
+                                    <th class="text-right">Options</th>
+                                </tr>
+                            </thead>
+                            <tbody id='tbody'>
+                                {% include 'docs/quotes/ajax/partial-articles-list.html' %}
 
 
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+
+                    <div class="col-sm-5 col-12">
+                        <p class="lead">Total due</p>
+                        <div class="table-responsive">
+                            <table class="table main-two" id="articles-table">
+                                <tbody id="tbody2">
+                                   
+                                {% include 'docs/quotes/ajax/partial-total-updates.html' %}
+
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+                </div>
             </div>
-        </form>
+            <!-- Invoice footer Details -->
+
+            <div id="invoice-footer">
+                <div class="row">
+                    <div class="col-sm-7 col-12 text-center text-sm-left">
+                        <h6>Terms &amp; Condition</h6>
+                        <p>Test pilot isn't always the healthiest business.</p>
+                    </div>
+                    <div class="col-sm-5 col-12 text-center">
+                        <button type="button" class="btn btn-info btn-print btn-lg my-1"><i class="la la-paper-plane-o mr-50"></i>
+                            Print
+                            Invoice</button>
+                    </div>
+                </div>
+            </div>
+
+
+        </div>
+    </section>
+
+</div>
+
+<!-- Modal inside invoice's operations-->
+<div class="modal fadeInUp" id="modal-invoice">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
     </div>
 </div>
+<!-- Modal for selecting client-->
+
+<div class="modal fadeInUp" id="modal-invoice-options">
+    <div class="modal-dialog">
+        <div class="modal-content">
+
+
+        </div>
+    </div>
+</div>
+
+
+
+<!-- BEGIN: Page Vendor JS-->
+
+<script src="{% static '/assets/js/Invoice/ajaxStorm.js' %}"></script>
+<script src="{% static '/assets/js/Invoice/ajaxOptions.js' %}"></script>
+
+<script src="{% static '/app-assets/js/scripts/pages/invoice-template.js' %}"></script>
+
+
 {% endblock content %}

@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ quote.title }} Well Duplicated</h1><br>
+<a href="{% url 'docs:home' %}"> Return to list Docs</a><br>
+<a href="{% url 'docs:detailsQuote' quote.id %}"> Show Details of {{ quote.title }}</a>
+
+
+{% endblock content %}

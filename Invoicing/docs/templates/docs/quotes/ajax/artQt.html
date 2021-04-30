@@ -1,0 +1,39 @@
+{% load static %}
+<div id="accordionWrapa1" role="tablist" aria-multiselectable="true">
+    <div class="modal-header">
+
+        <h4 class="modal-title">Select a new Article</h4>
+    </div>
+    <div class="modal-body">
+
+        <div class="card" style="min-height: 200px;">
+
+            <div class="card-content collapse show">
+                <div class="card-body">
+                    <form method="post" action="{% url 'docs:selectProds' %}" class=" form js-select-article-form">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+
+                        <div class="form-actions">
+
+                            <button type="submit" class="btn btn-primary">
+                                <i class="la la-check-square-o"></i> Add
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn mb-1 btn-secondary btn-lg btn-block" data-dismiss="modal"><i
+                class="ft-x"></i>Close</button>
+    </div>
+
+</div>
+
+<script src="{% static '/app-assets/vendors/js/vendors.min.js' %}"></script>
+
+<script src="{% static '/app-assets/js/core/app.js' %}"></script>
+<script src="{% static '/app-assets/data/locales/en.json' %}"></script>

@@ -1,0 +1,11 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block content %}
+<h1>{{ invoice.title }} Well Duplicated</h1><br>
+<a href="{% url 'docs:home' %}"> Return to list Docs</a><br>
+<a href="{% url 'docs:detailsInvoice' invoice.id %}"> Show Details of {{ invoice.title }}</a>
+
+
+
+{% endblock content %}

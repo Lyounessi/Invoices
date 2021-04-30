@@ -30,11 +30,24 @@ urlpatterns = [
     path("createIn/selectprodInv/",  selecProd, name="selectProds"), # AddProducts to a selected invoice
     path("createIn/deleteArtInv/<int:pk>",  deleteArtFromInv, name="deleteArtInv"), # Delete a specific product
     path("createIn/addClientInv/",  addClientInv, name="addClientInv"), # Delete a specific product
+    
+    
+    
     ################################## Quotes URLs ##################################
     
-    path("createQu/",  CreateQuote.as_view(), name="createQuote"),
-    path("detailsQu/<int:pk>",  QuoteDetailsView.as_view(), name="detailsQuote"), # view detail of a specific Quote
-    path("deleteQu/<int:pk>",  QuoteDeleteView.as_view(), name="deleteQuote"), # delete a specific Quote
-    path("updateQu/<int:pk>",  QuoteUpdateView.as_view(), name="updateQuote"), # update a specific Quote
+    path("createQt/",  CreateQuote.as_view(), name="createQuote"),
+    path("detailsQt/<int:pk>",  QuoteDetailsView.as_view(), name="detailsQuote"), # view detail of a specific quote
     
+    path("saveQt/<int:pk>",saveQuote, name="saveQuote"),
+  
+    path("duplicateQt/<int:pk>",  dupQuote, name="duplicateQuote"), # update a specific quote
+    path("finQt/<int:pk>",  finaliseQuote, name="finaliseQuote"), # finalise selected quote
+    
+
+    ################################## TRough PRoducts Quotes URLs ##################################
+    path('createQt/client/select/', selectClient, name='selectClient'),
+    path("createQt/addprodQt/",  addPfromQuote, name="addProds"), # AddProducts directly to the stock 
+    path("createQt/selectprodQt/",  selecProd, name="selectProds"), # AddProducts to a selected quote
+    path("createQt/deleteArtQt/<int:pk>",  deleteArtFromQuote, name="deleteArtQuote"), # Delete a specific product
+    path("createQt/addClientQt/",  addClientQuote, name="addClientQuote"), # Delete a specific product
 ]

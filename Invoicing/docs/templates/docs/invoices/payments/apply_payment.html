@@ -46,9 +46,26 @@
                                         <div class="input-group-prepend">
                                             <span class="input-group-text" style="border: none;">$</span>
                                         </div>
-                                        <input type="number" step="any" name="amount" value="{{ invoice.total }}" class="form-control" style="border: none;" required="" data-validation-required-message="This field is required" aria-invalid="false">
+                                        <input type="number" step="any" name="amount" 
+                                        {% if invoice.still_to_pay < invoice.total and invoice.still_to_pay != 0 %}
+                                        value="{{ invoice.still_to_pay }}"
+
+                                        {% else %}
+                                        value="{{ invoice.total }}"
+
+                                        {% endif %}
+                                             class="form-control" style="border: none;" required="" data-validation-required-message="This field is required" aria-invalid="false">
                                         
                                     </div>
+                                    <label for="projectinput5">Payment_method</label>
+                                            <select id="projectinput5" name="PM" class="form-control">
+                                                
+                                                {% for i in payment_method %}
+                                                <option >{{ i }}</option>
+                                                    
+                                                {% endfor %}
+                                                    
+                                            </select>
                                 <div class="help-block"></div></div>
                             </div>
                         
@@ -70,7 +87,18 @@
                                         </div>
                                         <input type="number"  step="any" name="amount" class="form-control"  required="" data-validation-required-message="This field is required" aria-invalid="false">
                                         
+                                            
+                                        
                                     </div>
+                                    <label for="projectinput5">Payment_method</label>
+                                            <select id="projectinput5" name="PM" class="form-control">
+                                                
+                                                {% for i in payment_method %}
+                                                <option >{{ i }}</option>
+                                                    
+                                                {% endfor %}
+                                                    
+                                            </select>
                                 <div class="help-block"></div></div>
                                 <h5>From <span class="input-group-text">$ {{ invoice.total }}</span></h5>
 
