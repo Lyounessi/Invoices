@@ -65,7 +65,7 @@ class CreateInvoice(View):
             #logo = invoices[0]# Get the logo if exist
             context = {
                 #'logo': logo,
-                'invoice': invoice,
+                'invoice': invoice[0],
                 'pk': invoice.pk,
             }
         return render(request, self.template_name, context)
@@ -235,7 +235,6 @@ def selectClient(request, *args, **kwargs):
 
     return JsonResponse(data)
 
-
 def addClientInv(request,  *args, **kwargs):
     '''
     This view is made to make a direct new client from the 
@@ -278,6 +277,7 @@ def addClientInv(request,  *args, **kwargs):
 ###########################################################################
 ########################### BEGIN INVOICE'S OPREATIONS#####################
 ###########################################################################
+
 def saveInvoice(request, pk, *args, **kwargs):
     '''
     This view is for saving a specific Invoice
@@ -298,6 +298,7 @@ def saveInvoice(request, pk, *args, **kwargs):
             request=request,
         )
     return JsonResponse(data)
+
 
 
 def finaliseInv(request, pk):
@@ -322,7 +323,6 @@ def finaliseInv(request, pk):
     
 
 
-
 def dupInvoice(request, pk):
     
     """
@@ -330,9 +330,9 @@ def dupInvoice(request, pk):
     """
     invoice = Invoices.objects.filter(pk=pk)
     invoice = invoice[0]
-    invoiceDuplicator(invoice, request)
+    invoice = invoiceDuplicator(invoice, request)
     context = {
-        "invoice": invoiceDuplicator(invoice, request),
+        "invoice": invoice,
         "pk": pk
     }
     
@@ -346,7 +346,6 @@ def dupInvoice(request, pk):
 ###########################################################################
 
 #-_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-
-
 class InvoiceDetailsView(DetailView):
     """
     showing details of an invoice
@@ -354,6 +353,7 @@ class InvoiceDetailsView(DetailView):
     model = Invoices
     template_name = 'docs/invoices/cruds/details.html'
     context_object_name = 'invoice'
+
 class InvoiceUpdateView(UpdateView):
     """
     Update the Invoices's Informations
@@ -380,7 +380,6 @@ def unpaidList(request):
     }
 
     return render(request, 'docs/invoices/payments/list-unpaid.html', context)
-
 
 def payments(request, pk):
     '''

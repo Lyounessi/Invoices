@@ -42,12 +42,13 @@ urlpatterns = [
   
     path("duplicateQt/<int:pk>",  dupQuote, name="duplicateQuote"), # update a specific quote
     path("finQt/<int:pk>",  finaliseQuote, name="finaliseQuote"), # finalise selected quote
+    path("transfer/<int:pk>",  transferToInvoice, name="transferToInvoice"), # finalise selected quote
     
 
     ################################## TRough PRoducts Quotes URLs ##################################
-    path('createQt/client/select/', selectClient, name='selectClient'),
+    path('createQt/client/select/', selectClientQuote, name='selectClient'),
     path("createQt/addprodQt/",  addPfromQuote, name="addProds"), # AddProducts directly to the stock 
-    path("createQt/selectprodQt/",  selecProd, name="selectProds"), # AddProducts to a selected quote
+    path("createQt/selectprodQt/",  selecProdQuote, name="selectProds"), # AddProducts to a selected quote
     path("createQt/deleteArtQt/<int:pk>",  deleteArtFromQuote, name="deleteArtQuote"), # Delete a specific product
     path("createQt/addClientQt/",  addClientQuote, name="addClientQuote"), # Delete a specific product
 ]

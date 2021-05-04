@@ -36,24 +36,17 @@
                                         <button  class="btn btn-success js-finilise-invoice"  data-url="{% url 'docs:finaliseQuote' quote.pk %}">Finalise</button>
 
                                         <a href="{% url 'docs:duplicateQuote' quote.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
-                                        
-
+                            
                                         
                                     {% else %}
                                     <a href="{% url 'docs:duplicateQuote' quote.pk %}" class="btn btn-secondary"><span style="color: white;">Duplicate</span></a>
-
+                                    {% if quote.stats != 'accepted' %}
+                                    <button type="button" class="btn btn-warning" data-url="{% url 'docs:transferToInvoice' quote.pk %}">
+                                        Transfer to invoice</button>
+                                    {% endif %}
                                     {% endif %}
 
                                     </div>
-                                    
-                              
-                                    
-                                    
-                    
-                                    
-                                        
-                                   
-
                                 </div>
 
                             </div>
@@ -118,7 +111,7 @@
                     <p class="text-muted">Bill To :</p>
                 </div>
                 <div class="col-sm-6 col-12 text-center text-sm-left " >
-                    {% if invoice.client %}
+                    {% if quote.client %}
                     {% include 'docs/quotes/ajax/client-partial-select.html' %}
 
                     {% else %}

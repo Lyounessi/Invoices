@@ -67,26 +67,49 @@ def quoteDuplicator(quote, req):
     today = date.today()
     idate = datetime.strptime(str(quote.dateCreation), '%Y-%m-%d')
     idate =  idate.date().strftime('%y-%m')
+    last_F_quote = Quotes.objects.filter(creator=req.user, back_status='Finilised').last()
+    last_IW_quote = Quotes.objects.filter(creator=req.user, back_status='In Process').last()
+ 
+    if last_F_quote :
+        if last_IW_quote:
+            if idate == today.strftime('%y-%m') : 
+                number = int(last_IW_quote.number) + 1
+                numb = "Q-{}-{}".format(today.strftime('%y-%m'), number) 
+                newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
+                                client=quote.client, stats=quote.stats, 
+                                back_status= "In Process",number=number, prov_numb=numb)    
+                newQt.save()
+                pk = newQt.pk
+            else:
+                number = 1
+                numb = "Q-{}-{}".format(today.strftime('%y-%m'), number) 
+                newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
+                                client=quote.client, stats=quote.stats, 
+                                back_status= "In Process",number=number, prov_numb=numb)    
+                newQt.save()
+            
+                pk = newQt.pk
+                
+    else:          
+        if idate == today.strftime('%y-%m') : 
+            number = int(quote.number) + 1
+            numb = "Q-{}-{}".format(today.strftime('%y-%m'), number) 
+            newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
+                            client=quote.client, stats=quote.stats, 
+                            back_status= "In Process",number=number, prov_numb=numb)    
+            newQt.save()
+            pk = newQt.pk
 
-    if idate == today.strftime('%y-%m') : 
-        number = int(quote.number) + 1
-        numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
-        newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
-                        client=quote.client, stats=quote.stats, 
-                        back_status= "In Process",number=number, prov_numb=numb)    
-        newQt.save()
-        pk = newQt.pk
-
-    else:
-        number = 1
-        numb = "I-{}-{}".format(today.strftime('%y-%m'), number) 
-        newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
-                        client=quote.client, stats=quote.stats, 
-                        back_status= "In Process",number=number, prov_numb=numb)    
-        newQt.save()
-    
-        pk = newQt.pk
-    
+        else:
+            number = 1
+            numb = "Q-{}-{}".format(today.strftime('%y-%m'), number) 
+            newQt = Quotes(title=quote.title, dateCreation=date.today(), creator=req.user, 
+                            client=quote.client, stats=quote.stats, 
+                            back_status= "In Process",number=number, prov_numb=numb)    
+            newQt.save()
+        
+            pk = newQt.pk
+        
 
     return newQt
 
@@ -122,11 +145,46 @@ def quoteFinalisator(quote, req):
            
     return quote
 
+def quoteTransformer(quote, req):
+    """
+    Transform a quote to an invoice
+    """
 
-
-
-
-
+    invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]
+    context = {}
+    
+    if invoice:            
+        if invoice[0].client == None:  
+            artInv = Article_Inv.objects.filter(invoice=invoice[0])#Select Invoice's articles
+            context = {
+        
+            #'logo': logo,
+            'invoice': invoice[0],
+            'artInv': artInv,
+            }
+        else:               
+            creationInv(request)
+            #logo = invoices[0]# Get the logo if exist
+            context = {
+                #'logo': logo,
+                'invoice': invoice,
+            }
+    else:          
+        invoices = Invoices.objects.create(dateCreation=date.today(),
+            creator = request.user)
+        invoice = Invoices.objects.filter(creator=request.user).order_by('-id')[:1]#select the last invoice
+        
+        Invoices.objects.filter(pk=invoice).update(prov_numb=firstInvoiceNumber(),
+        back_status ='In Process', number=1)#Update Infos of the selected invoice
+        
+        invoice = invoices
+        #logo = invoices[0]# Get the logo if exist
+        context = {
+            #'logo': logo,
+            'invoice': invoice,
+            'pk': invoice.pk,
+        }
+    return invoice
 
 
 #########################################

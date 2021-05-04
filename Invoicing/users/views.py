@@ -36,7 +36,7 @@ def dashboard(request):
 class UserRegisterView(generic.CreateView):
     form_class = SignUpForm
     template_name = 'registration/signup.html'
-    success_url = 'clients:home'
+    success_url = 'users:login'
 
 
 

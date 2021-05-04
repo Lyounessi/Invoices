@@ -10,7 +10,7 @@
     <div class="card-header">
         <div class="form-group">
             <a href="{% url 'docs:createInvoice' %}" class="btn mr-1 mb-1 btn-primary">+ NEW INVOICE</a>
-            <a href="" class="btn mr-1 mb-1 btn-secondary">+ NEW QUOTE</a>
+            <a href="{% url 'docs:createQuote' %}" class="btn mr-1 mb-1 btn-secondary">+ NEW QUOTE</a>
         </div>
         <a class="heading-elements-toggle"><i class="la la-ellipsis-v font-medium-3"></i></a>
         <div class="heading-elements">
@@ -59,16 +59,35 @@
                                 </a>
                             </td>
                             <td>Invoice</td>
-                            <td>{{ inv.client.name }}</td>
+                            <td>
+                            {% if inv.client %}
+                            {{ inv.client.name }}    
+                            {% else %}
+                            ------ No Client Selected Yet ------
+                            {% endif %}
+                                 </td>
                             <td>{{ inv.stats }} - {{ inv.back_status }}</td>
                         </tr>
                         {% endfor %}
                         {% for qut in quotes %}
                         <tr role="row" class="odd">
-                            <td class="sorting_1">{{ qut.number }}</td>
+                            <td class="sorting_1">
+                                <a href="{% url 'docs:detailsQuote' qut.pk %}">
+                                    
+                                    {% if qut.fnb %}
+                                    {{ qut.fnb }}
+                                    {% else %}
+                                    {{ qut.prov_numb }}
+                                    {% endif %}                                       
+                                </a>
+                            </td>
                             <td>Quote</td>
-                            <td>{{ qut.client.name }}</td>
-                            <td>{{ qut.stats }} </td>
+                            <td>{% if qut.client %}
+                                {{ qut.client.name }}    
+                                {% else %}
+                                ------ No Client Selected Yet ------
+                                {% endif %}</td>
+                            <td>{{ qut.stats }} - {{ qut.back_status }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>

@@ -6,7 +6,13 @@
         <h4 class="modal-title">Confirm Article Saving</h4>
     </div>
     <div class="modal-body">
-        <p class="lead">Are you sure you want to save Invoice N° :  <strong>{{ invc.fnb }}</strong>?</p>
+        <p class="lead">Are you sure you want to save Invoice N° :  <strong>
+        {% if invc.fnb %}
+        {{ invc.fnb }}
+        {% else %}
+        {{ invc.prov_numb }}
+        {% endif %}
+            </strong>?</p>
     </div>
     <div class="modal-footer">
         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>

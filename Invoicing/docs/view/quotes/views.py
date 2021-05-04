@@ -38,7 +38,7 @@ class CreateQuote(View):
         context = {}
         if quote:            
             if quote[0].client == None:  
-                print(quote[0].pk)
+                
                 artQt = Article_Quotes.objects.filter(quote=quote[0])
                 context = {
                 #'logo': logo,
@@ -50,7 +50,7 @@ class CreateQuote(View):
                 #logo = quotes[0]# Get the logo if exist
                 context = {
                     #'logo': logo,
-                    'quote': quote[0],
+                    'quote': quote,
                 }
         else:          
             quotes = Quotes.objects.create(dateCreation=date.today(),
@@ -61,10 +61,10 @@ class CreateQuote(View):
             back_status ='In Process', number=1)#Update Infos of the selected invoice
             
             quote = quotes
-            
+            print(quote)
             context = {
                 #'logo': logo,
-                'quote': quote[0],
+                'quote': quote,
                 'pk': quote.pk,
             }
         return render(request, self.template_name, context)
@@ -117,14 +117,14 @@ def addPfromQuote(request,  *args, **kwargs):
     )
     return JsonResponse(data)
 
-def selecProd(request,  *args, **kwargs):
+def selecProdQuote(request,  *args, **kwargs):
     '''
     This view is made to add a direct article to the 
     invoice and refresh the template
     '''
     data = dict()
     quote = Quotes.objects.filter(creator=request.user).order_by('-id')[:1]
-    artQt = Article_Quotes.objects.filter(quote=quote[0])#Select Invoice's articles
+    artQt = Article_Quotes.objects.filter(quote=quote[0])
     qt = quote[0]
     if request.method == 'POST':
         form = AddArticlesQuoteForm(request.user, request.POST)
@@ -166,6 +166,7 @@ def selecProd(request,  *args, **kwargs):
     )
     return JsonResponse(data)
 
+
 def deleteArtFromQuote(request, pk, *args, **kwargs):
 
     '''
@@ -205,7 +206,7 @@ def deleteArtFromQuote(request, pk, *args, **kwargs):
     return JsonResponse(data)
 
 #-----------------------------Clients----------------------------#
-def selectClient(request, *args, **kwargs):
+def selectClientQuote(request, *args, **kwargs):
     """
     This view is for ajax select and show client infos
     """
@@ -235,7 +236,6 @@ def selectClient(request, *args, **kwargs):
 
 
     return JsonResponse(data)
-
 
 def addClientQuote(request,  *args, **kwargs):
     '''
@@ -297,7 +297,6 @@ def saveQuote(request, pk, *args, **kwargs):
         )
     return JsonResponse(data)
 
-
 def finaliseQuote(request, pk):
     """
     this view is made to change an invoice's statu, 
@@ -309,7 +308,7 @@ def finaliseQuote(request, pk):
     if request.method == 'POST':
         quoteFinalisator(quote, request)
         data['form_is_valid'] = True  # This is just to play along with the existing code
-        return redirect('docs:createQuote')
+        return redirect('docs:detailsQuote', pk=quote.pk)
     else:
         context = {'qt':quote}
         data['html_form'] = render_to_string('docs/quotes/ajax_quote\'s_options/partial-finalise-option.html',
@@ -320,7 +319,6 @@ def finaliseQuote(request, pk):
     
 
 
-
 def dupQuote(request, pk):
     
     """
@@ -328,14 +326,32 @@ def dupQuote(request, pk):
     """
     quote = Quotes.objects.filter(pk=pk)
     quote = quote[0]
-    quoteDuplicator(quote, request)
+    #quoteDuplicator(quote, request)
+    quote = quoteDuplicator(quote, request)
+
+
+    context = {
+        "quote": quote,
+        "pk": pk,
+    }
+    
+    return redirect('docs:detailsQuote', pk=quote.pk)
+
+
+
+def transferToInvoice(request, pk):
+    """
+    this vue is for transforming a quote to an invoice
+    """
+    quote = Quotes.objects.filter(pk=pk)
+    quote = quote[0]
+    invoiceDuplicator(quote, request)
     context = {
         "quote": quoteDuplicator(quote, request),
         "pk": pk,
     }
     
-    return render(request,'docs/quotes/others/duplicate.html', context)
-
+    return redirect(request,"{% url 'docs:detailsInvoice' %}", context)
 
 
 
@@ -344,7 +360,6 @@ def dupQuote(request, pk):
 ###########################################################################
 
 #-_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_--_-
-
 class QuoteDetailsView(DetailView):
     """
     showing details of an invoice
